@@ -15,9 +15,9 @@ function test(name, fn) {
 function assert(cond, msg) { if (!cond) throw new Error(msg || 'assertion failed'); }
 function assertEq(a, b, msg) { if (a !== b) throw new Error(`${msg || 'not equal'}: got ${JSON.stringify(a)}, want ${JSON.stringify(b)}`); }
 
-test('bank: at least 1,500 graded sentences', () => {
+test('bank: at least 3,500 graded sentences', () => {
   const bank = buildShortsBank();
-  assert(bank.length >= 1500, `expected >= 1500, got ${bank.length}`);
+  assert(bank.length >= 3500, `expected >= 3500, got ${bank.length}`);
   assertEq(shortsCount(), bank.length, 'shortsCount matches');
 });
 

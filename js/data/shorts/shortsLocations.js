@@ -19,8 +19,8 @@ export const SHORT_LOCATIONS = [
   },
   {
     id: 'park', emoji: '🌳', label: 'Park', min: 'A1',
-    desc: 'Günlük hayat, sevdiklerin, planlar',
-    topics: ['routines', 'likes', 'plans', 'obligation', 'negatives']
+    desc: 'Günlük hayat, sohbet, planlar',
+    topics: ['routines', 'likes', 'plans', 'obligation', 'negatives', 'daily', 'experience']
   },
   {
     id: 'carsi', emoji: '🛒', label: 'Çarşı', min: 'A2',
