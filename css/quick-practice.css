@@ -1,0 +1,56 @@
+/* ============================================================================
+   QUICK PRACTICE — phrasebook speaking practice. Loaded after story.css,
+   reuses the same design tokens.
+   ============================================================================ */
+
+.quick-banner {
+  display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+  background: linear-gradient(100deg, var(--accent-soft), var(--blue-soft));
+  border: 1px solid var(--accent); border-radius: var(--radius);
+  padding: 0.8rem 1rem; margin: 0.4rem 0 1rem;
+}
+.quick-banner:hover { filter: brightness(1.08); }
+.qb-ico { font-size: 1.6rem; }
+.qb-txt { flex: 1; display: flex; flex-direction: column; }
+.qb-txt b { font-size: 0.98rem; }
+.qb-txt span { font-size: 0.78rem; color: var(--text-dim); }
+.qb-arrow { font-size: 1.4rem; color: var(--accent); }
+
+.qp-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
+.qp-head h1 { font-size: 1.4rem; font-weight: 800; }
+.qp-sub { font-size: 0.85rem; color: var(--text-dim); }
+.qp-sub b { color: var(--text); }
+
+.phrase-place-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; }
+.phrase-place { text-align: left; background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 0.2rem 0.6rem; align-items: center; transition: transform 0.1s ease, border-color 0.15s ease; }
+.phrase-place:hover { border-color: var(--accent); transform: translateY(-2px); }
+.pp-ico { font-size: 1.7rem; grid-row: span 2; }
+.pp-label { font-weight: 800; font-size: 0.95rem; display: flex; flex-direction: column; }
+.pp-label span { font-size: 0.72rem; color: var(--text-faint); font-weight: 600; }
+.pp-count { grid-column: 2; font-size: 0.72rem; color: var(--text-dim); }
+.pp-bar { grid-column: 1 / -1; height: 5px; background: var(--bg); border-radius: 4px; overflow: hidden; margin-top: 0.3rem; }
+.pp-bar span { display: block; height: 100%; background: var(--green); }
+
+.phrase-topic { margin-bottom: 1.2rem; }
+.pt-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+.phrase-items { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.phrase-item { display: grid; grid-template-columns: auto 1fr auto; grid-template-rows: auto auto; gap: 0.1rem 0.6rem; align-items: center; background: var(--bg-card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; cursor: pointer; transition: background 0.12s ease; }
+.phrase-item:hover { background: var(--bg-card-hover); }
+.phrase-item.done { border-left-color: var(--green); }
+.pi-level { grid-row: span 2; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 5px; align-self: center; }
+.pi-en { font-weight: 600; font-size: 0.95rem; }
+.pi-tr { grid-column: 2; font-size: 0.8rem; color: var(--text-dim); }
+.pi-go { grid-row: span 2; font-size: 1.1rem; align-self: center; }
+.phrase-item.done .pi-go::after { content: ' ✓'; color: var(--green); }
+
+/* speaking stage modal */
+.phrase-stage-modal { z-index: 120; }
+.phrase-stage { background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.3rem 1.1rem; max-width: 440px; width: 100%; text-align: center; position: relative; box-shadow: var(--shadow); }
+.ps-close { position: absolute; top: 0.7rem; right: 0.8rem; font-size: 1.1rem; color: var(--text-dim); background: none; }
+.ps-en { font-size: 1.4rem; font-weight: 800; line-height: 1.4; margin: 0.7rem 0 0.4rem; }
+.ps-tr { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 0.6rem; }
+.ps-audio { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+.ps-mic { display: flex; justify-content: center; margin: 0.5rem 0; }
+.ps-feedback { margin-top: 0.4rem; text-align: left; }
+.ps-typed { margin-top: 0.7rem; }
+.ps-done-badge { background: var(--green); color: #fff; font-weight: 800; padding: 0.4rem 0.8rem; border-radius: 999px; display: inline-block; margin-bottom: 0.5rem; }
