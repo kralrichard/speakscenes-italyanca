@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js';
+import { createScenario } from '../scenarioSchema.js?v=5';
 
 // ── Meeting a new friend (A1) ───────────────────────────────────────────────
 export const meetingFriend = createScenario({

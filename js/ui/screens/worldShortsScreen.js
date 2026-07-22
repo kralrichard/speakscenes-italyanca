@@ -6,14 +6,14 @@
 // start), matching the original onboarding in one step.
 // ============================================================================
 
-import { worldStore } from '../../progress/worldStore.js';
-import { shortsStore } from '../../progress/shortsStore.js';
-import { shortsCount } from '../../data/shorts/sentenceBank.js';
-import { SHORT_LOCATIONS } from '../../data/shorts/shortsLocations.js';
-import { GROWTH_STAGES } from '../../data/worldLevels.js';
-import { renderPlayerAvatar } from '../components/avatarBuilder.js';
-import { APP_LANG } from '../../data/shorts/langConfig.js';
-import { navigate } from '../router.js';
+import { worldStore } from '../../progress/worldStore.js?v=5';
+import { shortsStore } from '../../progress/shortsStore.js?v=5';
+import { shortsCount } from '../../data/shorts/sentenceBank.js?v=5';
+import { SHORT_LOCATIONS } from '../../data/shorts/shortsLocations.js?v=5';
+import { GROWTH_STAGES } from '../../data/worldLevels.js?v=5';
+import { renderPlayerAvatar } from '../components/avatarBuilder.js?v=5';
+import { APP_LANG } from '../../data/shorts/langConfig.js?v=5';
+import { navigate } from '../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 

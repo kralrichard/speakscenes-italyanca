@@ -14,20 +14,20 @@
 //   - each accepted line records progress exactly once (committedFlag)
 // ============================================================================
 
-import { getScenario } from '../../data/branching/scenarios/index.js';
-import { getCharacter } from '../../data/branching/characters.js';
-import { BranchEngine } from '../../engine/branchEngine.js';
-import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js';
-import { scoreAttempt } from '../../speech/scorer.js';
-import { tts, isTTSSupported } from '../../speech/tts.js';
-import { storyStore, relationshipTier, ACHIEVEMENTS } from '../../progress/storyStore.js';
-import { settings } from '../../progress/settingsStore.js';
-import { renderScene } from '../components/sceneBackground.js';
-import { renderAvatar } from '../components/characterAvatar.js';
-import { renderFeedback } from '../components/feedbackPanel.js';
-import { lookupWord, GRAMMAR_NOTES } from '../../data/branching/vocabulary.js';
-import { TONE_META, DIFFICULTY_META, ENDING_KINDS } from '../../data/branching/scenarioSchema.js';
-import { navigate } from '../router.js';
+import { getScenario } from '../../data/branching/scenarios/index.js?v=5';
+import { getCharacter } from '../../data/branching/characters.js?v=5';
+import { BranchEngine } from '../../engine/branchEngine.js?v=5';
+import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=5';
+import { scoreAttempt } from '../../speech/scorer.js?v=5';
+import { tts, isTTSSupported } from '../../speech/tts.js?v=5';
+import { storyStore, relationshipTier, ACHIEVEMENTS } from '../../progress/storyStore.js?v=5';
+import { settings } from '../../progress/settingsStore.js?v=5';
+import { renderScene } from '../components/sceneBackground.js?v=5';
+import { renderAvatar } from '../components/characterAvatar.js?v=5';
+import { renderFeedback } from '../components/feedbackPanel.js?v=5';
+import { lookupWord, GRAMMAR_NOTES } from '../../data/branching/vocabulary.js?v=5';
+import { TONE_META, DIFFICULTY_META, ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=5';
+import { navigate } from '../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -223,7 +223,7 @@ export function renderConversation(container, params) {
 
   function setupMic(micWrap, node, choice, typedOnly) {
     // Lazy import of the mic button component (keeps parity with dialogueScreen).
-    import('../components/micButton.js').then(({ createMicButton }) => {
+    import('../components/micButton.js?v=5').then(({ createMicButton }) => {
       if (destroyed || stage !== 'speaking') return;
       const mic = createMicButton(micWrap, { onPress: () => startRecording(node, choice, mic) });
       mic.setState(typedOnly ? 'disabled' : 'ready');

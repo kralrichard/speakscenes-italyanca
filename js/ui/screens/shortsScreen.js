@@ -12,17 +12,17 @@
 // stream is used instead so the feed never runs dry.
 // ============================================================================
 
-import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js';
-import { scoreAttempt } from '../../speech/scorer.js';
-import { tts } from '../../speech/tts.js';
-import { worldStore } from '../../progress/worldStore.js';
-import { shortsStore } from '../../progress/shortsStore.js';
-import { sentencesForLevel, LEVEL_ORDER } from '../../data/shorts/sentenceBank.js';
-import { getShortLocation } from '../../data/shorts/shortsLocations.js';
-import { GROWTH_STAGES, getGrowthStage } from '../../data/worldLevels.js';
-import { renderPlayerAvatar } from '../components/avatarBuilder.js';
-import { renderFeedback } from '../components/feedbackPanel.js';
-import { navigate } from '../router.js';
+import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=5';
+import { scoreAttempt } from '../../speech/scorer.js?v=5';
+import { tts } from '../../speech/tts.js?v=5';
+import { worldStore } from '../../progress/worldStore.js?v=5';
+import { shortsStore } from '../../progress/shortsStore.js?v=5';
+import { sentencesForLevel, LEVEL_ORDER } from '../../data/shorts/sentenceBank.js?v=5';
+import { getShortLocation } from '../../data/shorts/shortsLocations.js?v=5';
+import { GROWTH_STAGES, getGrowthStage } from '../../data/worldLevels.js?v=5';
+import { renderPlayerAvatar } from '../components/avatarBuilder.js?v=5';
+import { renderFeedback } from '../components/feedbackPanel.js?v=5';
+import { navigate } from '../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 

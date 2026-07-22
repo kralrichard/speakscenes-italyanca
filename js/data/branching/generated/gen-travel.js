@@ -1,4 +1,4 @@
-import { miniAll } from '../miniBuilder.js';
+import { miniAll } from '../miniBuilder.js?v=5';
 
 export const TRAVEL = miniAll([
   // ---------------- AIRPORT ----------------

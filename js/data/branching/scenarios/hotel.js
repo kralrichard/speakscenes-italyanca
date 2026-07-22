@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js';
+import { createScenario } from '../scenarioSchema.js?v=5';
 
 // ── Hotel check-in (A2) — the flagship: 4 decision points, 4 endings ────────
 export const hotelCheckin = createScenario({

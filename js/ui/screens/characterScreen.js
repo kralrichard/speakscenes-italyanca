@@ -2,10 +2,10 @@
 // measured skill" panel (mirrors this app's existing anti-overclaiming
 // philosophy from scorer.js: never pretend a manual level jump means a
 // skill was already earned).
-import { worldStore } from '../../progress/worldStore.js';
-import { GROWTH_STAGES, worldLevelIndex } from '../../data/worldLevels.js';
-import { renderPlayerAvatar, SKIN_TONES, HAIR_COLORS, HAIR_STYLES, OUTFIT_IDS } from '../components/avatarBuilder.js';
-import { navigate } from '../router.js';
+import { worldStore } from '../../progress/worldStore.js?v=5';
+import { GROWTH_STAGES, worldLevelIndex } from '../../data/worldLevels.js?v=5';
+import { renderPlayerAvatar, SKIN_TONES, HAIR_COLORS, HAIR_STYLES, OUTFIT_IDS } from '../components/avatarBuilder.js?v=5';
+import { navigate } from '../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 

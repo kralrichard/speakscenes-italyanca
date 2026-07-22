@@ -1,4 +1,4 @@
-import { createScenario } from '../scenarioSchema.js';
+import { createScenario } from '../scenarioSchema.js?v=5';
 
 // ── Supermarket: finding items (A2) ─────────────────────────────────────────
 export const supermarketHelp = createScenario({

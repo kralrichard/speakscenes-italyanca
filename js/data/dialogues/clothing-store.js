@@ -1,4 +1,4 @@
-import { createDialogue } from '../dialogueSchema.js';
+import { createDialogue } from '../dialogueSchema.js?v=5';
 
 export const CLOTHING_STORE_DIALOGUES = [
   createDialogue({

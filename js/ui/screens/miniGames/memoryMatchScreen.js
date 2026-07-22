@@ -1,11 +1,11 @@
 // Memory Match: flip cards to pair each English word with its Turkish
 // meaning. Sources js/data/vocabulary.js.
-import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js';
-import { progressStore } from '../../../progress/progressStore.js';
-import { worldStore } from '../../../progress/worldStore.js';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js';
-import { navigate } from '../../router.js';
+import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js?v=5';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
+import { progressStore } from '../../../progress/progressStore.js?v=5';
+import { worldStore } from '../../../progress/worldStore.js?v=5';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
+import { navigate } from '../../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }

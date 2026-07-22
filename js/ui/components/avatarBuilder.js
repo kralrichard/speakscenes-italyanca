@@ -4,7 +4,7 @@
 // (hairSVG/shade) rather than forking it, but the body/head proportions
 // change per growth stage, which NPC avatars never do -- that visible
 // change stage-to-stage is the core "character grows" mechanic.
-import { hairSVG, shade } from './characterAvatar.js';
+import { hairSVG, shade } from './characterAvatar.js?v=5';
 
 // head radius shrinks and body/shoulder width grows as the stage advances --
 // a simple, honest way to render "the character got older" without art assets.

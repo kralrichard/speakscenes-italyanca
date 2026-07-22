@@ -15,15 +15,15 @@
 //   tracked separately (spokenCorrect) and feeds worldStore's *measured* skill,
 //   so swiping = growing up, speaking = getting good — never conflated.
 
-import { loadJSON, saveJSON } from './storage.js';
-import { LEVEL_ORDER } from '../data/shorts/sentenceBank.js';
+import { loadJSON, saveJSON } from './storage.js?v=5';
+import { LEVEL_ORDER } from '../data/shorts/sentenceBank.js?v=5';
 
 const KEY = 'edapp:shorts:v1';
 
 // Cumulative swipes needed to ENTER each life stage (index matches LEVEL_ORDER
 // / GROWTH_STAGES). Front-loaded so the first few stages come quickly and feel
 // rewarding, then space out toward mastery.
-export const GROWTH_THRESHOLDS = [0, 18, 45, 85, 140, 210, 300];
+export const GROWTH_THRESHOLDS = [0, 360, 900, 1700, 2800, 4200, 6000];
 
 function defaultState() {
   return {

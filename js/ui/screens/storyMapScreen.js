@@ -3,11 +3,11 @@
 // plus a global level filter (A0–C2, "All"). Reuses the app shell + design
 // system; new content type, no changes to the original screens.
 
-import { STORY_ENVIRONMENTS, scenariosForEnvironment, ALL_SCENARIOS } from '../../data/branching/scenarios/index.js';
-import { CEFR_LEVELS, ENDING_KINDS } from '../../data/branching/scenarioSchema.js';
-import { storyStore } from '../../progress/storyStore.js';
-import { getCharacter } from '../../data/branching/characters.js';
-import { navigate } from '../router.js';
+import { STORY_ENVIRONMENTS, scenariosForEnvironment, ALL_SCENARIOS } from '../../data/branching/scenarios/index.js?v=5';
+import { CEFR_LEVELS, ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=5';
+import { storyStore } from '../../progress/storyStore.js?v=5';
+import { getCharacter } from '../../data/branching/characters.js?v=5';
+import { navigate } from '../router.js?v=5';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -120,7 +120,7 @@ function scenarioCard(s, st) {
 }
 
 function showAchievements(container) {
-  import('../../progress/storyStore.js').then(({ ACHIEVEMENTS, storyStore }) => {
+  import('../../progress/storyStore.js?v=5').then(({ ACHIEVEMENTS, storyStore }) => {
     const unlocked = new Set(storyStore.getState().achievements);
     const rows = ACHIEVEMENTS.map(a => `
       <li class="achv-row ${unlocked.has(a.id) ? 'on' : 'off'}">

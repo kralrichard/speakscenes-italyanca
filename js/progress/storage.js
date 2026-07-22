@@ -5,7 +5,7 @@
 // SpeakScenes apps are hosted under the same origin (kralrichard.github.io),
 // so without a namespace they would SHARE localStorage — progress from the
 // English app would leak into this clone and the baby would not start at A0.
-import { APP_KEY } from '../data/shorts/langConfig.js';
+import { APP_KEY } from '../data/shorts/langConfig.js?v=5';
 
 const ns = (key) => `${APP_KEY}:${key}`;
 

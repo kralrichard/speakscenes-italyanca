@@ -19,7 +19,7 @@
 import {
   FUNCTION_WORDS as FN_LIST, NEGATION_WORDS as NEG_LIST, NUMBER_WORDS as NUM_LIST,
   FILLER_WORDS as FILL_LIST, DIGIT_WORDS, CONTRACTIONS, ASR_EQUIVALENTS
-} from '../data/shorts/langConfig.js';
+} from '../data/shorts/langConfig.js?v=5';
 
 export const STRICTNESS_THRESHOLDS = {
   relaxed:        { wordAccuracy: 60, clarity: 0,  fluency: 0,  allowMissingFn: true  },

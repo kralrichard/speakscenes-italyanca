@@ -10,7 +10,7 @@
 //   'idle'   -> session ended without a result
 // ============================================================================
 
-import { LOCALE } from '../data/shorts/langConfig.js';
+import { LOCALE } from '../data/shorts/langConfig.js?v=5';
 
 const NativeSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
 

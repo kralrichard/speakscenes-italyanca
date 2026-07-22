@@ -1,4 +1,4 @@
-import { miniAll } from '../miniBuilder.js';
+import { miniAll } from '../miniBuilder.js?v=5';
 
 // Final large batch of fresh-topic branching scenarios across everyday places.
 export const MORE2 = miniAll([

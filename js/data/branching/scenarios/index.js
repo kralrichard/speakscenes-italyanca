@@ -2,27 +2,27 @@
 // (createScenario throws on malformed content), so a bad scenario fails loudly
 // at boot with its id — it can never half-render inside a conversation.
 
-import { allChoiceKeys } from '../scenarioSchema.js';
-import { hotelCheckin, hotelRoomProblem } from './hotel.js';
-import { airportCheckin, missingFlight } from './airport.js';
-import { hospitalVisit, pharmacyVisit } from './health.js';
-import { restaurantOrder, wrongOrder } from './restaurant.js';
-import { meetingFriend, askingDirections } from './social.js';
-import { jobInterview, workplaceMisunderstanding } from './workplace.js';
-import { cafeOrder, cafeMeetup } from './cafe.js';
-import { supermarketHelp, clothingReturn } from './shopping.js';
-import { trainTicket, taxiRide } from './travel.js';
-import { bankLostCard, policeLostPhone } from './services.js';
-import { homeMorning } from './home.js';
-import { hotelAmenities, passportControl, restaurantBill } from './extras.js';
-import { HOSPITALITY } from '../generated/gen-hospitality.js';
-import { TRAVEL } from '../generated/gen-travel.js';
-import { HEALTH } from '../generated/gen-health.js';
-import { SHOPS_SERVICES } from '../generated/gen-shops-services.js';
-import { DAILY } from '../generated/gen-daily.js';
-import { PLACES } from '../generated/gen-places.js';
-import { MORE1 } from '../generated/gen-more1.js';
-import { MORE2 } from '../generated/gen-more2.js';
+import { allChoiceKeys } from '../scenarioSchema.js?v=5';
+import { hotelCheckin, hotelRoomProblem } from './hotel.js?v=5';
+import { airportCheckin, missingFlight } from './airport.js?v=5';
+import { hospitalVisit, pharmacyVisit } from './health.js?v=5';
+import { restaurantOrder, wrongOrder } from './restaurant.js?v=5';
+import { meetingFriend, askingDirections } from './social.js?v=5';
+import { jobInterview, workplaceMisunderstanding } from './workplace.js?v=5';
+import { cafeOrder, cafeMeetup } from './cafe.js?v=5';
+import { supermarketHelp, clothingReturn } from './shopping.js?v=5';
+import { trainTicket, taxiRide } from './travel.js?v=5';
+import { bankLostCard, policeLostPhone } from './services.js?v=5';
+import { homeMorning } from './home.js?v=5';
+import { hotelAmenities, passportControl, restaurantBill } from './extras.js?v=5';
+import { HOSPITALITY } from '../generated/gen-hospitality.js?v=5';
+import { TRAVEL } from '../generated/gen-travel.js?v=5';
+import { HEALTH } from '../generated/gen-health.js?v=5';
+import { SHOPS_SERVICES } from '../generated/gen-shops-services.js?v=5';
+import { DAILY } from '../generated/gen-daily.js?v=5';
+import { PLACES } from '../generated/gen-places.js?v=5';
+import { MORE1 } from '../generated/gen-more1.js?v=5';
+import { MORE2 } from '../generated/gen-more2.js?v=5';
 
 export const ALL_SCENARIOS = [
   // originals

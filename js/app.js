@@ -5,13 +5,13 @@
 // authored content is English-only); everything else — speech scoring, TTS,
 // growth, avatar, coins — is the same engine running in the target language.
 
-import { registerRoute, startRouter } from './ui/router.js';
-import { renderShorts } from './ui/screens/shortsScreen.js';
-import { renderWorldShorts } from './ui/screens/worldShortsScreen.js';
-import { renderCharacterLite } from './ui/screens/characterLiteScreen.js';
-import { settings } from './progress/settingsStore.js';
-import { shortsCount } from './data/shorts/sentenceBank.js';
-import { APP_LANG, LOCALE } from './data/shorts/langConfig.js';
+import { registerRoute, startRouter } from './ui/router.js?v=5';
+import { renderShorts } from './ui/screens/shortsScreen.js?v=5';
+import { renderWorldShorts } from './ui/screens/worldShortsScreen.js?v=5';
+import { renderCharacterLite } from './ui/screens/characterLiteScreen.js?v=5';
+import { settings } from './progress/settingsStore.js?v=5';
+import { shortsCount } from './data/shorts/sentenceBank.js?v=5';
+import { APP_LANG, LOCALE } from './data/shorts/langConfig.js?v=5';
 
 function boot() {
   // Persisted accessibility settings before first paint.

@@ -1,4 +1,4 @@
-import { miniAll } from '../miniBuilder.js';
+import { miniAll } from '../miniBuilder.js?v=5';
 
 // Compact branching scenarios for hotel / café / restaurant. Each is a real
 // decision: choose an intent, speak it, the NPC reacts, and different choices

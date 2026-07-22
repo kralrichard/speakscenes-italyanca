@@ -3,9 +3,9 @@
 // app modules. Mutates no localStorage (growth test edits in-memory state and
 // restores it).
 
-import { buildShortsBank, levelBands, sentencesForLevel, shortForLevel, shortsCount, LEVEL_ORDER } from '../js/data/shorts/sentenceBank.js';
-import { shortsStore, GROWTH_THRESHOLDS } from '../js/progress/shortsStore.js';
-import { scoreAttempt } from '../js/speech/scorer.js';
+import { buildShortsBank, levelBands, sentencesForLevel, shortForLevel, shortsCount, LEVEL_ORDER } from '../js/data/shorts/sentenceBank.js?v=5';
+import { shortsStore, GROWTH_THRESHOLDS } from '../js/progress/shortsStore.js?v=5';
+import { scoreAttempt } from '../js/speech/scorer.js?v=5';
 
 const results = [];
 function test(name, fn) {
@@ -15,10 +15,25 @@ function test(name, fn) {
 function assert(cond, msg) { if (!cond) throw new Error(msg || 'assertion failed'); }
 function assertEq(a, b, msg) { if (a !== b) throw new Error(`${msg || 'not equal'}: got ${JSON.stringify(a)}, want ${JSON.stringify(b)}`); }
 
-test('bank: at least 3,500 graded sentences', () => {
+test('bank: at least 10,000 graded sentences', () => {
   const bank = buildShortsBank();
-  assert(bank.length >= 3500, `expected >= 3500, got ${bank.length}`);
+  assert(bank.length >= 10000, `expected >= 10000, got ${bank.length}`);
   assertEq(shortsCount(), bank.length, 'shortsCount matches');
+});
+
+// The growth pace and the content depth must agree: while the learner is in a
+// life stage they see only that level's sentences, so each level needs at
+// least as many sentences as the stage lasts in swipes -- otherwise the feed
+// starts repeating before the character grows up.
+test('content depth covers the growth pace at every level', () => {
+  for (let i = 0; i < LEVEL_ORDER.length; i++) {
+    const level = LEVEL_ORDER[i];
+    const span = i < GROWTH_THRESHOLDS.length - 1
+      ? GROWTH_THRESHOLDS[i + 1] - GROWTH_THRESHOLDS[i]
+      : 1500; // C2 is terminal -- keep a healthy reserve
+    const have = sentencesForLevel(level).length;
+    assert(have >= span, `${level}: ${have} sentences for a ${span}-swipe stage (would repeat)`);
+  }
 });
 
 test('bank: every entry well-formed (text + tr + valid level + unique id)', () => {
