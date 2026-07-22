@@ -1,14 +1,15 @@
 // ============================================================================
-// Shorts — a TikTok-style vertical feed of real, CEFR-graded English sentences.
+// Shorts — TikTok-style vertical feed of graded target-language sentences.
 //
-// Swipe up (or wheel / ArrowDown / the ▲ button) to get the next card. Every
-// forward swipe is one unit of language exposure: the pinned avatar at the top
-// grows from a baby (A0) toward a confident adult (C2), and because the 10k+
-// sentence bank is level-sorted, the sentences get harder exactly as the
-// character grows up. Each card can be listened to, slowed down, and — the
-// point of the app — spoken aloud and scored by the SAME meaning-based scorer
-// the rest of SpeakScenes uses. Speaking correctly earns coins and feeds the
-// honest, separately-tracked "measured skill", never conflated with growth.
+// Swipe up (or wheel / ArrowDown / the ▲ button) for the next card. Every
+// forward swipe grows the pinned avatar from baby (A0) toward confident adult
+// (C2); the level-sorted bank makes the sentences harder at exactly that pace.
+// Cards can be listened to, slowed down, and spoken aloud — scored by the same
+// honest meaning-based scorer as the original SpeakScenes.
+//
+// `?loc=<id>` (from the world map) filters cards to that location's topics;
+// if the current level has no sentences for those topics, the full level
+// stream is used instead so the feed never runs dry.
 // ============================================================================
 
 import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js';
@@ -16,7 +17,8 @@ import { scoreAttempt } from '../../speech/scorer.js';
 import { tts } from '../../speech/tts.js';
 import { worldStore } from '../../progress/worldStore.js';
 import { shortsStore } from '../../progress/shortsStore.js';
-import { shortForLevel, sentencesForLevel, shortsCount, LEVEL_ORDER } from '../../data/shorts/sentenceBank.js';
+import { sentencesForLevel, LEVEL_ORDER } from '../../data/shorts/sentenceBank.js';
+import { getShortLocation } from '../../data/shorts/shortsLocations.js';
 import { GROWTH_STAGES, getGrowthStage } from '../../data/worldLevels.js';
 import { renderPlayerAvatar } from '../components/avatarBuilder.js';
 import { renderFeedback } from '../components/feedbackPanel.js';
@@ -26,8 +28,10 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 
 const LEVEL_LABEL = { A0: 'Baby', A1: 'Young Child', A2: 'Older Child', B1: 'Teen', B2: 'Young Adult', C1: 'Adult', C2: 'Confident' };
 const STRICTNESS_BY_LEVEL = { A0: 'relaxed', A1: 'relaxed', A2: 'relaxed', B1: 'normal', B2: 'normal', C1: 'strict', C2: 'strict' };
+const GROWTH_THRESHOLDS_LEN = LEVEL_ORDER.length;
 
-export function renderShorts(container) {
+export function renderShorts(container, params = {}) {
+  const location = getShortLocation(params.loc);
   const provider = createSpeechProvider();
   const usingTyped = !isNativeSpeechSupported();
   let muted = false;
@@ -43,9 +47,9 @@ export function renderShorts(container) {
   let pos = -1;
 
   container.innerHTML = `
-    <div class="shorts" role="region" aria-label="English shorts feed">
+    <div class="shorts" role="region" aria-label="Shorts feed">
       <div class="shorts-hud">
-        <button class="shorts-exit" aria-label="Back to world">‹</button>
+        <button class="shorts-exit" aria-label="Haritaya dön">‹</button>
         <div class="hud-grow">
           <div class="hud-avatar" id="hud-avatar"></div>
           <div class="hud-grow-text">
@@ -55,7 +59,7 @@ export function renderShorts(container) {
         </div>
         <div class="hud-stats">
           <span class="hud-coins" id="hud-coins">🪙 0</span>
-          <button class="hud-mute" id="hud-mute" aria-label="Toggle sound">🔊</button>
+          <button class="hud-mute" id="hud-mute" aria-label="Sesi aç/kapat">🔊</button>
         </div>
       </div>
 
@@ -63,7 +67,7 @@ export function renderShorts(container) {
 
       <div class="shorts-feedback" id="shorts-feedback" aria-live="polite"></div>
 
-      <div class="shorts-swipe-hint" id="swipe-hint">Yukarı kaydır ▲ · sıradaki cümle</div>
+      <div class="shorts-swipe-hint" id="swipe-hint">Yukarı kaydır ▲${location ? ` · ${location.emoji} ${esc(location.label)}` : ' · sıradaki cümle'}</div>
     </div>`;
 
   const stageEl = container.querySelector('#shorts-stage');
@@ -152,10 +156,19 @@ export function renderShorts(container) {
   function speak(text, slow) { stopTTS(); ttsHandle = slow ? tts.speakSlow(text, { accent: 'american' }) : tts.speak(text, { accent: 'american' }); }
 
   // ---- feed navigation ----
+  function pickShort(level, cursor) {
+    let list = sentencesForLevel(level);
+    if (location && location.topics) {
+      const filtered = list.filter(s => location.topics.includes(s.topic));
+      if (filtered.length) list = filtered;
+    }
+    return list[cursor % list.length];
+  }
+
   function pushNew() {
     const level = shortsStore.currentLevel();
     const cursor = shortsStore.nextCursor(level);
-    history.push(shortForLevel(level, cursor));
+    history.push(pickShort(level, cursor));
     pos = history.length - 1;
     renderCard('in');
   }
@@ -219,7 +232,7 @@ export function renderShorts(container) {
       else failMsg('Bir sorun oldu. Yazarak deneyebilirsin.');
     }));
     providerOffs.push(provider.on('idle', () => { clearTimeout(recordTimeout); if (recording) { recording = false; setSpeakState('ready'); failMsg('Ses algılanmadı. Tekrar dene.'); } }));
-    provider.start({ accent: 'american' });
+    provider.start();
     recordTimeout = setTimeout(() => { if (recording) { try { provider.abort(); } catch {} recording = false; setSpeakState('ready'); failMsg('Çok uzun sürdü — tekrar dene.'); } }, 12000);
   }
 
@@ -347,6 +360,3 @@ export function renderShorts(container) {
     window.removeEventListener('keydown', onKey);
   };
 }
-
-// GROWTH_THRESHOLDS length without importing the array just for its size.
-const GROWTH_THRESHOLDS_LEN = LEVEL_ORDER.length;

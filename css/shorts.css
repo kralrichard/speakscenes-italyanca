@@ -1,5 +1,5 @@
 /* ============================================================================
-   Shorts — full-screen vertical feed. Dark theme, matches the app's tokens.
+   Shorts feed + clone world map + character screen. Dark theme, app tokens.
    ========================================================================== */
 
 .shorts {
@@ -43,7 +43,6 @@
   flex: none;
   display: grid; place-items: center;
   border-radius: 50%;
-  /* progress ring driven by --p (0..100) */
   background: conic-gradient(var(--stage-color) calc(var(--p, 0) * 1%), rgba(255, 255, 255, 0.12) 0);
   padding: 4px;
   transition: background 0.5s ease;
@@ -189,6 +188,121 @@
   20% { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx, 0), -160px) scale(1.1); }
 }
+
+/* ============================================================================
+   World screen (clone landing) — mirrors the original world map's feel.
+   ========================================================================== */
+.ws-world { padding-bottom: calc(var(--nav-h) + 1.2rem); }
+
+.ws-head {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.6rem 0 0.9rem;
+}
+.ws-avatar {
+  flex: none;
+  border-radius: 22px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--stage-color, var(--accent)) 30%, var(--bg-card)), var(--bg-card));
+  padding: 0.4rem 0.55rem 0.15rem;
+}
+.ws-avatar .avatar-stage-label { font-size: 0.62rem; color: var(--text-dim); text-align: center; }
+.ws-head-text { flex: 1; min-width: 0; }
+.ws-head-text h1 { margin: 0 0 0.15rem; font-size: 1.25rem; }
+.ws-stage { margin: 0 0 0.35rem; color: var(--text-dim); font-size: 0.85rem; }
+.ws-bar {
+  height: 8px; border-radius: 999px; overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+.ws-bar span { display: block; height: 100%; border-radius: 999px; transition: width 0.4s ease; }
+.ws-next { margin: 0.3rem 0 0; font-size: 0.75rem; color: var(--text-faint); }
+.ws-char-btn {
+  flex: none; width: 44px; height: 44px;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--bg-card); font-size: 1.3rem; cursor: pointer;
+}
+
+.ws-stats {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--bg-card); border-radius: var(--radius);
+  font-size: 0.82rem; color: var(--text-dim);
+}
+
+.ws-sub { font-size: 1rem; margin: 1.2rem 0 0.6rem; }
+.ws-sub small { color: var(--text-faint); font-weight: 400; }
+
+.wsl-grid { display: grid; gap: 0.6rem; }
+.wsl-card {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg-card); color: var(--text);
+  text-align: left; cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+}
+.wsl-card:hover { background: var(--bg-card-hover); }
+.wsl-card:active { transform: scale(0.985); }
+.wsl-card.ahead { opacity: 0.75; }
+.wsl-emoji { font-size: 1.7rem; flex: none; }
+.wsl-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.wsl-label { font-weight: 700; }
+.wsl-desc { font-size: 0.78rem; color: var(--text-dim); }
+.wsl-min {
+  flex: none; font-size: 0.7rem; font-weight: 700;
+  padding: 0.18rem 0.5rem; border-radius: 999px;
+}
+.ws-foot { text-align: center; color: var(--text-faint); font-size: 0.78rem; margin: 1.1rem 0 0; }
+
+/* first-visit welcome overlay */
+.ws-welcome {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; place-items: center;
+  background: rgba(8, 10, 20, 0.8); backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+.ws-welcome-card {
+  width: min(92vw, 380px);
+  background: var(--bg-card); border: 1px solid var(--line);
+  border-radius: 20px; padding: 1.3rem;
+  text-align: center; box-shadow: var(--shadow);
+}
+.ws-welcome-card h2 { margin: 0.4rem 0; }
+.ws-welcome-card p { color: var(--text-dim); font-size: 0.9rem; margin: 0 0 0.8rem; }
+.ws-name {
+  width: 100%; padding: 0.65rem 0.75rem; margin-bottom: 0.8rem;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--bg); color: var(--text); font-size: 1rem; text-align: center;
+}
+.ws-start { width: 100%; }
+
+/* ============================================================================
+   Character screen (clone) — avatar + growth + customization.
+   ========================================================================== */
+.ws-char { padding-bottom: calc(var(--nav-h) + 1.2rem); }
+.cl-hero {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--stage-color, var(--accent)) 24%, var(--bg-card)), var(--bg-card));
+  margin-bottom: 0.7rem;
+}
+.cl-hero-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.cl-hero-text small { color: var(--text-dim); font-size: 0.78rem; }
+
+.cl-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.cl-swatch {
+  min-width: 40px; height: 40px; padding: 0 0.55rem;
+  border: 2px solid var(--line); border-radius: 12px;
+  background: var(--bg-card); color: var(--text);
+  font-size: 0.8rem; cursor: pointer;
+}
+.cl-swatch.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.cl-acc {
+  padding: 0.5rem 0.8rem;
+  border: 2px solid var(--line); border-radius: 12px;
+  background: var(--bg-card); color: var(--text);
+  font-size: 0.85rem; cursor: pointer;
+}
+.cl-acc.on { border-color: var(--green); }
 
 @media (prefers-reduced-motion: reduce) {
   .short-card.sw-in, .short-card.sw-back, .shorts-swipe-hint, .hud-avatar.grew, .burst span { animation: none; }

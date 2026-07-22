@@ -6,6 +6,7 @@ karakterini büyütür (bebek → kendinden emin yetişkin) ve cümleler tam o h
 zorlaşır. Her kart dinlenebilir (🔊 / 🐢 yavaş), **mikrofonla sesli söylenip**
 gerçek konuşma tanımayla puanlanır (it-IT), Türkçe çevirisi bir dokunuşla açılır.
 
+- **Dünya haritası ve Karakter ekranı** — büyüyen avatarınla konuma göre pratik (Ev, Sokak, Park, Çarşı, Ofis...), avatar özelleştirme.
 - **Binlerce üretilmiş, dil bilgisi doğrulanmış cümle** — artikel (un/uno/una/
   un', il/lo/la/l') ve sıfat-cinsiyet uyumu kelime bankasında elle işlenmiştir;
   deterministik üretim, her açılışta aynı sıra.

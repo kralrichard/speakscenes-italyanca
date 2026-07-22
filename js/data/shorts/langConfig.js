@@ -5,6 +5,8 @@
 
 export const LOCALE = 'it-IT';
 export const APP_LANG = 'İtalyanca';
+// localStorage namespace — MUST be unique per clone (same-origin hosting).
+export const APP_KEY = 'ss-it';
 
 export const FUNCTION_WORDS = [
   'il', 'lo', 'la', 'i', 'gli', 'le', 'l', 'un', 'una', 'e', 'o', 'a', 'al', 'alla',

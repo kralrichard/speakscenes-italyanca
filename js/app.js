@@ -1,11 +1,14 @@
-// Application bootstrap — Shorts-focused language clone. The whole app IS the
-// Shorts feed: swipe up, the sentence gets harder, the avatar grows A0 -> C2.
-// The English original's dialogue/story screens are not registered here (their
-// content is English-only); the shared engine files remain in the repo so the
-// speech/scoring/growth systems run unchanged.
+// Application bootstrap — language clone with the same shell as the original
+// SpeakScenes: bottom navigation, a world-map landing screen with the growing
+// avatar, a character screen with full customization, and the Shorts feed.
+// The English original's dialogue/story screens are not registered (their
+// authored content is English-only); everything else — speech scoring, TTS,
+// growth, avatar, coins — is the same engine running in the target language.
 
 import { registerRoute, startRouter } from './ui/router.js';
 import { renderShorts } from './ui/screens/shortsScreen.js';
+import { renderWorldShorts } from './ui/screens/worldShortsScreen.js';
+import { renderCharacterLite } from './ui/screens/characterLiteScreen.js';
 import { settings } from './progress/settingsStore.js';
 import { shortsCount } from './data/shorts/sentenceBank.js';
 import { APP_LANG, LOCALE } from './data/shorts/langConfig.js';
@@ -15,16 +18,15 @@ function boot() {
   document.documentElement.dataset.textsize = settings.get('textSize');
   document.documentElement.dataset.reducedMotion = String(settings.get('reducedMotion'));
 
-  // Single-screen app: no bottom navigation, and the Shorts back-arrow (which
-  // would lead to the world map in the original) is hidden via CSS.
-  const nav = document.getElementById('bottom-nav');
-  if (nav) nav.style.display = 'none';
-  const style = document.createElement('style');
-  style.textContent = '.shorts-exit{display:none} .shorts{--nav-h:0px}';
-  document.head.appendChild(style);
+  // Bottom navigation — same pattern as the original (world map is home).
+  document.getElementById('bottom-nav').innerHTML = `
+    <a href="#/" data-nav="home"><span class="nav-ico">🗺️</span>Dünya</a>
+    <a href="#/shorts" data-nav="shorts"><span class="nav-ico">📱</span>Shorts</a>
+    <a href="#/character" data-nav="character"><span class="nav-ico">👤</span>Karakter</a>`;
 
-  registerRoute('', renderShorts);
+  registerRoute('', renderWorldShorts);
   registerRoute('shorts', renderShorts);
+  registerRoute('character', renderCharacterLite);
 
   if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
 
