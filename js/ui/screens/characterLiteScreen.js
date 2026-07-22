@@ -9,6 +9,7 @@ import { worldStore } from '../../progress/worldStore.js';
 import { shortsStore } from '../../progress/shortsStore.js';
 import { GROWTH_STAGES } from '../../data/worldLevels.js';
 import { renderPlayerAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, OUTFIT_IDS } from '../components/avatarBuilder.js';
+import { APP_KEY } from '../../data/shorts/langConfig.js';
 import { navigate } from '../router.js';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
@@ -78,9 +79,31 @@ export function renderCharacterLite(container) {
 
         <h2 class="ws-sub">Aksesuar <small>(sadece kozmetik)</small></h2>
         <div class="cl-row">${accBtns}</div>
+
+        <h2 class="ws-sub">Sıfırla</h2>
+        <p class="cl-reset-note">Tüm ilerlemeyi siler; bebek (A0) olarak baştan başlarsın.</p>
+        <button class="cl-reset" data-act="reset">🔄 Baştan başla</button>
       </div>`;
 
     container.querySelector('[data-act="back"]').addEventListener('click', () => navigate(''));
+    // Reset: two-tap confirm, then wipe ONLY this clone's namespaced keys
+    // (other apps on the same origin are untouched) and reload fresh at A0.
+    const resetBtn = container.querySelector('[data-act="reset"]');
+    resetBtn.addEventListener('click', () => {
+      if (!resetBtn.dataset.armed) {
+        resetBtn.dataset.armed = '1';
+        resetBtn.textContent = '⚠️ Emin misin? Silmek için tekrar dokun';
+        setTimeout(() => { if (resetBtn.isConnected) { delete resetBtn.dataset.armed; resetBtn.textContent = '🔄 Baştan başla'; } }, 3500);
+        return;
+      }
+      try {
+        Object.keys(localStorage)
+          .filter(k => k.startsWith(`${APP_KEY}:`))
+          .forEach(k => localStorage.removeItem(k));
+      } catch {}
+      location.hash = '#/';
+      location.reload();
+    });
     container.querySelectorAll('.cl-swatch').forEach(b =>
       b.addEventListener('click', () => { worldStore.setAvatarPart(b.dataset.part, b.dataset.value); draw(); }));
     container.querySelectorAll('.cl-acc').forEach(b =>

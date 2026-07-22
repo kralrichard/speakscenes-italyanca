@@ -303,6 +303,13 @@
   font-size: 0.85rem; cursor: pointer;
 }
 .cl-acc.on { border-color: var(--green); }
+.cl-reset-note { color: var(--text-faint); font-size: 0.78rem; margin: -0.2rem 0 0.5rem; }
+.cl-reset {
+  padding: 0.6rem 0.9rem;
+  border: 2px solid var(--red-soft); border-radius: 12px;
+  background: var(--red-soft); color: var(--red);
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .short-card.sw-in, .short-card.sw-back, .shorts-swipe-hint, .hud-avatar.grew, .burst span { animation: none; }
