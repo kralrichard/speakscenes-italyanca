@@ -90,6 +90,36 @@ test('scorer: verbatim answer accepted, diacritics folded fairly', () => {
   assert(r2.accepted, `accent-free typing should pass for "${s.en}"`);
 });
 
+test('scorer: low recogniser confidence never rejects a correct answer', () => {
+  // Chrome reports low/absent confidence for many correct utterances, and
+  // it-IT is exactly the kind of non-en-US locale where that happens.
+  const s = sentencesForLevel('A1')[0];
+  const bare = s.en.replace(/[.?!,:;]/g, '').toLowerCase();
+  const r = scoreAttempt({ expected: s.en, transcript: bare, confidence: 0.08, strictness: 'strict' });
+  assert(r.accepted, `low confidence must not reject "${s.en}" (clarity ${r.clarity}, accuracy ${r.wordAccuracy})`);
+});
+
+test('scorer: slow pace / long pauses never reject a correct answer', () => {
+  // durationMs includes thinking time before speaking and the recogniser's
+  // silence tail, so a correct short sentence can look very "slow".
+  const s = sentencesForLevel('A1')[0];
+  const bare = s.en.replace(/[.?!,:;]/g, '').toLowerCase();
+  const r = scoreAttempt({
+    expected: s.en, transcript: bare,
+    timing: { durationMs: 14000, pauseGapsMs: [4000] }, strictness: 'strict'
+  });
+  assert(r.accepted, `slow pace must not reject "${s.en}" (fluency ${r.fluency})`);
+  assert(typeof r.fluency === 'number' && r.fluency < 60, 'fluency should still be REPORTED as low');
+});
+
+test('world: every location is reachable — nothing is locked', async () => {
+  const { isLocationUnlocked } = await import('../js/progress/worldStore.js?v=5');
+  const { LOCATIONS } = await import('../js/data/locations.js?v=5');
+  const locked = LOCATIONS.filter(l => !isLocationUnlocked(l.id)).map(l => l.id);
+  assertEq(locked.length, 0, `these locations are still locked: ${locked.join(', ')}`);
+  assert(!isLocationUnlocked('definitely-not-a-place'), 'unknown ids are still refused');
+});
+
 test('scorer: unrelated sentence rejected', () => {
   const s = sentencesForLevel('B2')[0];
   const r = scoreAttempt({ expected: s.en, transcript: 'xyz abc qqq www', strictness: 'relaxed' });

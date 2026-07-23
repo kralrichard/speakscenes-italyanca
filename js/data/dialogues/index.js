@@ -15,6 +15,11 @@ import { NEW_PERSON_DIALOGUES } from './new-person.js?v=5';
 import { JOB_INTERVIEW_DIALOGUES } from './job-interview.js?v=5';
 import { FRIEND_CHAT_DIALOGUES } from './friend-chat.js?v=5';
 import { TAXI_DIALOGUES } from './taxi.js?v=5';
+import { AIRPORT_DIALOGUES } from './airport.js?v=5';
+import { HOSPITAL_DIALOGUES } from './hospital.js?v=5';
+import { CLOTHING_STORE_DIALOGUES } from './clothing-store.js?v=5';
+import { BANK_DIALOGUES } from './bank.js?v=5';
+import { TRAIN_STATION_DIALOGUES } from './train-station.js?v=5';
 
 export const ALL_DIALOGUES = [
   ...CAFE_DIALOGUES,
@@ -26,7 +31,12 @@ export const ALL_DIALOGUES = [
   ...NEW_PERSON_DIALOGUES,
   ...JOB_INTERVIEW_DIALOGUES,
   ...FRIEND_CHAT_DIALOGUES,
-  ...TAXI_DIALOGUES
+  ...TAXI_DIALOGUES,
+  ...AIRPORT_DIALOGUES,
+  ...HOSPITAL_DIALOGUES,
+  ...CLOTHING_STORE_DIALOGUES,
+  ...BANK_DIALOGUES,
+  ...TRAIN_STATION_DIALOGUES
 ];
 
 // Same API surface as the original app's index, so every screen (picker,

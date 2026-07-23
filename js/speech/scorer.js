@@ -21,11 +21,15 @@ import {
   FILLER_WORDS as FILL_LIST, DIGIT_WORDS, CONTRACTIONS, ASR_EQUIVALENTS
 } from '../data/shorts/langConfig.js?v=5';
 
+// Only weighted word accuracy gates acceptance. There are deliberately no
+// clarity/fluency floors here: both are estimates (recogniser confidence and
+// pace), and using them as gates rejected correct, well-pronounced answers.
+// See the acceptance block in scoreAttempt() for the full reasoning.
 export const STRICTNESS_THRESHOLDS = {
-  relaxed:        { wordAccuracy: 60, clarity: 0,  fluency: 0,  allowMissingFn: true  },
-  normal:         { wordAccuracy: 78, clarity: 30, fluency: 35, allowMissingFn: true  },
-  strict:         { wordAccuracy: 92, clarity: 45, fluency: 50, allowMissingFn: false },
-  'near-perfect': { wordAccuracy: 98, clarity: 55, fluency: 60, allowMissingFn: false }
+  relaxed:        { wordAccuracy: 60, allowMissingFn: true  },
+  normal:         { wordAccuracy: 78, allowMissingFn: true  },
+  strict:         { wordAccuracy: 92, allowMissingFn: false },
+  'near-perfect': { wordAccuracy: 98, allowMissingFn: false }
 };
 
 // Fold diacritics and language-specific letter variants so "uber"=="über",
@@ -224,11 +228,24 @@ export function scoreAttempt({ expected, altAccepted = [], transcript, confidenc
 
   const grammarAdherence = Math.max(0, 100 - missing.length * 10 - incorrect.length * 14 - extra.length * 6);
 
+  // ACCEPTANCE IS MEANING-BASED ONLY.
+  //
+  // clarity and fluency are reported for feedback but NEVER gate the answer.
+  // They used to, and it broke practice: a learner could pronounce every word
+  // correctly and still be rejected, because
+  //   - clarity is the recogniser's own confidence, which Chrome reports as a
+  //     low value (or not at all) for plenty of correct utterances -- and
+  //     it-IT is exactly the kind of non-en-US locale where that happens; and
+  //   - fluency is derived from durationMs, which is measured from the moment
+  //     the mic opens -- it includes the learner's thinking time before they
+  //     start and the recogniser's silence tail after they stop, so a short,
+  //     perfectly-spoken sentence scores as "slow".
+  // Gating on them also contradicted this file's own honesty contract, which
+  // states clarity is NOT a pronunciation score. Meaning errors (negation,
+  // numbers, missing content words) still reject, below and above.
   let accepted =
     criticalErrors.length === 0 &&
-    best.wordAccuracy >= thresholds.wordAccuracy &&
-    (clarity === null || clarity >= thresholds.clarity) &&
-    (fluency === null || fluency >= thresholds.fluency);
+    best.wordAccuracy >= thresholds.wordAccuracy;
 
   if (accepted && !thresholds.allowMissingFn && missing.length > 0) accepted = false;
   if (accepted && missing.some(w => !FUNCTION_WORDS.has(w))) accepted = false;

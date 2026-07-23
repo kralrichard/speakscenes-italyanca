@@ -23,7 +23,7 @@ puanlayıcı, seslendirme, büyüyen avatar, coin) orijinalin aynısıdır ve `i
 | Tür | Miktar |
 |---|---|
 | Shorts cümlesi | 12.846 (A0→C2) |
-| Diyalog | 14 (10 mekân, A1→B2) |
+| Diyalog | 20 (15 mekân, A1→B2) |
 | Günlük hazır cümle (DAILY) | 60 |
 
 Diyalog mekânları: bar, ristorante, albergo, indicazioni, supermercato,

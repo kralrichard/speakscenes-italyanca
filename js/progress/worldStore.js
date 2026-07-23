@@ -130,21 +130,18 @@ class WorldStore {
 
 export const worldStore = new WorldStore();
 
-/** A location is reachable if it was explicitly unlocked (sticky -- stays
- *  reachable even if the user later lowers their level) OR the user's
- *  current world level already covers it (instant manual jump access). */
+/** NOTHING IS LOCKED. Every real location is reachable from the start.
+ *  `minWorldLevel` survives only as a *recommendation* used for ordering and
+ *  for the "recommended level" badge -- it never blocks access, so a learner
+ *  can always jump straight to whatever situation they actually need. */
 export function isLocationUnlocked(locationId) {
-  const loc = getLocation(locationId);
-  if (!loc) return false;
-  if (worldStore.getState().unlockedLocationIds.includes(locationId)) return true;
-  // Every featured location on the world map is open from the start -- no
-  // locks. (Level still shapes the *recommended* order and the measured-skill
-  // display, but it never blocks access.)
-  if (loc.featured) return true;
-  if (!loc.minWorldLevel) return false;
-  return worldLevelIndex(worldStore.getState().worldLevel) >= worldLevelIndex(loc.minWorldLevel);
+  return !!getLocation(locationId);
 }
 
+/** Every location goes on the world map, not just the hand-picked ones.
+ *  Sorted by recommended level so the natural progression is still obvious
+ *  at a glance, with the lowest-level places first. */
 export function getFeaturedLocations() {
-  return LOCATIONS.filter(l => l.featured);
+  return [...LOCATIONS].sort((a, b) =>
+    worldLevelIndex(a.minWorldLevel || 'A0') - worldLevelIndex(b.minWorldLevel || 'A0'));
 }

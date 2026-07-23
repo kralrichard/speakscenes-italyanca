@@ -10,6 +10,8 @@ import { worldStore } from '../../progress/worldStore.js?v=5';
 import { shortsStore } from '../../progress/shortsStore.js?v=5';
 import { shortsCount } from '../../data/shorts/sentenceBank.js?v=5';
 import { SHORT_LOCATIONS } from '../../data/shorts/shortsLocations.js?v=5';
+import { getFeaturedLocations } from '../../progress/worldStore.js?v=5';
+import { findDialogues } from '../../data/dialogues/index.js?v=5';
 import { GROWTH_STAGES } from '../../data/worldLevels.js?v=5';
 import { renderPlayerAvatar } from '../components/avatarBuilder.js?v=5';
 import { APP_LANG } from '../../data/shorts/langConfig.js?v=5';
@@ -39,6 +41,23 @@ export function renderWorldShorts(container) {
         </button>`;
     }).join('');
 
+    // Every catalogued location, nothing locked. Places that already have
+    // authored Italian dialogues come first and show their count; the rest are
+    // still listed (and still reachable) marked as "yakında".
+    const allLocations = getFeaturedLocations();
+    const withCounts = allLocations.map(l => ({ loc: l, n: findDialogues({ locationId: l.id }).length }));
+    withCounts.sort((a, b) => b.n - a.n);
+    const dialogueTotal = withCounts.reduce((sum, x) => sum + x.n, 0);
+    const dialogueCards = withCounts.map(({ loc, n }) => `
+        <button class="wsl-card ${n ? '' : 'ahead'}" data-dloc="${loc.id}">
+          <span class="wsl-emoji">${loc.icon || '📍'}</span>
+          <span class="wsl-body">
+            <span class="wsl-label">${esc(loc.name)}</span>
+            <span class="wsl-desc">${n ? `${n} diyalog` : 'Diyalog yakında — yine de girebilirsin'}</span>
+          </span>
+          <span class="wsl-min lvl-${loc.minWorldLevel || 'A0'}">${loc.minWorldLevel || 'A0'}</span>
+        </button>`).join('');
+
     container.innerHTML = `
       <div class="ws-world screen-pad">
         <header class="ws-head">
@@ -63,9 +82,13 @@ export function renderWorldShorts(container) {
           <span>🔥 seri ${s.bestStreak}</span>
         </div>
 
-        <h2 class="ws-sub">Nereye gidiyoruz?</h2>
+        <h2 class="ws-sub">Nereye gidiyoruz? <small>· kaydırarak pratik</small></h2>
         <div class="wsl-grid">${cards}</div>
-        <p class="ws-foot">${shortsCount()} ${APP_LANG.toLowerCase()} cümle · A0'dan C2'ye</p>
+
+        <h2 class="ws-sub">Konuşma mekânları <small>· karşılıklı diyalog</small></h2>
+        <div class="wsl-grid">${dialogueCards}</div>
+
+        <p class="ws-foot">${shortsCount()} ${APP_LANG.toLowerCase()} cümle · ${dialogueTotal} diyalog · A0'dan C2'ye</p>
 
         ${w.onboarded ? '' : `
         <div class="ws-welcome" role="dialog" aria-label="Hoş geldin">
@@ -81,6 +104,13 @@ export function renderWorldShorts(container) {
 
     container.querySelectorAll('[data-loc]').forEach(b =>
       b.addEventListener('click', () => navigate(`shorts?loc=${b.dataset.loc}`)));
+    // A dialogue location opens its first authored dialogue; if it has none
+    // yet, fall back to the practice picker rather than a dead end.
+    container.querySelectorAll('[data-dloc]').forEach(b =>
+      b.addEventListener('click', () => {
+        const list = findDialogues({ locationId: b.dataset.dloc });
+        navigate(list.length ? `dialogue/${list[0].id}` : 'practice');
+      }));
     container.querySelector('[data-act="character"]').addEventListener('click', () => navigate('character'));
 
     const start = container.querySelector('.ws-start');
