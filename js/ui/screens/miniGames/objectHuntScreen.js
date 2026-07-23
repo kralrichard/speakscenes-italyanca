@@ -3,14 +3,14 @@
 // as well as a standalone mini-game reachable from the world map. Driven by
 // TapEngine (js/engine/tapEngine.js), not DialogueEngine -- single-word tap
 // rounds don't fit the alternating-turn model.
-import { VOCABULARY, getVocabByLevel } from '../../../data/vocabulary.js?v=5';
-import { TapEngine } from '../../../engine/tapEngine.js?v=5';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
-import { progressStore } from '../../../progress/progressStore.js?v=5';
-import { worldStore } from '../../../progress/worldStore.js?v=5';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
-import { tts, isTTSSupported } from '../../../speech/tts.js?v=5';
-import { navigate } from '../../router.js?v=5';
+import { VOCABULARY, getVocabByLevel } from '../../../data/vocabulary.js?v=6';
+import { TapEngine } from '../../../engine/tapEngine.js?v=6';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=6';
+import { progressStore } from '../../../progress/progressStore.js?v=6';
+import { worldStore } from '../../../progress/worldStore.js?v=6';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=6';
+import { tts, isTTSSupported } from '../../../speech/tts.js?v=6';
+import { navigate } from '../../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -44,8 +44,8 @@ export function renderObjectHunt(container, params) {
     const pct = snap.progress.total ? (snap.progress.current / snap.progress.total) * 100 : 0;
     return `
       <div class="row" style="margin-bottom:0.8rem">
-        <button class="icon-btn" id="btn-exit" aria-label="Exit">✕</button>
-        <span class="grow" style="font-weight:700">🔎 Object Hunt</span>
+        <button class="icon-btn" id="btn-exit" aria-label="Çık">✕</button>
+        <span class="grow" style="font-weight:700">🔎 Nesne Avı</span>
         <div class="turn-progress" style="max-width:110px"><div style="width:${pct}%"></div></div>
       </div>`;
   }
@@ -58,7 +58,7 @@ export function renderObjectHunt(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card" style="text-align:center">
-        <div class="lbl">Find this</div>
+        <div class="lbl">Bunu bul</div>
         <div class="sentence">${esc(item.word)}</div>
         <div class="tr-text">${esc(item.translation_tr)}</div>
         <div class="tools-row" style="justify-content:center">
@@ -97,7 +97,7 @@ export function renderObjectHunt(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card" style="text-align:center">
-        <div class="lbl">${snap.state === 'correct' ? 'Doğru!' : 'Not quite'}</div>
+        <div class="lbl">${snap.state === 'correct' ? 'Doğru!' : 'Tam değil'}</div>
         <div class="sentence">${esc(item.word)}</div>
         <div class="tr-text">${esc(item.translation_tr)} · ${esc(item.exampleSentence)}</div>
       </div>
@@ -120,16 +120,16 @@ export function renderObjectHunt(container, params) {
     shell.innerHTML = `
       <div class="report-hero">
         <div class="big-emoji">${'⭐'.repeat(reward.stars)}${'☆'.repeat(3 - reward.stars)}</div>
-        <h2>Object Hunt complete!</h2>
+        <h2>Nesne Avı bitti!</h2>
       </div>
       <div class="xp-toast">+${reward.xp} XP · +${reward.coins} 🪙${newMissions.length ? ` · 🏅 ${newMissions.map(m => esc(m.title)).join(', ')}` : ''}</div>
       <div class="report-grid">
-        <div class="report-stat"><div class="v">${summary.accuracy}%</div><div class="k">Accuracy</div></div>
-        <div class="report-stat"><div class="v">${summary.correctCount}/${summary.totalItems}</div><div class="k">Correct</div></div>
+        <div class="report-stat"><div class="v">${summary.accuracy}%</div><div class="k">Doğruluk</div></div>
+        <div class="report-stat"><div class="v">${summary.correctCount}/${summary.totalItems}</div><div class="k">Doğru</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem">
-        <button class="btn block" id="btn-again">🔁 Play again</button>
-        <button class="btn secondary block" id="btn-world">🗺️ Back to World</button>
+        <button class="btn block" id="btn-again">🔁 Tekrar oyna</button>
+        <button class="btn secondary block" id="btn-world">🗺️ Dünyaya dön</button>
       </div>`;
     shell.querySelector('#btn-again').addEventListener('click', () => navigate(`minigame/object-hunt/${params.id || 'any'}?t=${Date.now()}`));
     shell.querySelector('#btn-world').addEventListener('click', () => navigate(''));

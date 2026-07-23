@@ -5,17 +5,17 @@
 
 const STATE_CONFIG = {
   ready:     { icon: '🎙️', cls: '',          hint: 'Mikrofona dokun, sonra cümleyi söyle' },
-  listening: { icon: '🔴', cls: 'listening', hint: 'Dinliyor… şimdi konuş' },
-  analyzing: { icon: '⏳', cls: 'analyzing', hint: 'Konuşman analiz ediliyor…' },
+  listening: { icon: '🔴', cls: 'listening', hint: 'Dinliyorum… şimdi konuş' },
+  analyzing: { icon: '⏳', cls: 'analyzing', hint: 'Konuşman inceleniyor…' },
   correct:   { icon: '✅', cls: 'correct',   hint: 'Doğru! Aferin' },
-  retry:     { icon: '🔁', cls: 'retry',     hint: 'Tam olmadı — geri bildirime bak ve tekrar dene' },
+  retry:     { icon: '🔁', cls: 'retry',     hint: 'Tam değil — geri bildirime bak ve tekrar dene' },
   error:     { icon: '⚠️', cls: 'retry',     hint: 'Mikrofon sorunu — yukarıdaki mesaja bak' },
   disabled:  { icon: '🎙️', cls: '',          hint: '' }
 };
 
 export function createMicButton(container, { onPress }) {
   container.innerHTML = `
-    <button class="mic-button" type="button" aria-label="Start recording"></button>
+    <button class="mic-button" type="button" aria-label="Kaydı başlat"></button>
     <div class="mic-hint" role="status"></div>`;
   const btn = container.querySelector('.mic-button');
   const hint = container.querySelector('.mic-hint');
@@ -36,7 +36,7 @@ export function createMicButton(container, { onPress }) {
     btn.className = `mic-button ${cfg.cls}`;
     btn.textContent = cfg.icon;
     btn.disabled = next === 'disabled' || next === 'analyzing' || next === 'correct' || next === 'listening';
-    btn.setAttribute('aria-label', cfg.hint || 'Microphone');
+    btn.setAttribute('aria-label', cfg.hint || 'Mikrofon');
     hint.textContent = hintOverride !== undefined ? hintOverride : cfg.hint;
   }
 

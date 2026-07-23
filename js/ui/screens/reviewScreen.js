@@ -3,16 +3,16 @@
 // recognizer + scorer as the dialogue screen; each result feeds the SM-2
 // scheduler with an honest quality grade.
 
-import { reviewSystem } from '../../progress/reviewSystem.js?v=5';
-import { getDialogueById } from '../../data/dialogues/index.js?v=5';
-import { getLevel } from '../../data/levels.js?v=5';
-import { createSpeechProvider, TypedFallbackProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=5';
-import { scoreAttempt } from '../../speech/scorer.js?v=5';
-import { tts } from '../../speech/tts.js?v=5';
-import { settings } from '../../progress/settingsStore.js?v=5';
-import { createMicButton } from '../components/micButton.js?v=5';
-import { renderFeedback } from '../components/feedbackPanel.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { reviewSystem } from '../../progress/reviewSystem.js?v=6';
+import { getDialogueById } from '../../data/dialogues/index.js?v=6';
+import { getLevel } from '../../data/levels.js?v=6';
+import { createSpeechProvider, TypedFallbackProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=6';
+import { scoreAttempt } from '../../speech/scorer.js?v=6';
+import { tts } from '../../speech/tts.js?v=6';
+import { settings } from '../../progress/settingsStore.js?v=6';
+import { createMicButton } from '../components/micButton.js?v=6';
+import { renderFeedback } from '../components/feedbackPanel.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -21,7 +21,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 // are scored identically via scoreAttempt() against item.expected -- this
 // label is the only place the two need different display text.
 function sourceLabel(item) {
-  return item.kind === 'vocab' ? 'Kelimeler' : (item.dialogueTitle || 'Dialogue');
+  return item.kind === 'vocab' ? 'Vocabulary' : (item.dialogueTitle || 'Dialogue');
 }
 
 export function renderReview(container) {
@@ -100,10 +100,10 @@ export function renderReview(container) {
       if (!session) return;
       if (st === 'listening') s.micApi?.setState('listening');
       if (st === 'analyzing') s.micApi?.setState('analyzing');
-      if (st === 'no-speech') s.micApi?.setState('retry', 'Ses algılanmadı — tekrar dene.');
+      if (st === 'no-speech') s.micApi?.setState('retry', 'No voice detected — try again.');
     }));
     s.unsubs.push(s.provider.on('idle', () => {
-      if (session && s.micApi && s.micApi.getState() === 'listening') s.micApi.setState('retry', 'Hiçbir şey algılanmadı — tekrar dene.');
+      if (session && s.micApi && s.micApi.getState() === 'listening') s.micApi.setState('retry', 'Nothing captured — try again.');
     }));
     s.unsubs.push(s.provider.on('error', (err) => {
       if (!session) return;
@@ -182,8 +182,8 @@ export function renderReview(container) {
         <div class="sentence">${esc(item.expected)}</div>
         ${settings.get('showTranslations') && item.translation_tr ? `<div class="tr-text">${esc(item.translation_tr)}</div>` : ''}
         <div class="tools-row">
-          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
-          <button class="mini-btn" id="btn-hear-slow">🐢 Yavaş</button>
+          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
+          <button class="mini-btn" id="btn-hear-slow">🐢 Slow</button>
         </div>
         <div style="color:var(--text-faint);font-size:0.78rem;margin-top:0.6rem">From: ${esc(sourceLabel(item))} · attempt ${s.attempts + (done ? 0 : 1)} of 3</div>
       </div>
@@ -192,7 +192,7 @@ export function renderReview(container) {
         <div class="${s.graded ? 'xp-toast' : 'error-notice'}" style="text-align:center">
           ${s.graded ? '✅ Scheduled further into the future.' : '📅 Rescheduled for tomorrow — keep practicing!'}
         </div>
-        <button class="btn block" id="btn-next">${s.index + 1 >= s.queue.length ? 'Oturumu bitir' : 'Sıradaki cümle ›'}</button>` : `
+        <button class="btn block" id="btn-next">${s.index + 1 >= s.queue.length ? 'Finish session' : 'Next sentence ›'}</button>` : `
         <div class="mic-zone" id="mic-zone"></div>
         ${s.typedMode ? `
           <div class="mode-notice">⌨️ Typed practice mode (no speech recognition available).</div>

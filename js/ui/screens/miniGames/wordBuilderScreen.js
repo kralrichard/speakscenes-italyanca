@@ -3,13 +3,13 @@
 // fit a single "tap one item" transition), following the same
 // local-mutable-state + full re-render pattern already used by
 // pickerScreen.js elsewhere in this app.
-import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js?v=5';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
-import { progressStore } from '../../../progress/progressStore.js?v=5';
-import { worldStore } from '../../../progress/worldStore.js?v=5';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
-import { tts, isTTSSupported } from '../../../speech/tts.js?v=5';
-import { navigate } from '../../router.js?v=5';
+import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js?v=6';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=6';
+import { progressStore } from '../../../progress/progressStore.js?v=6';
+import { worldStore } from '../../../progress/worldStore.js?v=6';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=6';
+import { tts, isTTSSupported } from '../../../speech/tts.js?v=6';
+import { navigate } from '../../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -40,8 +40,8 @@ export function renderWordBuilder(container, params) {
     const pct = round.length ? (index / round.length) * 100 : 0;
     return `
       <div class="row" style="margin-bottom:0.8rem">
-        <button class="icon-btn" id="btn-exit" aria-label="Exit">✕</button>
-        <span class="grow" style="font-weight:700">🔤 Word Builder</span>
+        <button class="icon-btn" id="btn-exit" aria-label="Çık">✕</button>
+        <span class="grow" style="font-weight:700">🔤 Kelime Kurma</span>
         <div class="turn-progress" style="max-width:110px"><div style="width:${pct}%"></div></div>
       </div>`;
   }
@@ -69,7 +69,7 @@ export function renderWordBuilder(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card" style="text-align:center">
-        <div class="lbl">Build this word</div>
+        <div class="lbl">Bu kelimeyi kur</div>
         <div class="sentence">${item.emoji} ${esc(item.translation_tr)}</div>
         <div class="tools-row" style="justify-content:center">
           <button class="mini-btn" id="btn-hear">▶ Dinle</button>
@@ -78,10 +78,10 @@ export function renderWordBuilder(container, params) {
       <div class="mg-letter-slots">${slots}</div>
       <div class="mg-letter-row">${tiles}</div>
       <div style="display:flex;gap:0.5rem;margin-top:1rem">
-        <button class="btn secondary block" id="btn-clear" ${resolved ? 'disabled' : ''}>Clear</button>
+        <button class="btn secondary block" id="btn-clear" ${resolved ? 'disabled' : ''}>Temizle</button>
       </div>
-      ${resolved === 'incorrect' ? `<div class="error-notice" style="margin-top:0.8rem">Not quite — the word is "<b>${esc(item.word)}</b>". <button class="mini-btn" id="btn-next-after-fail">Continue</button></div>` : ''}
-      ${resolved === 'correct' ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Next ›</button>` : ''}`;
+      ${resolved === 'incorrect' ? `<div class="error-notice" style="margin-top:0.8rem">Tam değil — doğru kelime "<b>${esc(item.word)}</b>". <button class="mini-btn" id="btn-next-after-fail">Devam</button></div>` : ''}
+      ${resolved === 'correct' ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Sonraki ›</button>` : ''}`;
 
     shell.querySelector('#btn-hear').addEventListener('click', () => { if (isTTSSupported()) tts.speak(item.word, { rate: 0.8 }); });
     shell.querySelector('#btn-clear').addEventListener('click', () => { built = []; render(); });
@@ -109,16 +109,16 @@ export function renderWordBuilder(container, params) {
     shell.innerHTML = `
       <div class="report-hero">
         <div class="big-emoji">${'⭐'.repeat(reward.stars)}${'☆'.repeat(3 - reward.stars)}</div>
-        <h2>Word Builder complete!</h2>
+        <h2>Kelime Kurma bitti!</h2>
       </div>
       <div class="xp-toast">+${reward.xp} XP · +${reward.coins} 🪙${newMissions.length ? ` · 🏅 ${newMissions.map(m => esc(m.title)).join(', ')}` : ''}</div>
       <div class="report-grid">
-        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Accuracy</div></div>
-        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Correct</div></div>
+        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Doğruluk</div></div>
+        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Doğru</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem">
-        <button class="btn block" id="btn-again">🔁 Play again</button>
-        <button class="btn secondary block" id="btn-world">🗺️ Back to World</button>
+        <button class="btn block" id="btn-again">🔁 Tekrar oyna</button>
+        <button class="btn secondary block" id="btn-world">🗺️ Dünyaya dön</button>
       </div>`;
     shell.querySelector('#btn-again').addEventListener('click', () => navigate(`minigame/word-builder/${params.id || 'any'}?t=${Date.now()}`));
     shell.querySelector('#btn-world').addEventListener('click', () => navigate(''));

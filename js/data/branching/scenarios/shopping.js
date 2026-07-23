@@ -1,77 +1,77 @@
-import { createScenario } from '../scenarioSchema.js?v=5';
+import { createScenario } from '../scenarioSchema.js?v=6';
 
 // ── Supermarket: finding items (A2) ─────────────────────────────────────────
 export const supermarketHelp = createScenario({
   id: 'supermarket-help',
-  title: 'Finding what you need',
+  title: 'Trovare ciò che ti serve',
   titleTr: 'Aradığını bulmak',
   environmentId: 'supermarket', sceneType: 'retail', level: 'A2',
-  goal: 'Ask a store assistant to help you find items.',
+  goal: 'Chiedi a un commesso di aiutarti a trovare i prodotti.',
   goalTr: 'Ürünleri bulmak için görevliden yardım iste.',
   npcIds: ['tom'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'tom', emotion: 'friendly',
-      text: 'Hi, are you finding everything okay?',
+      text: 'Salve, trova tutto senza problemi?',
       translation: 'Merhaba, her şeyi bulabiliyor musunuz?',
       choices: [
         { id: 'ask_milk', intentionTr: 'Sütün nerede olduğunu sor', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Actually, no. Could you tell me where the milk is?',
+          sentence: 'In realtà no. Può dirmi dov’è il latte?',
           translation: 'Aslında hayır. Sütün nerede olduğunu söyler misiniz?',
-          altAccepted: ['Where is the milk', 'Can you tell me where the milk is'],
+          altAccepted: ['Dov’è il latte', 'Può dirmi dove trovo il latte'],
           next: 'milk_dir' },
         { id: 'ask_glutenfree', intentionTr: 'Glutensiz ürün olup olmadığını sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'Do you have any gluten-free bread? I can’t find it.',
+          sentence: 'Avete del pane senza glutine? Non riesco a trovarlo.',
           translation: 'Glutensiz ekmeğiniz var mı? Bulamıyorum.',
-          altAccepted: ['Do you sell gluten-free bread', 'Where is the gluten-free bread'],
+          altAccepted: ['Vendete pane senza glutine', 'Dov’è il pane senza glutine'],
           next: 'gf_dir' }
       ]
     },
     milk_dir: {
       id: 'milk_dir', speakerId: 'tom', emotion: 'helpful',
-      text: 'Of course — it’s in aisle four, at the back, in the fridges. Anything else?',
+      text: 'Certo — è nella corsia quattro, in fondo, nei frigoriferi. Altro?',
       translation: 'Tabii — dördüncü koridorda, arkada, buzdolaplarında. Başka bir şey?',
       choices: [
         { id: 'also_eggs', intentionTr: 'Yumurta da sor', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Yes, where can I find the eggs as well?',
+          sentence: 'Sì, dove posso trovare anche le uova?',
           translation: 'Evet, yumurtaları da nerede bulabilirim?',
-          altAccepted: ['Where are the eggs', 'Where can I find eggs too'],
+          altAccepted: ['Dove sono le uova', 'Dove trovo anche le uova'],
           next: 'eggs_dir', relationshipEffect: 1 },
         { id: 'thanks', intentionTr: 'Teşekkür et', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'That’s all, thank you for your help!',
+          sentence: 'È tutto, grazie per l’aiuto!',
           translation: 'Hepsi bu, yardımın için teşekkürler!',
-          altAccepted: ['That’s everything, thanks', 'Thank you, that’s all'],
+          altAccepted: ['È tutto, grazie', 'Grazie, è tutto'],
           next: 'end_found' }
       ]
     },
     gf_dir: {
       id: 'gf_dir', speakerId: 'tom', emotion: 'friendly',
-      text: 'We do! It’s in the health-food section, aisle seven. There’s a good selection there.',
+      text: 'Sì! È nel reparto alimenti salutari, corsia sette. Lì c’è una buona scelta.',
       translation: 'Var! Sağlıklı gıda bölümünde, yedinci koridorda. Orada güzel bir seçenek var.',
       choices: [
         { id: 'thank_gf', intentionTr: 'Teşekkür et', tone: 'friendly', difficulty: 'easy', xp: 10,
-          sentence: 'Perfect, thank you so much!',
+          sentence: 'Perfetto, grazie mille!',
           translation: 'Mükemmel, çok teşekkürler!',
-          altAccepted: ['Thanks a lot', 'Great, thank you'],
+          altAccepted: ['Grazie mille', 'Ottimo, grazie'],
           next: 'end_found', relationshipEffect: 1 },
         { id: 'ask_more', intentionTr: 'Başka glutensiz ürün var mı sor', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'Great. Do you have gluten-free pasta in that section too?',
+          sentence: 'Ottimo. In quel reparto avete anche la pasta senza glutine?',
           translation: 'Harika. O bölümde glutensiz makarna da var mı?',
-          altAccepted: ['Is there gluten-free pasta there too', 'Do you also have gluten-free pasta'],
+          altAccepted: ['C’è anche la pasta senza glutine lì', 'Avete anche pasta senza glutine'],
           next: 'eggs_dir' }
       ]
     },
     eggs_dir: {
       id: 'eggs_dir', speakerId: 'tom', emotion: 'happy',
-      text: 'Right next to the milk, same aisle. You’re all set — have a great day!',
+      text: 'Proprio accanto al latte, stessa corsia. È tutto a posto — buona giornata!',
       translation: 'Tam sütün yanında, aynı koridorda. Hepsi tamam — iyi günler!',
       next: 'end_found'
     }
   },
   endings: {
-    end_found: { id: 'end_found', kind: 'success', title: 'Everything found', titleTr: 'Her şey bulundu',
-      text: 'You asked for help clearly and found what you needed. Simple and friendly.',
+    end_found: { id: 'end_found', kind: 'success', title: 'Trovato tutto', titleTr: 'Her şey bulundu',
+      text: 'Hai chiesto aiuto con chiarezza e hai trovato ciò che ti serviva. Semplice e cordiale.',
       translation: 'Net biçimde yardım istedin ve aradığını buldun. Basit ve dostça.',
       coins: 10 }
   }
@@ -80,102 +80,102 @@ export const supermarketHelp = createScenario({
 // ── Clothing store: returning an item (B1) ──────────────────────────────────
 export const clothingReturn = createScenario({
   id: 'clothing-return',
-  title: 'Returning a jacket',
+  title: 'Restituire una giacca',
   titleTr: 'Bir ceketi iade etmek',
   environmentId: 'clothing', sceneType: 'retail', level: 'B1',
-  goal: 'Return something that doesn’t fit and sort out a refund or exchange.',
+  goal: 'Restituisci qualcosa che non va e ottieni un rimborso o un cambio.',
   goalTr: 'Olmayan bir ürünü iade et, para iadesi ya da değişim ayarla.',
   npcIds: ['zoe'],
   startNodeId: 'start',
   nodes: {
     start: {
       id: 'start', speakerId: 'zoe', emotion: 'friendly',
-      text: 'Hi! How can I help you today?',
+      text: 'Salve! Come posso aiutarla oggi?',
       translation: 'Merhaba! Bugün nasıl yardımcı olabilirim?',
       choices: [
         { id: 'return_size', intentionTr: 'Beden olmadığı için iade etmek istediğini söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'Hi, I’d like to return this jacket. It doesn’t fit me.',
+          sentence: 'Salve, vorrei restituire questa giacca. Non mi va bene.',
           translation: 'Merhaba, bu ceketi iade etmek istiyorum. Bana olmadı.',
-          altAccepted: ['I want to return this jacket, it doesn’t fit', 'I’d like to return this, it’s the wrong size'],
+          altAccepted: ['Voglio restituire questa giacca, non mi va bene', 'Vorrei restituire questa, è la taglia sbagliata'],
           next: 'receipt' },
         { id: 'return_faulty', intentionTr: 'Kusurlu olduğu için iade etmek istediğini söyle', tone: 'direct', difficulty: 'hard', xp: 18,
-          sentence: 'I need to return this jacket — there’s a broken zip.',
+          sentence: 'Devo restituire questa giacca — la cerniera è rotta.',
           translation: 'Bu ceketi iade etmem gerekiyor — fermuarı bozuk.',
-          altAccepted: ['This jacket has a broken zip, I want to return it', 'The zip is broken, I’d like to return it'],
+          altAccepted: ['Questa giacca ha la cerniera rotta, voglio restituirla', 'La cerniera è rotta, vorrei restituirla'],
           next: 'faulty' }
       ]
     },
     receipt: {
       id: 'receipt', speakerId: 'zoe', emotion: 'neutral',
-      text: 'No problem at all. Do you have the receipt with you?',
+      text: 'Nessun problema. Ha lo scontrino con sé?',
       translation: 'Hiç sorun değil. Fişiniz yanınızda mı?',
       choices: [
         { id: 'yes_receipt', intentionTr: 'Fişin olduğunu söyle', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'Yes, here it is. I bought it on Monday.',
+          sentence: 'Sì, eccolo. L’ho comprata lunedì.',
           translation: 'Evet, buyurun. Pazartesi almıştım.',
-          altAccepted: ['Here’s the receipt, I bought it Monday', 'Yes, I have it here'],
+          altAccepted: ['Ecco lo scontrino, l’ho comprata lunedì', 'Sì, ce l’ho qui'],
           next: 'refund_or_exchange' },
         { id: 'no_receipt', intentionTr: 'Fişin olmadığını söyle', tone: 'polite', difficulty: 'hard', xp: 18,
-          sentence: 'I’m afraid I lost the receipt, but I paid by card.',
+          sentence: 'Purtroppo ho perso lo scontrino, ma ho pagato con la carta.',
           translation: 'Korkarım fişi kaybettim ama kartla ödemiştim.',
-          altAccepted: ['I lost the receipt but paid by card', 'No receipt, but I have the card payment'],
+          altAccepted: ['Ho perso lo scontrino ma ho pagato con carta', 'Niente scontrino, ma ho il pagamento con carta'],
           next: 'card_lookup' }
       ]
     },
     faulty: {
       id: 'faulty', speakerId: 'zoe', emotion: 'apologetic',
-      text: 'Oh, I’m sorry about that! A faulty item — you’re entitled to a full refund. Receipt or card you paid with?',
+      text: 'Oh, mi dispiace! Un articolo difettoso — ha diritto al rimborso completo. Ha lo scontrino o la carta con cui ha pagato?',
       translation: 'Ah, çok üzgünüm! Kusurlu ürün — tam para iadesine hakkınız var. Fiş mi yoksa ödediğiniz kart mı var?',
       choices: [
         { id: 'card_faulty', intentionTr: 'Kartla ödediğini söyle', tone: 'polite', difficulty: 'medium', xp: 14,
-          sentence: 'I paid by card — here it is.',
+          sentence: 'Ho pagato con la carta — eccola.',
           translation: 'Kartla ödemiştim — işte burada.',
-          altAccepted: ['I paid by card, here', 'By card, here it is'],
+          altAccepted: ['Ho pagato con carta, ecco', 'Con la carta, eccola'],
           next: 'refund_done', relationshipEffect: 1 },
         { id: 'receipt_faulty', intentionTr: 'Fişin olduğunu söyle', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'I have the receipt right here.',
+          sentence: 'Ho lo scontrino proprio qui.',
           translation: 'Fiş tam burada.',
-          altAccepted: ['Here is the receipt', 'I’ve got the receipt here'],
+          altAccepted: ['Ecco lo scontrino', 'Ho lo scontrino qui'],
           next: 'refund_done' }
       ]
     },
     card_lookup: {
       id: 'card_lookup', speakerId: 'zoe', emotion: 'friendly',
-      text: 'That’s fine — I can find the purchase with your card. Would you like a refund or an exchange?',
+      text: 'Va bene — posso trovare l’acquisto con la sua carta. Preferisce un rimborso o un cambio?',
       translation: 'Sorun değil — alışverişi kartınızla bulabilirim. Para iadesi mi yoksa değişim mi istersiniz?',
       next: 'refund_or_exchange'
     },
     refund_or_exchange: {
       id: 'refund_or_exchange', speakerId: 'zoe', emotion: 'friendly',
-      text: 'Great. So, would you prefer a refund or would you like to exchange it for a different size?',
+      text: 'Perfetto. Allora, preferisce un rimborso o vorrebbe cambiarla con una taglia diversa?',
       translation: 'Harika. Peki, para iadesi mi tercih edersiniz yoksa farklı bir bedenle değişim mi?',
       choices: [
         { id: 'exchange', intentionTr: 'Farklı bedenle değiştir', tone: 'friendly', difficulty: 'medium', xp: 14,
-          sentence: 'I’d like to exchange it for a larger size, please.',
+          sentence: 'Vorrei cambiarla con una taglia più grande, per favore.',
           translation: 'Daha büyük bir bedenle değiştirmek istiyorum, lütfen.',
-          altAccepted: ['Can I exchange it for a bigger size', 'I’d like a larger size instead'],
+          altAccepted: ['Posso cambiarla con una taglia più grande', 'Vorrei una taglia più grande'],
           next: 'end_exchange', relationshipEffect: 1 },
         { id: 'refund', intentionTr: 'Para iadesi iste', tone: 'polite', difficulty: 'easy', xp: 10,
-          sentence: 'A refund would be better, thank you.',
+          sentence: 'Un rimborso sarebbe meglio, grazie.',
           translation: 'Para iadesi daha iyi olur, teşekkürler.',
-          altAccepted: ['I’d prefer a refund', 'Just a refund please'],
+          altAccepted: ['Preferirei un rimborso', 'Solo un rimborso per favore'],
           next: 'refund_done' }
       ]
     },
     refund_done: {
       id: 'refund_done', speakerId: 'zoe', emotion: 'happy',
-      text: 'All done — the refund will be back on your card in a few days. Thanks for your patience!',
+      text: 'Tutto fatto — il rimborso tornerà sulla sua carta in pochi giorni. Grazie per la pazienza!',
       translation: 'Tamamdır — para birkaç gün içinde kartınıza geri yansır. Sabrınız için teşekkürler!',
       next: 'end_refund'
     }
   },
   endings: {
-    end_exchange: { id: 'end_exchange', kind: 'problem-solved', title: 'Swapped for the right size', titleTr: 'Doğru bedenle değişti',
-      text: 'You explained the problem and walked out with a jacket that actually fits. Nicely done.',
+    end_exchange: { id: 'end_exchange', kind: 'problem-solved', title: 'Cambiata con la taglia giusta', titleTr: 'Doğru bedenle değişti',
+      text: 'Hai spiegato il problema e sei uscito con una giacca che ti va davvero. Ben fatto.',
       translation: 'Sorunu anlattın ve sana gerçekten olan bir ceketle çıktın. Güzel iş.',
       relationshipEffect: 1, coins: 12 },
-    end_refund: { id: 'end_refund', kind: 'success', title: 'Refund sorted', titleTr: 'İade halledildi',
-      text: 'You handled the return calmly and got your money back. Clear and polite throughout.',
+    end_refund: { id: 'end_refund', kind: 'success', title: 'Rimborso sistemato', titleTr: 'İade halledildi',
+      text: 'Hai gestito il reso con calma e hai riavuto i tuoi soldi. Chiaro e cortese dall’inizio alla fine.',
       translation: 'İadeyi sakince hallettin ve paranı geri aldın. Baştan sona net ve kibar.',
       coins: 10 }
   }

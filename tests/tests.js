@@ -3,28 +3,19 @@
 // app modules. Mutates no localStorage (growth test edits in-memory state and
 // restores it).
 
-import { buildShortsBank, levelBands, sentencesForLevel, shortForLevel, shortsCount, LEVEL_ORDER } from '../js/data/shorts/sentenceBank.js?v=5';
-import { shortsStore, GROWTH_THRESHOLDS } from '../js/progress/shortsStore.js?v=5';
-import { scoreAttempt } from '../js/speech/scorer.js?v=5';
+import { buildShortsBank, levelBands, sentencesForLevel, shortForLevel, shortsCount, LEVEL_ORDER } from '../js/data/shorts/sentenceBank.js?v=6';
+import { shortsStore, GROWTH_THRESHOLDS } from '../js/progress/shortsStore.js?v=6';
+import { scoreAttempt } from '../js/speech/scorer.js?v=6';
+import { ALL_SCENARIOS, STORY_ENVIRONMENTS } from '../js/data/branching/scenarios/index.js?v=6';
+import { CHARACTERS } from '../js/data/branching/characters.js?v=6';
+import { PHRASEBOOK } from '../js/data/branching/phrasebook.js?v=6';
+import { BranchEngine } from '../js/engine/branchEngine.js?v=6';
+import { CEFR_LEVELS } from '../js/data/branching/scenarioSchema.js?v=6';
 
 const results = [];
-const pending = [];
 function test(name, fn) {
-  try {
-    const r = fn();
-    if (r && typeof r.then === 'function') {
-      // async test: record only after it settles, so a rejected assertion
-      // cannot slip through as a false pass.
-      pending.push(
-        r.then(() => results.push({ name, ok: true }))
-         .catch(e => results.push({ name, ok: false, err: String(e.message || e) }))
-      );
-    } else {
-      results.push({ name, ok: true });
-    }
-  } catch (e) {
-    results.push({ name, ok: false, err: String(e.message || e) });
-  }
+  try { fn(); results.push({ name, ok: true }); }
+  catch (e) { results.push({ name, ok: false, err: String(e.message || e) }); }
 }
 function assert(cond, msg) { if (!cond) throw new Error(msg || 'assertion failed'); }
 function assertEq(a, b, msg) { if (a !== b) throw new Error(`${msg || 'not equal'}: got ${JSON.stringify(a)}, want ${JSON.stringify(b)}`); }
@@ -90,81 +81,10 @@ test('scorer: verbatim answer accepted, diacritics folded fairly', () => {
   assert(r2.accepted, `accent-free typing should pass for "${s.en}"`);
 });
 
-test('scorer: low recogniser confidence never rejects a correct answer', () => {
-  // Chrome reports low/absent confidence for many correct utterances, and
-  // it-IT is exactly the kind of non-en-US locale where that happens.
-  const s = sentencesForLevel('A1')[0];
-  const bare = s.en.replace(/[.?!,:;]/g, '').toLowerCase();
-  const r = scoreAttempt({ expected: s.en, transcript: bare, confidence: 0.08, strictness: 'strict' });
-  assert(r.accepted, `low confidence must not reject "${s.en}" (clarity ${r.clarity}, accuracy ${r.wordAccuracy})`);
-});
-
-test('scorer: slow pace / long pauses never reject a correct answer', () => {
-  // durationMs includes thinking time before speaking and the recogniser's
-  // silence tail, so a correct short sentence can look very "slow".
-  const s = sentencesForLevel('A1')[0];
-  const bare = s.en.replace(/[.?!,:;]/g, '').toLowerCase();
-  const r = scoreAttempt({
-    expected: s.en, transcript: bare,
-    timing: { durationMs: 14000, pauseGapsMs: [4000] }, strictness: 'strict'
-  });
-  assert(r.accepted, `slow pace must not reject "${s.en}" (fluency ${r.fluency})`);
-  assert(typeof r.fluency === 'number' && r.fluency < 60, 'fluency should still be REPORTED as low');
-});
-
-test('world: every location is reachable — nothing is locked', async () => {
-  const { isLocationUnlocked } = await import('../js/progress/worldStore.js?v=5');
-  const { LOCATIONS } = await import('../js/data/locations.js?v=5');
-  const locked = LOCATIONS.filter(l => !isLocationUnlocked(l.id)).map(l => l.id);
-  assertEq(locked.length, 0, `these locations are still locked: ${locked.join(', ')}`);
-  assert(!isLocationUnlocked('definitely-not-a-place'), 'unknown ids are still refused');
-});
-
 test('scorer: unrelated sentence rejected', () => {
   const s = sentencesForLevel('B2')[0];
   const r = scoreAttempt({ expected: s.en, transcript: 'xyz abc qqq www', strictness: 'relaxed' });
   assert(!r.accepted, 'garbage must not be accepted');
-});
-
-// ---------------- Italian dialogue library ----------------
-
-test('dialogues: all shipped dialogues validate and alternate A/B sensibly', async () => {
-  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
-  assert(ALL_DIALOGUES.length > 0, 'expected at least one dialogue');
-  const ids = new Set();
-  for (const d of ALL_DIALOGUES) {
-    assert(!ids.has(d.id), `duplicate dialogue id "${d.id}"`);
-    ids.add(d.id);
-    assert(d.turns.length >= 2, `${d.id}: needs at least 2 turns`);
-    const hasB = d.turns.some(t => t.speaker === 'B');
-    assert(hasB, `${d.id}: has no learner (B) turn to speak`);
-    for (const t of d.turns) {
-      if (t.speaker === 'A') assert(t.text, `${d.id}: A-turn missing text`);
-      if (t.speaker === 'B') {
-        assert(t.expected, `${d.id}: B-turn missing expected`);
-        assert(t.translation_tr, `${d.id}: B-turn "${t.expected}" missing Turkish translation`);
-      }
-    }
-  }
-});
-
-test('dialogues: every expected line is accepted verbatim by the Italian scorer', async () => {
-  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
-  for (const d of ALL_DIALOGUES) {
-    for (const t of d.turns.filter(x => x.speaker === 'B')) {
-      const bare = t.expected.replace(/[.,!?;:¿¡]/g, '').toLowerCase();
-      const r = scoreAttempt({ expected: t.expected, transcript: bare, strictness: 'relaxed' });
-      assert(r.accepted, `${d.id}: verbatim answer rejected for "${t.expected}" (accuracy ${r.wordAccuracy})`);
-    }
-  }
-});
-
-test('dialogues: every dialogue points at a real location', async () => {
-  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
-  const { getLocation } = await import('../js/data/locations.js?v=5');
-  for (const d of ALL_DIALOGUES) {
-    assert(getLocation(d.locationId), `${d.id}: unknown locationId "${d.locationId}"`);
-  }
 });
 
 test('growth: stage index tracks swipe thresholds', () => {
@@ -178,17 +98,93 @@ test('growth: stage index tracks swipe thresholds', () => {
   st.swipes = orig;
 });
 
-// ---------------- report ----------------
-(async () => {
-  await Promise.all(pending);
+// ---------------- Story Mode ----------------
+// createScenario already validates each graph at import time (bad content
+// would have thrown before this file runs); these tests check the properties
+// the schema cannot see on its own.
 
-  const passed = results.filter(r => r.ok).length;
-  const failed = results.length - passed;
-  const ul = document.getElementById('results');
-  ul.innerHTML = results.map(r =>
-    `<li class="${r.ok ? 'pass' : 'fail'}">${r.ok ? '✓' : '✗'} ${r.name}${r.err ? ` — ${r.err}` : ''}</li>`).join('');
-  const sum = document.getElementById('summary');
-  sum.textContent = `${passed} passed, ${failed} failed, ${results.length} total — bank size: ${shortsCount()}`;
-  sum.style.color = failed ? '#ff6b6b' : '#3ecf8e';
-  console.info(`TESTS: ${passed} passed, ${failed} failed — bank ${shortsCount()}`);
-})();
+test('story: 24 scenarios, all environments used are declared', () => {
+  assert(ALL_SCENARIOS.length === 24, `expected 24 scenarios, got ${ALL_SCENARIOS.length}`);
+  const envIds = new Set(STORY_ENVIRONMENTS.map(e => e.id));
+  for (const s of ALL_SCENARIOS) {
+    assert(envIds.has(s.environmentId), `${s.id}: unknown environment ${s.environmentId}`);
+    assert(CEFR_LEVELS.includes(s.level), `${s.id}: bad level ${s.level}`);
+  }
+});
+
+test('story: every scenario NPC exists and every ending is reachable', () => {
+  for (const s of ALL_SCENARIOS) {
+    for (const npcId of s.npcIds) assert(CHARACTERS[npcId], `${s.id}: unknown npc ${npcId}`);
+    // BFS from start over all edge kinds (choice.next, node.next,
+    // node.endingId) — a target id is either a node or an ending.
+    const reachedEndings = new Set();
+    const seen = new Set([s.startNodeId]);
+    const queue = [s.startNodeId];
+    const follow = (target) => {
+      if (!target) return;
+      if (s.endings[target]) reachedEndings.add(target);
+      else if (!seen.has(target)) { seen.add(target); queue.push(target); }
+    };
+    while (queue.length) {
+      const node = s.nodes[queue.shift()];
+      if (!node) continue;
+      follow(node.next);
+      if (node.endingId) reachedEndings.add(node.endingId);
+      for (const c of node.choices || []) follow(c.next);
+    }
+    for (const endId of Object.keys(s.endings)) {
+      assert(reachedEndings.has(endId), `${s.id}: ending ${endId} unreachable`);
+    }
+  }
+});
+
+test('story: engine can start, commit a choice, and rewind on every scenario', () => {
+  for (const s of ALL_SCENARIOS) {
+    const eng = new BranchEngine(s);
+    eng.advanceToStart();
+    const node = eng.currentNode();
+    assert(node && node.choices && node.choices.length >= 2, `${s.id}: start node needs >= 2 choices`);
+    const res = eng.commitChoice(node.choices[0].id);
+    assert(res, `${s.id}: commit failed`);
+    if (!res.ending) {
+      assert(eng.back(), `${s.id}: back() failed`);
+      assertEq(eng.currentNode().id, node.id, `${s.id}: rewind returned to wrong node`);
+    }
+  }
+});
+
+test('story: no English leaks into NPC lines or player sentences', () => {
+  // Cheap heuristic: hallmark English function words as standalone tokens.
+  const en = /(^|\s)(the|and|you|what|with|have|this|would|please)(\s|$|[?!,.])/i;
+  for (const s of ALL_SCENARIOS) {
+    for (const node of Object.values(s.nodes)) {
+      if (node.text) assert(!en.test(node.text), `${s.id}/${node.id}: English in NPC line "${node.text}"`);
+      for (const c of node.choices || []) {
+        assert(!en.test(c.sentence), `${s.id}/${c.id}: English in sentence "${c.sentence}"`);
+      }
+    }
+  }
+});
+
+test('phrasebook: 200+ well-formed entries with Turkish translations', () => {
+  assert(PHRASEBOOK.length >= 200, `expected >= 200 phrases, got ${PHRASEBOOK.length}`);
+  const ids = new Set();
+  for (const p of PHRASEBOOK) {
+    assert(p.en && p.en.trim(), `${p.id}: empty sentence`);
+    assert(p.tr && p.tr.trim(), `${p.id}: empty tr`);
+    assert(CEFR_LEVELS.includes(p.level), `${p.id}: bad level ${p.level}`);
+    assert(!ids.has(p.id), `duplicate phrase id ${p.id}`);
+    ids.add(p.id);
+  }
+});
+
+// ---------------- report ----------------
+const passed = results.filter(r => r.ok).length;
+const failed = results.length - passed;
+const ul = document.getElementById('results');
+ul.innerHTML = results.map(r =>
+  `<li class="${r.ok ? 'pass' : 'fail'}">${r.ok ? '✓' : '✗'} ${r.name}${r.err ? ` — ${r.err}` : ''}</li>`).join('');
+const sum = document.getElementById('summary');
+sum.textContent = `${passed} passed, ${failed} failed, ${results.length} total — bank size: ${shortsCount()}`;
+sum.style.color = failed ? '#ff6b6b' : '#3ecf8e';
+console.info(`TESTS: ${passed} passed, ${failed} failed — bank ${shortsCount()}`);

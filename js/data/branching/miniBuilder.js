@@ -26,7 +26,7 @@
 //                   neutral | misunderstanding | funny
 // ============================================================================
 
-import { createScenario, ENDING_KINDS } from './scenarioSchema.js?v=5';
+import { createScenario, ENDING_KINDS } from './scenarioSchema.js?v=6';
 
 // Default scene template per place id (so `scene` can usually be omitted).
 const PLACE_SCENE = {

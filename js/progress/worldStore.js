@@ -9,11 +9,11 @@
 // (`{...DEFAULTS, ...loadJSON(...)}`), so future field additions are safe
 // by construction. edapp:progress:v1 / edapp:review:v1 / edapp:settings:v1
 // are never touched by this file.
-import { loadJSON, saveJSON } from './storage.js?v=5';
-import { progressStore } from './progressStore.js?v=5';
-import { getLocation, LOCATIONS } from '../data/locations.js?v=5';
-import { WORLD_LEVEL_CODES, worldLevelIndex } from '../data/worldLevels.js?v=5';
-import { LEVEL_CODES as DIALOGUE_LEVEL_CODES } from '../data/dialogueSchema.js?v=5';
+import { loadJSON, saveJSON } from './storage.js?v=6';
+import { progressStore } from './progressStore.js?v=6';
+import { getLocation, LOCATIONS } from '../data/locations.js?v=6';
+import { WORLD_LEVEL_CODES, worldLevelIndex } from '../data/worldLevels.js?v=6';
+import { LEVEL_CODES as DIALOGUE_LEVEL_CODES } from '../data/dialogueSchema.js?v=6';
 
 const KEY = 'edapp:world:v1';
 
@@ -130,18 +130,21 @@ class WorldStore {
 
 export const worldStore = new WorldStore();
 
-/** NOTHING IS LOCKED. Every real location is reachable from the start.
- *  `minWorldLevel` survives only as a *recommendation* used for ordering and
- *  for the "recommended level" badge -- it never blocks access, so a learner
- *  can always jump straight to whatever situation they actually need. */
+/** A location is reachable if it was explicitly unlocked (sticky -- stays
+ *  reachable even if the user later lowers their level) OR the user's
+ *  current world level already covers it (instant manual jump access). */
 export function isLocationUnlocked(locationId) {
-  return !!getLocation(locationId);
+  const loc = getLocation(locationId);
+  if (!loc) return false;
+  if (worldStore.getState().unlockedLocationIds.includes(locationId)) return true;
+  // Every featured location on the world map is open from the start -- no
+  // locks. (Level still shapes the *recommended* order and the measured-skill
+  // display, but it never blocks access.)
+  if (loc.featured) return true;
+  if (!loc.minWorldLevel) return false;
+  return worldLevelIndex(worldStore.getState().worldLevel) >= worldLevelIndex(loc.minWorldLevel);
 }
 
-/** Every location goes on the world map, not just the hand-picked ones.
- *  Sorted by recommended level so the natural progression is still obvious
- *  at a glance, with the lowest-level places first. */
 export function getFeaturedLocations() {
-  return [...LOCATIONS].sort((a, b) =>
-    worldLevelIndex(a.minWorldLevel || 'A0') - worldLevelIndex(b.minWorldLevel || 'A0'));
+  return LOCATIONS.filter(l => l.featured);
 }

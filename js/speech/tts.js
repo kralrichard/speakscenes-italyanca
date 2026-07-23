@@ -4,7 +4,7 @@
 // can rely on the on-screen text instead of audio).
 
 // Locale-driven: every voice request resolves to the clone's target language.
-import { LOCALE } from '../data/shorts/langConfig.js?v=5';
+import { LOCALE } from '../data/shorts/langConfig.js?v=6';
 
 export function isTTSSupported() {
   return 'speechSynthesis' in window;

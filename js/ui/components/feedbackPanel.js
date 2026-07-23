@@ -16,7 +16,7 @@ function renderDiff(score) {
       return `<span class="wd ${lowConfidence ? 'unclear' : 'ok'}">${esc(op.expected)}</span>`;
     }
     if (op.type === 'sub') {
-      return `<span class="wd bad" title="You said: ${esc(op.actual)}">${esc(op.expected)}</span><span class="wd extra">${esc(op.actual)}</span>`;
+      return `<span class="wd bad" title="Söylediğin: ${esc(op.actual)}">${esc(op.expected)}</span><span class="wd extra">${esc(op.actual)}</span>`;
     }
     if (op.type === 'del') {
       return `<span class="wd missing">${esc(op.expected)}</span>`;
@@ -28,11 +28,11 @@ function renderDiff(score) {
 
 const LEGEND = `
   <div class="diff-legend">
-    <span><i style="background:var(--green-soft);border:1px solid var(--green)"></i>correct</span>
-    <span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>incorrect</span>
-    <span><i style="border:1px dashed var(--gray-word)"></i>missing</span>
-    <span><i style="background:var(--blue-soft);border:1px solid var(--blue)"></i>extra</span>
-    <span><i style="background:var(--yellow-soft);border:1px solid var(--yellow)"></i>unclear</span>
+    <span><i style="background:var(--green-soft);border:1px solid var(--green)"></i>doğru</span>
+    <span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>yanlış</span>
+    <span><i style="border:1px dashed var(--gray-word)"></i>eksik</span>
+    <span><i style="background:var(--blue-soft);border:1px solid var(--blue)"></i>fazla</span>
+    <span><i style="background:var(--yellow-soft);border:1px solid var(--yellow)"></i>belirsiz</span>
   </div>`;
 
 /**
@@ -42,12 +42,12 @@ const LEGEND = `
 export function renderFeedback(score, o = {}) {
   const simple = o.level === 'A1' || o.level === 'A2';
   const verdict = score.accepted
-    ? `<div class="feedback-verdict ok">✅ Accepted — well said!</div>`
-    : `<div class="feedback-verdict no">❌ Not accepted yet</div>`;
+    ? `<div class="feedback-verdict ok">✅ Kabul edildi — güzel söyledin!</div>`
+    : `<div class="feedback-verdict no">❌ Henüz kabul edilmedi</div>`;
 
   const heard = score.empty
-    ? `<div class="heard-line">No speech was detected.</div>`
-    : `<div class="heard-line">We heard: <b>“${esc(o.transcript || '')}”</b></div>`;
+    ? `<div class="heard-line">Ses algılanmadı.</div>`
+    : `<div class="heard-line">Duyduğumuz: <b>“${esc(o.transcript || '')}”</b></div>`;
 
   // Beginners: at most 2 tips, no jargon. Higher levels: full detail.
   const tips = (score.tips || []).slice(0, simple ? 2 : 6);
@@ -56,13 +56,13 @@ export function renderFeedback(score, o = {}) {
     : '';
 
   const pills = [];
-  pills.push(`<span class="score-pill">Words <b>${score.wordAccuracy}%</b></span>`);
-  if (!simple) pills.push(`<span class="score-pill">Complete <b>${score.completeness}%</b></span>`);
+  pills.push(`<span class="score-pill">Kelimeler <b>${score.wordAccuracy}%</b></span>`);
+  if (!simple) pills.push(`<span class="score-pill">Bütünlük <b>${score.completeness}%</b></span>`);
   if (typeof score.clarity === 'number') {
-    pills.push(`<span class="score-pill" title="Based on the speech recognizer's confidence, not a phoneme-level pronunciation measurement">Recognition clarity <b>${score.clarity}%</b></span>`);
+    pills.push(`<span class="score-pill" title="Konuşma tanıyıcının güven puanına dayanır; ses birimi düzeyinde telaffuz ölçümü değildir">Tanıma netliği <b>${score.clarity}%</b></span>`);
   }
   if (typeof score.fluency === 'number' && !simple) {
-    pills.push(`<span class="score-pill" title="Estimated from your pace and pauses">Fluency <b>${score.fluency}%</b>${score.wpm ? ` · ${score.wpm} wpm` : ''}</span>`);
+    pills.push(`<span class="score-pill" title="Hızından ve duraklamalarından tahmin edilir">Akıcılık <b>${score.fluency}%</b>${score.wpm ? ` · ${score.wpm} wpm` : ''}</span>`);
   }
 
   return `

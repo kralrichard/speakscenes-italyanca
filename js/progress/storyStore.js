@@ -17,7 +17,7 @@
 // XP so replaying an easy branch can't inflate progress.
 // ============================================================================
 
-import { loadJSON, saveJSON } from './storage.js?v=5';
+import { loadJSON, saveJSON } from './storage.js?v=6';
 
 const KEY = 'edapp:story:v1';
 const PRACTICE_XP = 3;
@@ -39,14 +39,14 @@ export function relationshipTier(value) {
 }
 
 export const ACHIEVEMENTS = [
-  { id: 'first_conversation', label: 'First Conversation', labelTr: 'İlk Konuşma',        icon: '🎬', desc: 'Complete your first spoken line.' },
-  { id: 'tried_both',         label: 'Tried Both Choices', labelTr: 'İki Yolu da Denedin', icon: '🔀', desc: 'Attempt two different choices at one decision.' },
-  { id: 'first_ending',       label: 'Reached an Ending',  labelTr: 'Bir Sona Ulaştın',   icon: '🏁', desc: 'Reach any scenario ending.' },
-  { id: 'all_branches',       label: 'All Branches',       labelTr: 'Tüm Dallar',          icon: '🌳', desc: 'Complete every choice in one scenario.' },
-  { id: 'five_success',       label: 'Five Spoken Answers',labelTr: 'Beş Sözlü Cevap',     icon: '🎙️', desc: 'Get five spoken answers accepted.' },
-  { id: 'polite_speaker',     label: 'Polite Speaker',     labelTr: 'Kibar Konuşmacı',     icon: '🎩', desc: 'Complete five polite/formal choices.' },
-  { id: 'problem_solver',     label: 'Problem Solver',     labelTr: 'Sorun Çözücü',        icon: '🛠️', desc: 'Reach a “problem solved” ending.' },
-  { id: 'globetrotter',       label: 'Globetrotter',       labelTr: 'Gezgin',              icon: '🌍', desc: 'Play scenarios in three environments.' }
+  { id: 'first_conversation', label: 'İlk Konuşma',        labelTr: 'İlk Konuşma',        icon: '🎬', desc: 'İlk sözlü cümleni tamamla.' },
+  { id: 'tried_both',         label: 'İki Yolu da Denedin', labelTr: 'İki Yolu da Denedin', icon: '🔀', desc: 'Bir kararda iki farklı seçeneği dene.' },
+  { id: 'first_ending',       label: 'Bir Sona Ulaştın',   labelTr: 'Bir Sona Ulaştın',   icon: '🏁', desc: 'Herhangi bir senaryo sonuna ulaş.' },
+  { id: 'all_branches',       label: 'Tüm Dallar',         labelTr: 'Tüm Dallar',          icon: '🌳', desc: 'Bir senaryodaki her seçeneği tamamla.' },
+  { id: 'five_success',       label: 'Beş Sözlü Cevap',    labelTr: 'Beş Sözlü Cevap',     icon: '🎙️', desc: 'Beş sözlü cevabın kabul edilsin.' },
+  { id: 'polite_speaker',     label: 'Kibar Konuşmacı',    labelTr: 'Kibar Konuşmacı',     icon: '🎩', desc: 'Beş kibar/resmî seçeneği tamamla.' },
+  { id: 'problem_solver',     label: 'Sorun Çözücü',       labelTr: 'Sorun Çözücü',        icon: '🛠️', desc: '“Sorun çözüldü” sonuna ulaş.' },
+  { id: 'globetrotter',       label: 'Gezgin',             labelTr: 'Gezgin',              icon: '🌍', desc: 'Üç farklı ortamda senaryo oyna.' }
 ];
 
 function defaultState() {

@@ -2,176 +2,178 @@
 // js/ui/components/characterAvatar.js (reused unchanged) plus a gender/accent
 // so TTS (js/speech/tts.js) picks a fitting voice, and a personality line the
 // conversation screen shows. `player` is the learner's own avatar.
+// Roles/personalities are in Turkish (the app's UI language); names are
+// international so the same file works for every language clone.
 
 export const CHARACTERS = {
   player: {
-    id: 'player', name: 'You', role: 'Traveler / Learner',
+    id: 'player', name: 'Sen', role: 'Gezgin / Öğrenci',
     gender: 'neutral', accent: 'american', avatarPreset: 'guest_neutral',
-    personality: 'That’s you — speak up and steer the conversation.'
+    personality: 'Bu sensin — konuş ve sohbeti sen yönlendir.'
   },
 
   // Hotel
   grace: {
-    id: 'grace', name: 'Grace', role: 'Hotel Receptionist',
+    id: 'grace', name: 'Grace', role: 'Otel Resepsiyonisti',
     gender: 'female', accent: 'british', avatarPreset: 'receptionist_f',
-    personality: 'Warm, professional, and endlessly patient.'
+    personality: 'Sıcak, profesyonel ve sonsuz sabırlı.'
   },
   daniel: {
-    id: 'daniel', name: 'Daniel', role: 'Hotel Duty Manager',
+    id: 'daniel', name: 'Daniel', role: 'Otel Vardiya Müdürü',
     gender: 'male', accent: 'american', avatarPreset: 'manager_m',
-    personality: 'Calm problem-solver who wants every guest happy.'
+    personality: 'Sakin bir sorun çözücü; her misafirin mutlu olmasını ister.'
   },
 
   // Airport
   priya: {
-    id: 'priya', name: 'Priya', role: 'Airline Check-in Agent',
+    id: 'priya', name: 'Priya', role: 'Check-in Görevlisi',
     gender: 'female', accent: 'indian', avatarPreset: 'agent_f',
-    personality: 'Efficient and friendly, but the clock is always ticking.'
+    personality: 'Hızlı ve güler yüzlü ama saat hep işliyor.'
   },
   omar: {
-    id: 'omar', name: 'Omar', role: 'Gate Agent',
+    id: 'omar', name: 'Omar', role: 'Kapı Görevlisi',
     gender: 'male', accent: 'international', avatarPreset: 'clerk_m',
-    personality: 'Unflappable even when a flight is closing.'
+    personality: 'Uçuş kapanırken bile soğukkanlı.'
   },
 
   // Hospital / Pharmacy
   bennett: {
-    id: 'bennett', name: 'Dr. Bennett', role: 'Doctor',
+    id: 'bennett', name: 'Dr. Bennett', role: 'Doktor',
     gender: 'female', accent: 'american', avatarPreset: 'doctor_f',
-    personality: 'Careful listener; asks one question at a time.'
+    personality: 'Dikkatli bir dinleyici; soruları tek tek sorar.'
   },
   fatima: {
-    id: 'fatima', name: 'Fatima', role: 'Pharmacist',
+    id: 'fatima', name: 'Fatima', role: 'Eczacı',
     gender: 'female', accent: 'international', avatarPreset: 'pharmacist_f',
-    personality: 'Precise about dosages, kind about worries.'
+    personality: 'Dozlar konusunda titiz, endişeler konusunda nazik.'
   },
 
   // Restaurant / Café
   elena: {
-    id: 'elena', name: 'Elena', role: 'Waiter',
+    id: 'elena', name: 'Elena', role: 'Garson',
     gender: 'female', accent: 'international', avatarPreset: 'waiter_f',
-    personality: 'Quick, cheerful, remembers the specials by heart.'
+    personality: 'Hızlı, neşeli; günün menüsünü ezbere bilir.'
   },
   marco: {
-    id: 'marco', name: 'Marco', role: 'Restaurant Manager',
+    id: 'marco', name: 'Marco', role: 'Restoran Müdürü',
     gender: 'male', accent: 'international', avatarPreset: 'manager_m',
-    personality: 'Takes complaints seriously and fixes them fast.'
+    personality: 'Şikayetleri ciddiye alır ve hızla çözer.'
   },
 
   // Street / Social
   sophie: {
-    id: 'sophie', name: 'Sophie', role: 'Friendly Local',
+    id: 'sophie', name: 'Sophie', role: 'Cana Yakın Yerli',
     gender: 'female', accent: 'canadian', avatarPreset: 'assistant_f',
-    personality: 'Loves meeting travelers and giving directions.'
+    personality: 'Gezginlerle tanışmayı ve yol tarif etmeyi sever.'
   },
   leo: {
-    id: 'leo', name: 'Leo', role: 'New Classmate',
+    id: 'leo', name: 'Leo', role: 'Yeni Arkadaş',
     gender: 'male', accent: 'australian', avatarPreset: 'assistant_m',
-    personality: 'Chatty and easy-going; happy to make a new friend.'
+    personality: 'Konuşkan ve rahat; yeni bir arkadaş edinmekten mutlu.'
   },
 
   // Workplace
   carter: {
-    id: 'carter', name: 'Ms. Carter', role: 'Hiring Manager',
+    id: 'carter', name: 'Bayan Carter', role: 'İşe Alım Müdürü',
     gender: 'female', accent: 'american', avatarPreset: 'manager_f',
-    personality: 'Fair but thorough; values clear, honest answers.'
+    personality: 'Adil ama titiz; net ve dürüst cevaplara değer verir.'
   },
   raj: {
-    id: 'raj', name: 'Raj', role: 'Coworker',
+    id: 'raj', name: 'Raj', role: 'İş Arkadaşı',
     gender: 'male', accent: 'indian', avatarPreset: 'colleague_f',
-    personality: 'Direct but reasonable — clear things up and it’s fine.'
+    personality: 'Doğrudan ama makul — açıklık getir, sorun kalmaz.'
   },
 
   // Café
   mia: {
     id: 'mia', name: 'Mia', role: 'Barista',
     gender: 'female', accent: 'american', avatarPreset: 'assistant_f',
-    personality: 'Bubbly and fast; knows every regular’s order.'
+    personality: 'Neşeli ve hızlı; her müdavimin siparişini bilir.'
   },
   hannah: {
-    id: 'hannah', name: 'Hannah', role: 'Old Friend',
+    id: 'hannah', name: 'Hannah', role: 'Eski Dost',
     gender: 'female', accent: 'british', avatarPreset: 'colleague_f',
-    personality: 'Warm and chatty; you haven’t seen her in years.'
+    personality: 'Sıcak ve konuşkan; onu yıllardır görmemiştin.'
   },
 
   // Supermarket & Clothing store
   tom: {
-    id: 'tom', name: 'Tom', role: 'Store Assistant',
+    id: 'tom', name: 'Tom', role: 'Market Görevlisi',
     gender: 'male', accent: 'american', avatarPreset: 'clerk_m',
-    personality: 'Helpful and knows exactly which aisle everything is in.'
+    personality: 'Yardımsever; her şeyin hangi reyonda olduğunu bilir.'
   },
   zoe: {
-    id: 'zoe', name: 'Zoe', role: 'Shop Assistant',
+    id: 'zoe', name: 'Zoe', role: 'Mağaza Danışmanı',
     gender: 'female', accent: 'australian', avatarPreset: 'exec_f',
-    personality: 'Stylish, honest about what suits you.'
+    personality: 'Şık; sana ne yakışacağı konusunda dürüst.'
   },
 
   // Train station & Taxi
   nina: {
-    id: 'nina', name: 'Nina', role: 'Ticket Clerk',
+    id: 'nina', name: 'Nina', role: 'Gişe Görevlisi',
     gender: 'female', accent: 'international', avatarPreset: 'agent_f2',
-    personality: 'Quick and precise; the queue is always moving.'
+    personality: 'Hızlı ve titiz; kuyruk hep ilerler.'
   },
   victor: {
-    id: 'victor', name: 'Victor', role: 'Taxi Driver',
+    id: 'victor', name: 'Victor', role: 'Taksi Şoförü',
     gender: 'male', accent: 'international', avatarPreset: 'driver_m',
-    personality: 'Friendly, loves a bit of small talk on the road.'
+    personality: 'Cana yakın; yolda sohbet etmeyi sever.'
   },
 
   // Bank & Police
   david: {
-    id: 'david', name: 'David', role: 'Bank Teller',
+    id: 'david', name: 'David', role: 'Banka Görevlisi',
     gender: 'male', accent: 'british', avatarPreset: 'banker_m',
-    personality: 'Calm, patient, careful with the details.'
+    personality: 'Sakin, sabırlı, ayrıntılara dikkat eder.'
   },
   grant: {
-    id: 'grant', name: 'Officer Grant', role: 'Police Officer',
+    id: 'grant', name: 'Memur Grant', role: 'Polis Memuru',
     gender: 'male', accent: 'american', avatarPreset: 'officer_m',
-    personality: 'Reassuring and methodical; takes down every detail.'
+    personality: 'Güven verici ve yöntemli; her ayrıntıyı not eder.'
   },
 
   // Home
   emma: {
-    id: 'emma', name: 'Emma', role: 'Your Sister',
+    id: 'emma', name: 'Emma', role: 'Kız Kardeşin',
     gender: 'female', accent: 'american', avatarPreset: 'receptionist_f',
-    personality: 'Cheerful morning person — unlike you.'
+    personality: 'Neşeli bir sabah insanı — senin aksine.'
   },
 
   // School
   mslee: {
-    id: 'mslee', name: 'Ms. Lee', role: 'Teacher',
+    id: 'mslee', name: 'Bayan Lee', role: 'Öğretmen',
     gender: 'female', accent: 'american', avatarPreset: 'manager_f',
-    personality: 'Encouraging, patient, loves a good question.'
+    personality: 'Cesaretlendirici, sabırlı; iyi bir soruya bayılır.'
   },
   // Gym
   coach: {
-    id: 'coach', name: 'Coach Max', role: 'Fitness Trainer',
+    id: 'coach', name: 'Koç Max', role: 'Fitness Antrenörü',
     gender: 'male', accent: 'australian', avatarPreset: 'assistant_m',
-    personality: 'High-energy and motivating, never pushy.'
+    personality: 'Enerjik ve motive edici, asla baskıcı değil.'
   },
   // Museum / tourist guide
   ava: {
-    id: 'ava', name: 'Ava', role: 'Museum Guide',
+    id: 'ava', name: 'Ava', role: 'Müze Rehberi',
     gender: 'female', accent: 'british', avatarPreset: 'journalist_f',
-    personality: 'A walking encyclopedia with a warm smile.'
+    personality: 'Sıcak gülümseyen yürüyen bir ansiklopedi.'
   },
   // Post office
   pat: {
-    id: 'pat', name: 'Pat', role: 'Postal Clerk',
+    id: 'pat', name: 'Pat', role: 'Posta Görevlisi',
     gender: 'male', accent: 'american', avatarPreset: 'clerk_m',
-    personality: 'Efficient and friendly; the queue never scares him.'
+    personality: 'Verimli ve güler yüzlü; kuyruk onu hiç korkutmaz.'
   },
   // Library
   ruth: {
-    id: 'ruth', name: 'Ruth', role: 'Librarian',
+    id: 'ruth', name: 'Ruth', role: 'Kütüphaneci',
     gender: 'female', accent: 'british', avatarPreset: 'exec_f',
-    personality: 'Calm and helpful, with a whisper and a smile.'
+    personality: 'Sakin ve yardımsever; fısıltıyla ve gülümseyerek.'
   },
   // Seaside
   finn: {
-    id: 'finn', name: 'Finn', role: 'Beach Vendor',
+    id: 'finn', name: 'Finn', role: 'Plaj Satıcısı',
     gender: 'male', accent: 'international', avatarPreset: 'barista_m',
-    personality: 'Sunny and laid-back, always up for a chat.'
+    personality: 'Güneşli ve rahat; sohbete her zaman hazır.'
   }
 };
 

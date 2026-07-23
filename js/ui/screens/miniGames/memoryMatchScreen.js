@@ -1,11 +1,11 @@
 // Memory Match: flip cards to pair each English word with its Turkish
 // meaning. Sources js/data/vocabulary.js.
-import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js?v=5';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
-import { progressStore } from '../../../progress/progressStore.js?v=5';
-import { worldStore } from '../../../progress/worldStore.js?v=5';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
-import { navigate } from '../../router.js?v=5';
+import { getVocabByLevel, VOCABULARY } from '../../../data/vocabulary.js?v=6';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=6';
+import { progressStore } from '../../../progress/progressStore.js?v=6';
+import { worldStore } from '../../../progress/worldStore.js?v=6';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=6';
+import { navigate } from '../../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -37,8 +37,8 @@ export function renderMemoryMatch(container, params) {
     const pct = pairs.length ? (matchedPairs / pairs.length) * 100 : 0;
     return `
       <div class="row" style="margin-bottom:0.8rem">
-        <button class="icon-btn" id="btn-exit" aria-label="Exit">✕</button>
-        <span class="grow" style="font-weight:700">🃏 Memory Match</span>
+        <button class="icon-btn" id="btn-exit" aria-label="Çık">✕</button>
+        <span class="grow" style="font-weight:700">🃏 Hafıza Eşleştirme</span>
         <div class="turn-progress" style="max-width:110px"><div style="width:${pct}%"></div></div>
       </div>`;
   }
@@ -47,7 +47,7 @@ export function renderMemoryMatch(container, params) {
     if (matchedPairs === pairs.length) { renderReport(); return; }
     shell.innerHTML = `
       ${header()}
-      <p class="screen-sub" style="margin:0 0 0.8rem">Find each word's matching meaning. Moves: ${moves}</p>
+      <p class="screen-sub" style="margin:0 0 0.8rem">Her kelimeyi anlamıyla eşleştir. Hamle: ${moves}</p>
       <div class="memory-grid">
         ${cards.map((c, i) => {
           const faceUp = c.matched || flipped.includes(i);
@@ -90,16 +90,16 @@ export function renderMemoryMatch(container, params) {
     shell.innerHTML = `
       <div class="report-hero">
         <div class="big-emoji">${'⭐'.repeat(reward.stars)}${'☆'.repeat(3 - reward.stars)}</div>
-        <h2>Memory Match complete!</h2>
+        <h2>Hafıza Eşleştirme bitti!</h2>
       </div>
       <div class="xp-toast">+${reward.xp} XP · +${reward.coins} 🪙${newMissions.length ? ` · 🏅 ${newMissions.map(m => esc(m.title)).join(', ')}` : ''}</div>
       <div class="report-grid">
-        <div class="report-stat"><div class="v">${moves}</div><div class="k">Moves</div></div>
-        <div class="report-stat"><div class="v">${pairs.length}</div><div class="k">Pairs matched</div></div>
+        <div class="report-stat"><div class="v">${moves}</div><div class="k">Hamle</div></div>
+        <div class="report-stat"><div class="v">${pairs.length}</div><div class="k">Eşleşen çift</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem">
-        <button class="btn block" id="btn-again">🔁 Play again</button>
-        <button class="btn secondary block" id="btn-world">🗺️ Back to World</button>
+        <button class="btn block" id="btn-again">🔁 Tekrar oyna</button>
+        <button class="btn secondary block" id="btn-world">🗺️ Dünyaya dön</button>
       </div>`;
     shell.querySelector('#btn-again').addEventListener('click', () => navigate(`minigame/memory-match/${params.id || 'any'}?t=${Date.now()}`));
     shell.querySelector('#btn-world').addEventListener('click', () => navigate(''));

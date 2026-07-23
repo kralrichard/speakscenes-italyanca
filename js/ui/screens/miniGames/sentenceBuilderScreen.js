@@ -1,31 +1,31 @@
 // Sentence Builder: tap shuffled words in order to rebuild a real sentence.
-// Content is free -- every round sentence is a real `expected` line pulled
-// straight from the existing authored dialogues (js/data/dialogues/*.js),
-// no new authoring needed.
-import { ALL_DIALOGUES } from '../../../data/dialogues/index.js?v=5';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
-import { progressStore } from '../../../progress/progressStore.js?v=5';
-import { worldStore } from '../../../progress/worldStore.js?v=5';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
-import { tts, isTTSSupported } from '../../../speech/tts.js?v=5';
-import { navigate } from '../../router.js?v=5';
+// Content is free -- every round sentence comes from this clone's own
+// target-language Shorts sentence bank (js/data/shorts/sentenceBank.js),
+// so the game is always in the language being learned.
+import { buildShortsBank } from '../../../data/shorts/sentenceBank.js?v=6';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=6';
+import { progressStore } from '../../../progress/progressStore.js?v=6';
+import { worldStore } from '../../../progress/worldStore.js?v=6';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=6';
+import { tts, isTTSSupported } from '../../../speech/tts.js?v=6';
+import { navigate } from '../../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 const ROUND_SIZE = 6;
 
+let _cache = null;
 function collectSentences() {
+  if (_cache) return _cache;
   const items = [];
-  for (const d of ALL_DIALOGUES) {
-    for (const t of d.turns) {
-      if (t.speaker !== 'B' || !t.expected) continue;
-      const wordCount = t.expected.split(/\s+/).length;
-      if (wordCount >= 3 && wordCount <= 9) {
-        items.push({ sentence: t.expected, translation_tr: t.translation_tr, level: d.level });
-      }
+  for (const s of buildShortsBank()) {
+    const wordCount = s.en.split(/\s+/).length;
+    if (wordCount >= 3 && wordCount <= 9) {
+      items.push({ sentence: s.en, translation_tr: s.tr, level: s.level });
     }
   }
+  _cache = items;
   return items;
 }
 
@@ -52,8 +52,8 @@ export function renderSentenceBuilder(container, params) {
     const pct = round.length ? (index / round.length) * 100 : 0;
     return `
       <div class="row" style="margin-bottom:0.8rem">
-        <button class="icon-btn" id="btn-exit" aria-label="Exit">✕</button>
-        <span class="grow" style="font-weight:700">🧩 Sentence Builder</span>
+        <button class="icon-btn" id="btn-exit" aria-label="Çık">✕</button>
+        <span class="grow" style="font-weight:700">🧩 Cümle Kurma</span>
         <div class="turn-progress" style="max-width:110px"><div style="width:${pct}%"></div></div>
       </div>`;
   }
@@ -81,17 +81,17 @@ export function renderSentenceBuilder(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card">
-        <div class="lbl">Build the sentence</div>
+        <div class="lbl">Cümleyi kur</div>
         <div class="tr-text">${esc(item.translation_tr || '')}</div>
         <div class="tools-row"><button class="mini-btn" id="btn-hear">▶ Dinle</button></div>
       </div>
       <div class="mg-word-slots">${slots}</div>
       <div class="chip-row" style="margin-top:0.8rem">${tiles}</div>
       <div style="display:flex;gap:0.5rem;margin-top:1rem">
-        <button class="btn secondary block" id="btn-clear" ${resolved ? 'disabled' : ''}>Clear</button>
+        <button class="btn secondary block" id="btn-clear" ${resolved ? 'disabled' : ''}>Temizle</button>
       </div>
-      ${resolved === 'incorrect' ? `<div class="error-notice" style="margin-top:0.8rem">Not quite — the sentence is: "<b>${esc(item.sentence)}</b>". <button class="mini-btn" id="btn-next-after-fail">Continue</button></div>` : ''}
-      ${resolved === 'correct' ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Next ›</button>` : ''}`;
+      ${resolved === 'incorrect' ? `<div class="error-notice" style="margin-top:0.8rem">Tam değil — doğru cümle: "<b>${esc(item.sentence)}</b>". <button class="mini-btn" id="btn-next-after-fail">Devam</button></div>` : ''}
+      ${resolved === 'correct' ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Sonraki ›</button>` : ''}`;
 
     shell.querySelector('#btn-hear').addEventListener('click', () => { if (isTTSSupported()) tts.speak(item.sentence, { rate: 0.85 }); });
     shell.querySelector('#btn-clear').addEventListener('click', () => { built = []; render(); });
@@ -119,16 +119,16 @@ export function renderSentenceBuilder(container, params) {
     shell.innerHTML = `
       <div class="report-hero">
         <div class="big-emoji">${'⭐'.repeat(reward.stars)}${'☆'.repeat(3 - reward.stars)}</div>
-        <h2>Sentence Builder complete!</h2>
+        <h2>Cümle Kurma bitti!</h2>
       </div>
       <div class="xp-toast">+${reward.xp} XP · +${reward.coins} 🪙${newMissions.length ? ` · 🏅 ${newMissions.map(m => esc(m.title)).join(', ')}` : ''}</div>
       <div class="report-grid">
-        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Accuracy</div></div>
-        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Correct</div></div>
+        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Doğruluk</div></div>
+        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Doğru</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem">
-        <button class="btn block" id="btn-again">🔁 Play again</button>
-        <button class="btn secondary block" id="btn-world">🗺️ Back to World</button>
+        <button class="btn block" id="btn-again">🔁 Tekrar oyna</button>
+        <button class="btn secondary block" id="btn-world">🗺️ Dünyaya dön</button>
       </div>`;
     shell.querySelector('#btn-again').addEventListener('click', () => navigate(`minigame/sentence-builder/${params.id || 'any'}?t=${Date.now()}`));
     shell.querySelector('#btn-world').addEventListener('click', () => navigate(''));
@@ -137,7 +137,7 @@ export function renderSentenceBuilder(container, params) {
   shell.addEventListener('click', (e) => { if (e.target.id === 'btn-exit') navigate(''); });
 
   if (!round.length) {
-    shell.innerHTML = `${header()}<div class="empty-state"><div class="big">🧩</div>No sentences available yet.</div>`;
+    shell.innerHTML = `${header()}<div class="empty-state"><div class="big">🧩</div>Henüz cümle yok.</div>`;
   } else {
     setupItem();
     render();

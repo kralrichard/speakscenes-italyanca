@@ -48,9 +48,9 @@ async function handleRoute() {
         console.error('Screen render failed:', e);
         container.innerHTML = `
           <div class="boot-error" role="alert">
-            <h2>Something went wrong</h2>
+            <h2>Bir şeyler ters gitti</h2>
             <p style="color:var(--text-dim);margin:0.5rem 0">${String(e.message || e)}</p>
-            <button class="btn" onclick="location.hash='#/'">Back to Home</button>
+            <button class="btn" onclick="location.hash='#/'">Ana sayfaya dön</button>
           </div>`;
       }
       updateNav(path);

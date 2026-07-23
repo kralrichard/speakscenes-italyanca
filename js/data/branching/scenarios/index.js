@@ -2,27 +2,19 @@
 // (createScenario throws on malformed content), so a bad scenario fails loudly
 // at boot with its id — it can never half-render inside a conversation.
 
-import { allChoiceKeys } from '../scenarioSchema.js?v=5';
-import { hotelCheckin, hotelRoomProblem } from './hotel.js?v=5';
-import { airportCheckin, missingFlight } from './airport.js?v=5';
-import { hospitalVisit, pharmacyVisit } from './health.js?v=5';
-import { restaurantOrder, wrongOrder } from './restaurant.js?v=5';
-import { meetingFriend, askingDirections } from './social.js?v=5';
-import { jobInterview, workplaceMisunderstanding } from './workplace.js?v=5';
-import { cafeOrder, cafeMeetup } from './cafe.js?v=5';
-import { supermarketHelp, clothingReturn } from './shopping.js?v=5';
-import { trainTicket, taxiRide } from './travel.js?v=5';
-import { bankLostCard, policeLostPhone } from './services.js?v=5';
-import { homeMorning } from './home.js?v=5';
-import { hotelAmenities, passportControl, restaurantBill } from './extras.js?v=5';
-import { HOSPITALITY } from '../generated/gen-hospitality.js?v=5';
-import { TRAVEL } from '../generated/gen-travel.js?v=5';
-import { HEALTH } from '../generated/gen-health.js?v=5';
-import { SHOPS_SERVICES } from '../generated/gen-shops-services.js?v=5';
-import { DAILY } from '../generated/gen-daily.js?v=5';
-import { PLACES } from '../generated/gen-places.js?v=5';
-import { MORE1 } from '../generated/gen-more1.js?v=5';
-import { MORE2 } from '../generated/gen-more2.js?v=5';
+import { allChoiceKeys } from '../scenarioSchema.js?v=6';
+import { hotelCheckin, hotelRoomProblem } from './hotel.js?v=6';
+import { airportCheckin, missingFlight } from './airport.js?v=6';
+import { hospitalVisit, pharmacyVisit } from './health.js?v=6';
+import { restaurantOrder, wrongOrder } from './restaurant.js?v=6';
+import { meetingFriend, askingDirections } from './social.js?v=6';
+import { jobInterview, workplaceMisunderstanding } from './workplace.js?v=6';
+import { cafeOrder, cafeMeetup } from './cafe.js?v=6';
+import { supermarketHelp, clothingReturn } from './shopping.js?v=6';
+import { trainTicket, taxiRide } from './travel.js?v=6';
+import { bankLostCard, policeLostPhone } from './services.js?v=6';
+import { homeMorning } from './home.js?v=6';
+import { hotelAmenities, passportControl, restaurantBill } from './extras.js?v=6';
 
 export const ALL_SCENARIOS = [
   // originals
@@ -39,10 +31,7 @@ export const ALL_SCENARIOS = [
   bankLostCard, policeLostPhone,
   homeMorning,
   // extra depth for existing environments
-  hotelAmenities, passportControl, restaurantBill,
-  // bulk-authored branching scenarios (compact mini() builder)
-  ...HOSPITALITY, ...TRAVEL, ...HEALTH, ...SHOPS_SERVICES, ...DAILY,
-  ...PLACES, ...MORE1, ...MORE2
+  hotelAmenities, passportControl, restaurantBill
 ];
 
 // Cache each scenario's total choice count on the object (used for progress %

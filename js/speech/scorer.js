@@ -19,7 +19,7 @@
 import {
   FUNCTION_WORDS as FN_LIST, NEGATION_WORDS as NEG_LIST, NUMBER_WORDS as NUM_LIST,
   FILLER_WORDS as FILL_LIST, DIGIT_WORDS, CONTRACTIONS, ASR_EQUIVALENTS
-} from '../data/shorts/langConfig.js?v=5';
+} from '../data/shorts/langConfig.js?v=6';
 
 // Only weighted word accuracy gates acceptance. There are deliberately no
 // clarity/fluency floors here: both are estimates (recogniser confidence and

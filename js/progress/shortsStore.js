@@ -15,8 +15,8 @@
 //   tracked separately (spokenCorrect) and feeds worldStore's *measured* skill,
 //   so swiping = growing up, speaking = getting good — never conflated.
 
-import { loadJSON, saveJSON } from './storage.js?v=5';
-import { LEVEL_ORDER } from '../data/shorts/sentenceBank.js?v=5';
+import { loadJSON, saveJSON } from './storage.js?v=6';
+import { LEVEL_ORDER } from '../data/shorts/sentenceBank.js?v=6';
 
 const KEY = 'edapp:shorts:v1';
 

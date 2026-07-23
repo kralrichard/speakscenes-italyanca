@@ -9,12 +9,12 @@
 //   #/practice-phrases/:placeId   -> list of that place's phrases + speak stage
 // ============================================================================
 
-import { PHRASEBOOK, PHRASE_PLACES, phrasesForPlace, PHRASEBOOK_COUNT } from '../../data/branching/phrasebook.js?v=5';
-import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=5';
-import { scoreAttempt } from '../../speech/scorer.js?v=5';
-import { tts } from '../../speech/tts.js?v=5';
-import { storyStore } from '../../progress/storyStore.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { PHRASEBOOK, PHRASE_PLACES, phrasesForPlace, PHRASEBOOK_COUNT } from '../../data/branching/phrasebook.js?v=6';
+import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=6';
+import { scoreAttempt } from '../../speech/scorer.js?v=6';
+import { tts } from '../../speech/tts.js?v=6';
+import { storyStore } from '../../progress/storyStore.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -42,7 +42,7 @@ export function renderPhrasePlaces(container) {
   container.innerHTML = `
     <div class="quick-practice screen-pad">
       <header class="qp-head">
-        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Back">‹</button>
+        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Geri">‹</button>
         <div>
           <h1>⚡ Hızlı Pratik</h1>
           <p class="qp-sub">${PHRASEBOOK_COUNT}+ gerçek cümle · <b>Bir yer seç, konuşarak pratik yap</b></p>
@@ -96,7 +96,7 @@ export function renderPhraseList(container, params) {
     container.innerHTML = `
       <div class="quick-practice screen-pad">
         <header class="qp-head">
-          <button class="conv-exit" onclick="location.hash='#/practice-phrases'" aria-label="Back">‹</button>
+          <button class="conv-exit" onclick="location.hash='#/practice-phrases'" aria-label="Geri">‹</button>
           <div>
             <h1>${meta.icon} ${esc(meta.label)}</h1>
             <p class="qp-sub">${phrases.length} cümle · ${done.size ? [...done].filter(id => phrases.some(p => p.id === id)).length : 0} tamamlandı</p>
@@ -114,8 +114,8 @@ export function renderPhraseList(container, params) {
     const overlay = document.createElement('div');
     overlay.className = 'story-modal phrase-stage-modal';
     overlay.innerHTML = `
-      <div class="phrase-stage" role="dialog" aria-label="Practice phrase">
-        <button class="ps-close" aria-label="Close">✕</button>
+      <div class="phrase-stage" role="dialog" aria-label="Pratik cümlesi">
+        <button class="ps-close" aria-label="Kapat">✕</button>
         <span class="pi-level lvl-${phrase.level}">${phrase.level}</span>
         <p class="ps-en">${esc(phrase.en)}</p>
         <p class="ps-tr">${esc(phrase.tr)}</p>
@@ -128,7 +128,7 @@ export function renderPhraseList(container, params) {
         <div class="ps-typed ${usingTyped ? '' : 'closed'}">
           ${usingTyped ? '<p class="typed-note">🎤 Mikrofon yok — yazarak pratik yap.</p>' : '<button class="link-btn" data-act="toggle-type">⌨️ Yazarak dene</button>'}
           <div class="typed-input ${usingTyped ? '' : 'hidden'}">
-            <input type="text" class="typed-field" placeholder="Type it…" autocomplete="off" />
+            <input type="text" class="typed-field" placeholder="Yaz…" autocomplete="off" />
             <button class="btn small" data-act="check">Check</button>
           </div>
         </div>
@@ -148,12 +148,12 @@ export function renderPhraseList(container, params) {
     overlay.querySelector('[data-act="check"]').onclick = doTyped;
     field.addEventListener('keydown', (e) => { if (e.key === 'Enter') doTyped(); });
 
-    import('../components/micButton.js?v=5').then(({ createMicButton }) => {
+    import('../components/micButton.js?v=6').then(({ createMicButton }) => {
       if (destroyed || !overlay.isConnected) return;
       const micWrap = overlay.querySelector('.mic-wrap');
       const mic = createMicButton(micWrap, { onPress: () => startRecording(phrase, overlay, mic) });
       mic.setState(usingTyped ? 'disabled' : 'ready');
-      if (usingTyped) micWrap.querySelector('.mic-hint').textContent = 'Type your answer below.';
+      if (usingTyped) micWrap.querySelector('.mic-hint').textContent = 'Cevabını aşağıya yaz.';
     });
 
     // auto-play the model once
@@ -196,7 +196,7 @@ export function renderPhraseList(container, params) {
     const simple = phrase.level === 'A1' || phrase.level === 'A2';
     const score = scoreAttempt({ expected: phrase.en, transcript: res.transcript, confidence: res.confidence, timing: res.timing, strictness: simple ? 'relaxed' : 'normal' });
     const fb = overlay.querySelector('.ps-feedback');
-    import('../components/feedbackPanel.js?v=5').then(({ renderFeedback }) => {
+    import('../components/feedbackPanel.js?v=6').then(({ renderFeedback }) => {
       if (fb) fb.innerHTML = renderFeedback(score, { transcript: res.transcript, level: phrase.level });
       if (score.accepted) {
         if (mic) mic.setState('correct');

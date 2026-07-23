@@ -1,15 +1,15 @@
 // Listening Challenge: hear a real sentence spoken aloud, then pick which
 // of 4 written options matches what was heard. Content is free -- pulled
 // from existing dialogue turns (both NPC lines and player-expected lines),
-// no new authoring needed. Tekrar and a slowed-down replay are both
+// no new authoring needed. Replay and a slowed-down replay are both
 // available, matching the listening controls already used in dialogueScreen.js.
-import { ALL_DIALOGUES } from '../../../data/dialogues/index.js?v=5';
-import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
-import { progressStore } from '../../../progress/progressStore.js?v=5';
-import { worldStore } from '../../../progress/worldStore.js?v=5';
-import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=5';
-import { tts, isTTSSupported } from '../../../speech/tts.js?v=5';
-import { navigate } from '../../router.js?v=5';
+import { buildShortsBank } from '../../../data/shorts/sentenceBank.js?v=6';
+import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=6';
+import { progressStore } from '../../../progress/progressStore.js?v=6';
+import { worldStore } from '../../../progress/worldStore.js?v=6';
+import { checkMissionsForMiniGame } from '../../../progress/missionEngine.js?v=6';
+import { tts, isTTSSupported } from '../../../speech/tts.js?v=6';
+import { navigate } from '../../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -17,18 +17,18 @@ function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i-
 const ROUND_SIZE = 6;
 const OPTIONS = 4;
 
+let _cache = null;
 function collectLines() {
+  if (_cache) return _cache;
   const items = [];
   const seen = new Set();
-  for (const d of ALL_DIALOGUES) {
-    for (const t of d.turns) {
-      const text = t.speaker === 'A' ? t.text : t.expected;
-      if (!text || seen.has(text)) continue;
-      seen.add(text);
-      const wordCount = text.split(/\s+/).length;
-      if (wordCount >= 3 && wordCount <= 10) items.push({ text, level: d.level });
-    }
+  for (const s of buildShortsBank()) {
+    if (!s.en || seen.has(s.en)) continue;
+    seen.add(s.en);
+    const wordCount = s.en.split(/\s+/).length;
+    if (wordCount >= 3 && wordCount <= 10) items.push({ text: s.en, level: s.level });
   }
+  _cache = items;
   return items;
 }
 
@@ -60,8 +60,8 @@ export function renderListeningChallenge(container, params) {
     const pct = round.length ? (index / round.length) * 100 : 0;
     return `
       <div class="row" style="margin-bottom:0.8rem">
-        <button class="icon-btn" id="btn-exit" aria-label="Exit">✕</button>
-        <span class="grow" style="font-weight:700">👂 Listening Challenge</span>
+        <button class="icon-btn" id="btn-exit" aria-label="Çık">✕</button>
+        <span class="grow" style="font-weight:700">👂 Dinleme Oyunu</span>
         <div class="turn-progress" style="max-width:110px"><div style="width:${pct}%"></div></div>
       </div>`;
   }
@@ -77,7 +77,7 @@ export function renderListeningChallenge(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card" style="text-align:center">
-        <div class="lbl">Listen, then choose what you heard</div>
+        <div class="lbl">Dinle, sonra duyduğunu seç</div>
         <div class="tools-row" style="justify-content:center">
           <button class="mini-btn" id="btn-hear">▶ Dinle</button>
           <button class="mini-btn" id="btn-hear-slow">🐢 Yavaş</button>
@@ -89,7 +89,7 @@ export function renderListeningChallenge(container, params) {
           return `<button class="scenario-item mg-choice ${cls}" data-i="${i}" ${resolved ? 'disabled' : ''}>${esc(o.text)}</button>`;
         }).join('')}
       </div>
-      ${resolved ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Next ›</button>` : ''}`;
+      ${resolved ? `<button class="btn block" id="btn-next" style="margin-top:1rem">Sonraki ›</button>` : ''}`;
 
     shell.querySelector('#btn-hear').addEventListener('click', () => speak(0.9));
     shell.querySelector('#btn-hear-slow').addEventListener('click', () => speak(0.5));
@@ -115,16 +115,16 @@ export function renderListeningChallenge(container, params) {
     shell.innerHTML = `
       <div class="report-hero">
         <div class="big-emoji">${'⭐'.repeat(reward.stars)}${'☆'.repeat(3 - reward.stars)}</div>
-        <h2>Listening Challenge complete!</h2>
+        <h2>Dinleme Oyunu bitti!</h2>
       </div>
       <div class="xp-toast">+${reward.xp} XP · +${reward.coins} 🪙${newMissions.length ? ` · 🏅 ${newMissions.map(m => esc(m.title)).join(', ')}` : ''}</div>
       <div class="report-grid">
-        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Accuracy</div></div>
-        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Correct</div></div>
+        <div class="report-stat"><div class="v">${accuracy}%</div><div class="k">Doğruluk</div></div>
+        <div class="report-stat"><div class="v">${correctCount}/${round.length}</div><div class="k">Doğru</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem">
-        <button class="btn block" id="btn-again">🔁 Play again</button>
-        <button class="btn secondary block" id="btn-world">🗺️ Back to World</button>
+        <button class="btn block" id="btn-again">🔁 Tekrar oyna</button>
+        <button class="btn secondary block" id="btn-world">🗺️ Dünyaya dön</button>
       </div>`;
     shell.querySelector('#btn-again').addEventListener('click', () => navigate(`minigame/listening-challenge/${params.id || 'any'}?t=${Date.now()}`));
     shell.querySelector('#btn-world').addEventListener('click', () => navigate(''));
@@ -133,7 +133,7 @@ export function renderListeningChallenge(container, params) {
   shell.addEventListener('click', (e) => { if (e.target.id === 'btn-exit') navigate(''); });
 
   if (!round.length) {
-    shell.innerHTML = `${header()}<div class="empty-state"><div class="big">👂</div>No listening content available yet.</div>`;
+    shell.innerHTML = `${header()}<div class="empty-state"><div class="big">👂</div>Henüz dinleme içeriği yok.</div>`;
   } else {
     render();
   }

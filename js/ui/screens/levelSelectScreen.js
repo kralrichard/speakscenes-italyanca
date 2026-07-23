@@ -2,9 +2,9 @@
 // product spec. Also reachable later from worldScreen.js's level-jump row
 // and from the placement test result screen -- reusing this same screen
 // for a "choose a different level" follow-up, not a separate flow.
-import { worldStore } from '../../progress/worldStore.js?v=5';
-import { GROWTH_STAGES } from '../../data/worldLevels.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { worldStore } from '../../progress/worldStore.js?v=6';
+import { GROWTH_STAGES } from '../../data/worldLevels.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 

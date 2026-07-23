@@ -1,6 +1,6 @@
 // Persists the active dialogue session so a page refresh resumes at the
 // same turn instead of losing progress mid-conversation.
-import { loadJSON, saveJSON } from './storage.js?v=5';
+import { loadJSON, saveJSON } from './storage.js?v=6';
 
 const KEY = 'edapp:session:v1';
 

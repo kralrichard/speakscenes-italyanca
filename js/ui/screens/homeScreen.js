@@ -1,9 +1,9 @@
-import { progressStore } from '../../progress/progressStore.js?v=5';
-import { reviewSystem } from '../../progress/reviewSystem.js?v=5';
-import { sessionStore } from '../../progress/sessionStore.js?v=5';
-import { ALL_DIALOGUES, getDialogueById } from '../../data/dialogues/index.js?v=5';
-import { getLocation } from '../../data/locations.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { progressStore } from '../../progress/progressStore.js?v=6';
+import { reviewSystem } from '../../progress/reviewSystem.js?v=6';
+import { sessionStore } from '../../progress/sessionStore.js?v=6';
+import { ALL_DIALOGUES, getDialogueById } from '../../data/dialogues/index.js?v=6';
+import { getLocation } from '../../data/locations.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -39,7 +39,7 @@ export function renderHome(container) {
     <div class="stat-strip">
       <div class="stat-tile"><div class="val">${todayMin}<small style="font-size:0.7rem">m</small></div><div class="lbl">Today</div></div>
       <div class="stat-tile"><div class="val">${weekMin}<small style="font-size:0.7rem">m</small></div><div class="lbl">This week</div></div>
-      <div class="stat-tile"><div class="val">${p.getTamamlandıCount()}</div><div class="lbl">Dialogues</div></div>
+      <div class="stat-tile"><div class="val">${p.getCompletedCount()}</div><div class="lbl">Dialogues</div></div>
       <div class="stat-tile"><div class="val">Lv ${p.level}</div><div class="lbl">${state.xp} XP</div></div>
       <div class="stat-tile"><div class="val">${state.cefrLevel}</div><div class="lbl">English</div></div>
       <div class="stat-tile"><div class="val">${due}</div><div class="lbl">To review</div></div>

@@ -5,12 +5,12 @@
 // Accessories stay coin-cosmetics like the original (glasses & bow tie, 5🪙).
 // ============================================================================
 
-import { worldStore } from '../../progress/worldStore.js?v=5';
-import { shortsStore } from '../../progress/shortsStore.js?v=5';
-import { GROWTH_STAGES } from '../../data/worldLevels.js?v=5';
-import { renderPlayerAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, OUTFIT_IDS } from '../components/avatarBuilder.js?v=5';
-import { APP_KEY } from '../../data/shorts/langConfig.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { worldStore } from '../../progress/worldStore.js?v=6';
+import { shortsStore } from '../../progress/shortsStore.js?v=6';
+import { GROWTH_STAGES } from '../../data/worldLevels.js?v=6';
+import { renderPlayerAvatar, SKIN_TONES, HAIR_STYLES, HAIR_COLORS, OUTFIT_IDS } from '../components/avatarBuilder.js?v=6';
+import { APP_KEY } from '../../data/shorts/langConfig.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 

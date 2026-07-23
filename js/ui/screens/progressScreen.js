@@ -1,7 +1,7 @@
-import { progressStore } from '../../progress/progressStore.js?v=5';
-import { getDialogueById } from '../../data/dialogues/index.js?v=5';
-import { getLocation } from '../../data/locations.js?v=5';
-import { todayKey } from '../../progress/storage.js?v=5';
+import { progressStore } from '../../progress/progressStore.js?v=6';
+import { getDialogueById } from '../../data/dialogues/index.js?v=6';
+import { getLocation } from '../../data/locations.js?v=6';
+import { todayKey } from '../../progress/storage.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -86,7 +86,7 @@ export function renderProgress(container) {
         </div>`).join('')}
     </div>
 
-    <div class="section-label">Tamamlandı dialogues</div>
+    <div class="section-label">Completed dialogues</div>
     ${completed.length ? completed.map(c => {
       const d = getDialogueById(c.dialogueId);
       return `<div class="card row">

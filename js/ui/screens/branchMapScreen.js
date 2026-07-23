@@ -4,11 +4,11 @@
 // which endings were reached. Reachability is computed from the scenario data,
 // never hardcoded, so it stays correct as content grows.
 
-import { getScenario } from '../../data/branching/scenarios/index.js?v=5';
-import { getCharacter } from '../../data/branching/characters.js?v=5';
-import { storyStore } from '../../progress/storyStore.js?v=5';
-import { ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { getScenario } from '../../data/branching/scenarios/index.js?v=6';
+import { getCharacter } from '../../data/branching/characters.js?v=6';
+import { storyStore } from '../../progress/storyStore.js?v=6';
+import { ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -37,14 +37,14 @@ function orderedDecisions(scenario) {
 const STATUS_META = {
   unexplored: { icon: '◦', label: 'Unexplored', labelTr: 'Keşfedilmedi', cls: 'st-unexplored' },
   attempted:  { icon: '◐', label: 'Attempted',  labelTr: 'Denendi',      cls: 'st-attempted' },
-  completed:  { icon: '✓', label: 'Tamamlandı',  labelTr: 'Tamamlandı',   cls: 'st-completed' },
+  completed:  { icon: '✓', label: 'Completed',  labelTr: 'Tamamlandı',   cls: 'st-completed' },
   mastered:   { icon: '★', label: 'Mastered',   labelTr: 'Ustalaşıldı',  cls: 'st-mastered' }
 };
 
 export function renderBranchMap(container, params) {
   const scenario = getScenario(params.id);
   if (!scenario) {
-    container.innerHTML = `<div class="boot-error"><h2>Scenario not found</h2><button class="btn" onclick="location.hash='#/story'">Story</button></div>`;
+    container.innerHTML = `<div class="boot-error"><h2>Senaryo bulunamadı</h2><button class="btn" onclick="location.hash='#/story'">Hikaye</button></div>`;
     return () => {};
   }
   const st = storyStore.getState();
@@ -80,7 +80,7 @@ export function renderBranchMap(container, params) {
     const meta = ENDING_KINDS[e.kind];
     return `<div class="end-chip ${seen ? 'seen' : ''}">
       <span class="end-chip-ico">${seen ? meta.icon : '🔒'}</span>
-      <span class="end-chip-txt"><b>${seen ? esc(e.title) : 'Hidden ending'}</b><span>${meta.labelTr}</span></span>
+      <span class="end-chip-txt"><b>${seen ? esc(e.title) : 'Gizli son'}</b><span>${meta.labelTr}</span></span>
     </div>`;
   }).join('');
 
@@ -92,7 +92,7 @@ export function renderBranchMap(container, params) {
   container.innerHTML = `
     <div class="branchmap screen-pad">
       <header class="bm-head">
-        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Back">‹</button>
+        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Geri">‹</button>
         <h1>🌳 Branch Map</h1>
       </header>
       <h2 class="bm-scenario">${esc(scenario.title)}</h2>
@@ -110,7 +110,7 @@ export function renderBranchMap(container, params) {
 
       <div class="branch-tree">${decisionHtml}</div>
 
-      <h3 class="bm-endings-title">Endings · Sonlar</h3>
+      <h3 class="bm-endings-title">Sonlar</h3>
       <div class="bm-endings">${endingChips}</div>
 
       <div class="bm-actions">

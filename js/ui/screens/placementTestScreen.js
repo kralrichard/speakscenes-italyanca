@@ -1,9 +1,9 @@
 // Short, optional placement test. Gives a RECOMMENDATION only -- never
 // blocks or forces a level choice, matching the product spec ("Your
 // recommended level is A2, but you may continue with B1 if you prefer").
-import { worldStore } from '../../progress/worldStore.js?v=5';
-import { WORLD_LEVEL_CODES, getGrowthStage } from '../../data/worldLevels.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { worldStore } from '../../progress/worldStore.js?v=6';
+import { WORLD_LEVEL_CODES, getGrowthStage } from '../../data/worldLevels.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }

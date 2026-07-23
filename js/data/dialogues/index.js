@@ -5,21 +5,21 @@
 // Adding a location: author the file, import it here, and add it to the spread
 // below — nothing else in the app needs to change.
 
-import { CAFE_DIALOGUES } from './cafe.js?v=5';
-import { RESTAURANT_DIALOGUES } from './restaurant.js?v=5';
-import { HOTEL_DIALOGUES } from './hotel.js?v=5';
-import { DIRECTIONS_DIALOGUES } from './directions.js?v=5';
-import { SUPERMARKET_DIALOGUES } from './supermarket.js?v=5';
-import { PHARMACY_DIALOGUES } from './pharmacy.js?v=5';
-import { NEW_PERSON_DIALOGUES } from './new-person.js?v=5';
-import { JOB_INTERVIEW_DIALOGUES } from './job-interview.js?v=5';
-import { FRIEND_CHAT_DIALOGUES } from './friend-chat.js?v=5';
-import { TAXI_DIALOGUES } from './taxi.js?v=5';
-import { AIRPORT_DIALOGUES } from './airport.js?v=5';
-import { HOSPITAL_DIALOGUES } from './hospital.js?v=5';
-import { CLOTHING_STORE_DIALOGUES } from './clothing-store.js?v=5';
-import { BANK_DIALOGUES } from './bank.js?v=5';
-import { TRAIN_STATION_DIALOGUES } from './train-station.js?v=5';
+import { CAFE_DIALOGUES } from './cafe.js?v=6';
+import { RESTAURANT_DIALOGUES } from './restaurant.js?v=6';
+import { HOTEL_DIALOGUES } from './hotel.js?v=6';
+import { DIRECTIONS_DIALOGUES } from './directions.js?v=6';
+import { SUPERMARKET_DIALOGUES } from './supermarket.js?v=6';
+import { PHARMACY_DIALOGUES } from './pharmacy.js?v=6';
+import { NEW_PERSON_DIALOGUES } from './new-person.js?v=6';
+import { JOB_INTERVIEW_DIALOGUES } from './job-interview.js?v=6';
+import { FRIEND_CHAT_DIALOGUES } from './friend-chat.js?v=6';
+import { TAXI_DIALOGUES } from './taxi.js?v=6';
+import { AIRPORT_DIALOGUES } from './airport.js?v=6';
+import { HOSPITAL_DIALOGUES } from './hospital.js?v=6';
+import { CLOTHING_STORE_DIALOGUES } from './clothing-store.js?v=6';
+import { BANK_DIALOGUES } from './bank.js?v=6';
+import { TRAIN_STATION_DIALOGUES } from './train-station.js?v=6';
 
 export const ALL_DIALOGUES = [
   ...CAFE_DIALOGUES,

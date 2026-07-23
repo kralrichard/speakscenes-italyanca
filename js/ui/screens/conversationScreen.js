@@ -14,20 +14,20 @@
 //   - each accepted line records progress exactly once (committedFlag)
 // ============================================================================
 
-import { getScenario } from '../../data/branching/scenarios/index.js?v=5';
-import { getCharacter } from '../../data/branching/characters.js?v=5';
-import { BranchEngine } from '../../engine/branchEngine.js?v=5';
-import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=5';
-import { scoreAttempt } from '../../speech/scorer.js?v=5';
-import { tts, isTTSSupported } from '../../speech/tts.js?v=5';
-import { storyStore, relationshipTier, ACHIEVEMENTS } from '../../progress/storyStore.js?v=5';
-import { settings } from '../../progress/settingsStore.js?v=5';
-import { renderScene } from '../components/sceneBackground.js?v=5';
-import { renderAvatar } from '../components/characterAvatar.js?v=5';
-import { renderFeedback } from '../components/feedbackPanel.js?v=5';
-import { lookupWord, GRAMMAR_NOTES } from '../../data/branching/vocabulary.js?v=5';
-import { TONE_META, DIFFICULTY_META, ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=5';
-import { navigate } from '../router.js?v=5';
+import { getScenario } from '../../data/branching/scenarios/index.js?v=6';
+import { getCharacter } from '../../data/branching/characters.js?v=6';
+import { BranchEngine } from '../../engine/branchEngine.js?v=6';
+import { createSpeechProvider, isNativeSpeechSupported } from '../../speech/speechRecognizer.js?v=6';
+import { scoreAttempt } from '../../speech/scorer.js?v=6';
+import { tts, isTTSSupported } from '../../speech/tts.js?v=6';
+import { storyStore, relationshipTier, ACHIEVEMENTS } from '../../progress/storyStore.js?v=6';
+import { settings } from '../../progress/settingsStore.js?v=6';
+import { renderScene } from '../components/sceneBackground.js?v=6';
+import { renderAvatar } from '../components/characterAvatar.js?v=6';
+import { renderFeedback } from '../components/feedbackPanel.js?v=6';
+import { lookupWord, GRAMMAR_NOTES } from '../../data/branching/vocabulary.js?v=6';
+import { TONE_META, DIFFICULTY_META, ENDING_KINDS } from '../../data/branching/scenarioSchema.js?v=6';
+import { navigate } from '../router.js?v=6';
 
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -42,7 +42,7 @@ function tappable(text) {
 export function renderConversation(container, params) {
   const scenario = getScenario(params.id);
   if (!scenario) {
-    container.innerHTML = `<div class="boot-error"><h2>Scenario not found</h2><button class="btn" onclick="location.hash='#/story'">Back to Story</button></div>`;
+    container.innerHTML = `<div class="boot-error"><h2>Senaryo bulunamadı</h2><button class="btn" onclick="location.hash='#/story'">Hikayeye dön</button></div>`;
     return () => {};
   }
 
@@ -107,9 +107,9 @@ export function renderConversation(container, params) {
       <p class="npc-en">${tappable(node.text)}</p>
       ${showTr ? `<p class="npc-tr">${esc(node.translation || '')}</p>` : ''}
       <div class="bubble-controls">
-        <button class="ico-btn" data-act="replay" title="Play again" aria-label="Play again">🔊</button>
-        <button class="ico-btn" data-act="slow" title="Slow" aria-label="Slow">🐢</button>
-        <button class="ico-btn ${showTr ? 'on' : ''}" data-act="tr" title="Turkish" aria-label="Turkish translation">TR</button>
+        <button class="ico-btn" data-act="replay" title="Tekrar çal" aria-label="Tekrar çal">🔊</button>
+        <button class="ico-btn" data-act="slow" title="Yavaş" aria-label="Yavaş">🐢</button>
+        <button class="ico-btn ${showTr ? 'on' : ''}" data-act="tr" title="Türkçe çeviri" aria-label="Türkçe çeviri">TR</button>
       </div>`;
 
     ttsSpokenOnce = false;
@@ -138,8 +138,8 @@ export function renderConversation(container, params) {
       const status = choiceStatusClass(node.id, c.id);
       const tone = c.tone ? TONE_META[c.tone] : null;
       const diff = c.difficulty ? DIFFICULTY_META[c.difficulty] : null;
-      const badge = { unexplored: '', attempted: '<span class="ch-mark att">tried</span>',
-        completed: '<span class="ch-mark done">✓ done</span>', mastered: '<span class="ch-mark mast">★ mastered</span>' }[status];
+      const badge = { unexplored: '', attempted: '<span class="ch-mark att">denendi</span>',
+        completed: '<span class="ch-mark done">✓ tamam</span>', mastered: '<span class="ch-mark mast">★ ustalık</span>' }[status];
       return `
         <button class="choice-card ${status}" data-choice="${esc(c.id)}">
           <div class="ch-head">
@@ -154,7 +154,7 @@ export function renderConversation(container, params) {
         </button>`;
     }).join('');
     els.stageArea.innerHTML = `
-      <div class="choice-prompt">🗣️ <b>Ne söylemek istersin?</b> <span>What do you want to say?</span></div>
+      <div class="choice-prompt">🗣️ <b>Ne söylemek istersin?</b></div>
       <div class="choice-grid">${cards}</div>`;
     els.stageArea.querySelectorAll('[data-choice]').forEach(btn => {
       btn.addEventListener('click', () => openSpeaking(node, node.choices.find(c => c.id === btn.dataset.choice)));
@@ -172,14 +172,14 @@ export function renderConversation(container, params) {
 
     els.stageArea.innerHTML = `
       <div class="speak-stage">
-        <button class="link-back" data-act="cancel">‹ Choose a different answer</button>
+        <button class="link-back" data-act="cancel">‹ Başka bir cevap seç</button>
         <div class="speak-target">
           <p class="speak-en">${tappable(choice.sentence)}</p>
           <p class="speak-tr">${esc(choice.translation)}</p>
         </div>
         <div class="speak-audio">
           <button class="ico-btn" data-act="hear" title="Dinle">🔊 Dinle</button>
-          <button class="ico-btn" data-act="hearslow" title="Slow">🐢 Yavaş</button>
+          <button class="ico-btn" data-act="hearslow" title="Yavaş">🐢 Yavaş</button>
           <button class="ico-btn" data-act="chunks" title="Kelime kelime">🧩 Kelime kelime</button>
         </div>
         ${grammar ? `<details class="grammar-note"><summary>📘 ${esc(grammar.title)}</summary><ul>${grammar.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul></details>` : `<p class="grammar-hint">💡 Kelimelerin üzerine dokunarak anlamlarını gör.</p>`}
@@ -190,8 +190,8 @@ export function renderConversation(container, params) {
         <div class="typed-zone ${usingTyped ? 'forced' : ''}">
           ${usingTyped ? `<p class="typed-note">🎤 Mikrofon bu tarayıcıda yok — yazarak pratik yap.</p>` : `<button class="link-btn" data-act="type-toggle">⌨️ Bunun yerine yazarak cevapla</button>`}
           <div class="typed-input ${usingTyped ? '' : 'hidden'}">
-            <input type="text" class="typed-field" placeholder="Type the sentence…" autocomplete="off" />
-            <button class="btn small" data-act="submit-typed">Check</button>
+            <input type="text" class="typed-field" placeholder="Cümleyi yaz…" autocomplete="off" />
+            <button class="btn small" data-act="submit-typed">Kontrol et</button>
           </div>
         </div>
       </div>`;
@@ -223,11 +223,11 @@ export function renderConversation(container, params) {
 
   function setupMic(micWrap, node, choice, typedOnly) {
     // Lazy import of the mic button component (keeps parity with dialogueScreen).
-    import('../components/micButton.js?v=5').then(({ createMicButton }) => {
+    import('../components/micButton.js?v=6').then(({ createMicButton }) => {
       if (destroyed || stage !== 'speaking') return;
       const mic = createMicButton(micWrap, { onPress: () => startRecording(node, choice, mic) });
       mic.setState(typedOnly ? 'disabled' : 'ready');
-      if (typedOnly) micWrap.querySelector('.mic-hint').textContent = 'Type your answer below.';
+      if (typedOnly) micWrap.querySelector('.mic-hint').textContent = 'Cevabını aşağıya yaz.';
       currentMic = mic;
     });
   }
@@ -337,13 +337,13 @@ export function renderConversation(container, params) {
     const fbEl = els.stageArea.querySelector('.speak-feedback');
     if (!fbEl) return;
     const msgs = {
-      'no-speech': 'I couldn’t hear anything. Tap the mic and speak clearly.',
-      'timeout': 'That took too long — let’s try again.',
-      'network': 'The speech service could not be reached. You can type instead.',
-      'aborted': 'Recording was cancelled.'
+      'no-speech': 'Hiçbir şey duyamadım. Mikrofona dokunup net konuş.',
+      'timeout': 'Bu çok uzun sürdü — tekrar deneyelim.',
+      'network': 'Konuşma servisine ulaşılamadı. Yazarak devam edebilirsin.',
+      'aborted': 'Kayıt iptal edildi.'
     };
     fbEl.innerHTML = `<div class="feedback-panel rejected" role="alert">
-      <div class="feedback-verdict no">🙉 ${esc(msgs[code] || 'I couldn’t understand that clearly. Please try again.')}</div>
+      <div class="feedback-verdict no">🙉 ${esc(msgs[code] || 'Bunu net anlayamadım. Lütfen tekrar dene.')}</div>
     </div>`;
     appendRecovery(node, choice, fbEl);
   }
@@ -386,20 +386,20 @@ export function renderConversation(container, params) {
     els.stageArea.innerHTML = `
       <div class="ending-card" style="--end-color:${meta.color}">
         <div class="ending-icon">${meta.icon}</div>
-        <div class="ending-kind">${meta.label} · ${meta.labelTr}</div>
+        <div class="ending-kind">${meta.labelTr}</div>
         <h2 class="ending-title">${esc(ending.title)}</h2>
         <p class="ending-text">${esc(ending.text)}</p>
         <p class="ending-tr">${esc(ending.translation)}</p>
         <div class="ending-stats">
-          <div><b>${done}/${total}</b><span>branches done</span></div>
-          <div><b>${seenEndings}/${allEndings}</b><span>endings found</span></div>
-          ${ending.coins ? `<div><b>🪙 +${ending.coins}</b><span>coins</span></div>` : ''}
+          <div><b>${done}/${total}</b><span>dal tamamlandı</span></div>
+          <div><b>${seenEndings}/${allEndings}</b><span>son bulundu</span></div>
+          ${ending.coins ? `<div><b>🪙 +${ending.coins}</b><span>altın</span></div>` : ''}
         </div>
         <div class="ending-actions">
-          <button class="btn" data-act="branch-map">🌳 Branch map</button>
-          <button class="btn ghost" data-act="try-another">🔀 Try another branch</button>
-          <button class="btn ghost" data-act="restart">↺ Restart scenario</button>
-          <button class="btn ghost" data-act="exit">✓ Back to Story</button>
+          <button class="btn" data-act="branch-map">🌳 Dal haritası</button>
+          <button class="btn ghost" data-act="try-another">🔀 Başka bir dalı dene</button>
+          <button class="btn ghost" data-act="restart">↺ Senaryoyu baştan al</button>
+          <button class="btn ghost" data-act="exit">✓ Hikayeye dön</button>
         </div>
       </div>`;
     els.timeline.innerHTML = '';
@@ -433,10 +433,10 @@ export function renderConversation(container, params) {
     const tl = engine.timeline();
     if (!tl.length) { els.timeline.innerHTML = ''; return; }
     els.timeline.innerHTML = `
-      <div class="tl-label">Konuşma geçmişi · Timeline</div>
+      <div class="tl-label">Konuşma geçmişi</div>
       <div class="tl-steps">
         ${tl.map((step, i) => `
-          <button class="tl-step" data-idx="${i}" title="Return to this decision">
+          <button class="tl-step" data-idx="${i}" title="Bu karara dön">
             <span class="tl-n">${i + 1}</span>
             <span class="tl-said">“${esc(step.sentence || '')}”</span>
           </button>`).join('')}
@@ -490,7 +490,7 @@ export function renderConversation(container, params) {
     const modal = document.createElement('div');
     modal.className = 'story-modal';
     modal.innerHTML = `
-      <div class="word-card" role="dialog" aria-label="Word: ${esc(w.word)}">
+      <div class="word-card" role="dialog" aria-label="Kelime: ${esc(w.word)}">
         <div class="word-head">
           <h3>${esc(w.word)}</h3>
           <button class="ico-btn" data-act="say">🔊</button>
@@ -528,7 +528,7 @@ function shellHTML(scenario) {
     <div class="conversation">
       <div class="conv-scene-holder"></div>
       <header class="conv-topbar">
-        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Exit">‹</button>
+        <button class="conv-exit" onclick="location.hash='#/story'" aria-label="Çık">‹</button>
         <div class="conv-goal">
           <span class="conv-scenario-title">${esc(scenario.title)}</span>
           <span class="conv-goal-tr">🎯 ${esc(scenario.goalTr)}</span>
@@ -540,7 +540,7 @@ function shellHTML(scenario) {
         <div class="actor npc-slot"></div>
         <div class="actor player-slot">
           <div class="avatar-holder">${renderAvatar('guest_neutral', { emotion: 'friendly', size: 96, flip: true })}</div>
-          <div class="char-name-tag you">You · Sen</div>
+          <div class="char-name-tag you">Sen</div>
         </div>
       </div>
       <div class="npc-bubble"></div>
