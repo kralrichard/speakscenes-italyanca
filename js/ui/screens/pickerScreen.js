@@ -63,18 +63,22 @@ export function renderPicker(container) {
         <button class="btn ghost small" id="back">‹ Seviye: ${state.level}</button>
       </div>
       <h1 class="screen-title">Nerede pratik yapmak istersin?</h1>
-      <p class="screen-sub">Seviyende diyaloğu olan mekânlar önce listelenir. Diğerleri yakında eklenecek.</p>
+      <p class="screen-sub">Hiçbir mekân kilitli değil. Seviyende diyaloğu olanlar önce listelenir; diğerlerinde kaydırarak pratik yapabilirsin.</p>
       <div class="loc-grid">
         ${locData.map(({ loc, count, anyCount }) => `
-          <button class="loc-card ${count || anyCount ? '' : 'unavailable'}" data-loc="${loc.id}" ${count || anyCount ? '' : 'disabled'}>
+          <button class="loc-card" data-loc="${loc.id}">
             <span class="ico">${loc.icon}</span>
             <span class="nm">${esc(loc.name)}</span>
-            <div class="cnt">${count ? `${state.level} seviyesinde ${count}` : anyCount ? `${anyCount} diyalog (başka seviyede)` : 'Yakında'}</div>
+            <div class="cnt">${count ? `${state.level} seviyesinde ${count}` : anyCount ? `${anyCount} diyalog (başka seviyede)` : '📱 Shorts ile pratik'}</div>
           </button>`).join('')}
       </div>`;
     container.querySelector('#back').addEventListener('click', () => { state.step = 'level'; render(); });
+    // Nothing is locked: a location with no authored dialogue yet still opens
+    // -- it sends you to the Shorts feed instead of being a dead button.
     container.querySelectorAll('[data-loc]').forEach(b => b.addEventListener('click', () => {
-      state.locationId = b.dataset.loc;
+      const id = b.dataset.loc;
+      if (!findDialogues({ locationId: id }).length) { navigate('shorts'); return; }
+      state.locationId = id;
       state.step = 'scenario';
       render();
     }));
@@ -85,8 +89,8 @@ export function renderPicker(container) {
     let dialogues = findDialogues({ locationId: state.locationId });
     // Filters
     const favs = progressStore.getState().favorites;
-    if (state.filter === 'uncompleted') dialogues = dialogues.filter(d => !progressStore.hasTamamlandı(d.id));
-    if (state.filter === 'completed') dialogues = dialogues.filter(d => progressStore.hasTamamlandı(d.id));
+    if (state.filter === 'uncompleted') dialogues = dialogues.filter(d => !progressStore.hasCompleted(d.id));
+    if (state.filter === 'completed') dialogues = dialogues.filter(d => progressStore.hasCompleted(d.id));
     if (state.filter === 'favorites') dialogues = dialogues.filter(d => favs.includes(d.id));
     if (state.filter === 'my-level') dialogues = dialogues.filter(d => d.level === state.level);
 
@@ -101,7 +105,7 @@ export function renderPicker(container) {
       </div>
       <h1 class="screen-title">${loc.icon} ${esc(loc.name)}</h1>
       <div class="filter-bar">
-        ${[['all', 'All'], ['my-level', `My level (${state.level})`], ['uncompleted', 'New'], ['completed', 'Tamamlandı'], ['favorites', '★ Favorites']]
+        ${[['all', 'Tümü'], ['my-level', `Seviyem (${state.level})`], ['uncompleted', 'Yeni'], ['completed', 'Tamamlandı'], ['favorites', '★ Favoriler']]
           .map(([id, label]) => `<button class="chip ${state.filter === id ? 'active' : ''}" data-filter="${id}">${label}</button>`).join('')}
       </div>
       ${dialogues.length ? dialogues.map(d => `
@@ -110,19 +114,19 @@ export function renderPicker(container) {
           <div class="row" style="align-items:flex-start">
             <div class="grow">
               <b>${esc(d.title)}</b> <span class="badge level">${d.level}</span>
-              ${progressStore.hasTamamlandı(d.id) ? '<span class="badge" style="background:var(--green-soft);color:var(--green)">✓ done</span>' : ''}
+              ${progressStore.hasCompleted(d.id) ? '<span class="badge" style="background:var(--green-soft);color:var(--green)">✓ bitti</span>' : ''}
               <div class="goal">${esc(d.goal)}</div>
               <div class="meta-row">
-                <span>${d.turns.filter(t => t.speaker === 'B').length} sentences to speak</span>
+                <span>${d.turns.filter(t => t.speaker === 'B').length} söylenecek cümle</span>
                 <span>${d.length}</span>
                 <span>${esc(d.characters.A.name)} · ${d.characters.A.accent}</span>
               </div>
             </div>
           </div>
-          <button class="btn block" style="margin-top:0.8rem" data-start="${d.id}">🎙️ Start dialogue</button>
-        </div>`).join('') : `<div class="empty-state"><div class="big">🔍</div>No dialogues match this filter yet.</div>`}
+          <button class="btn block" style="margin-top:0.8rem" data-start="${d.id}">🎙️ Diyaloğu başlat</button>
+        </div>`).join('') : `<div class="empty-state"><div class="big">🔍</div>Bu filtreye uyan diyalog yok.</div>`}
       ${comingSoon.length ? `
-        <div class="section-label">Yakında in ${esc(loc.name)}</div>
+        <div class="section-label">${esc(loc.name)} — yakında eklenecek</div>
         ${comingSoon.map(s => `<div class="scenario-item" style="opacity:.55"><span class="grow">${esc(s.name)}</span><span class="soon">Yakında</span></div>`).join('')}` : ''}
     `;
     container.querySelector('#back').addEventListener('click', () => { state.step = 'location'; render(); });

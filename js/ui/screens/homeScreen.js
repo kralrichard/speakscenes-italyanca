@@ -11,7 +11,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
  *  date as index seed, preferring the user's chosen CEFR level. */
 function pickDailyChallenge() {
   const level = progressStore.getState().cefrLevel;
-  const uncompleted = ALL_DIALOGUES.filter(d => !progressStore.hasTamamlandı(d.id));
+  const uncompleted = ALL_DIALOGUES.filter(d => !progressStore.hasCompleted(d.id));
   const pool = uncompleted.filter(d => d.level === level).length
     ? uncompleted.filter(d => d.level === level)
     : (uncompleted.length ? uncompleted : ALL_DIALOGUES);

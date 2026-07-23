@@ -19,7 +19,7 @@
 // here cannot break existing screens. Only locations with real authored
 // dialogue content today are marked featured: true for the world map's v1.
 export const LOCATIONS = [
-  { id: 'seaside', name: 'At the Seaside', icon: '🏖️', sceneType: 'seaside', scenarios: [
+  { id: 'seaside', name: 'Al mare', icon: '🏖️', sceneType: 'seaside', scenarios: [
     { id: 'beach-walk', name: 'Walking on the Beach' },
     { id: 'renting-equipment', name: 'Renting Beach Equipment' },
     { id: 'lifeguard-safety', name: 'Talking to a Lifeguard' },
@@ -34,18 +34,18 @@ export const LOCATIONS = [
     { id: 'late-checkout', name: 'Asking for Late Checkout' },
     { id: 'lost-key', name: 'Losing the Room Key' },
     { id: 'facilities', name: 'Asking About Hotel Facilities' },
-    { id: 'complaint', name: 'Making a Complaint' },
+    { id: 'complaint', name: 'Fare un reclamo' },
     { id: 'housekeeping', name: 'Talking to Housekeeping' },
     { id: 'check-out', name: 'Checking Out' }
   ]},
-  { id: 'airport', name: 'At an Airport', icon: '✈️', sceneType: 'airport', featured: true, minWorldLevel: 'A2', scenarios: [
+  { id: 'airport', name: 'In aeroporto', icon: '✈️', sceneType: 'airport', featured: true, minWorldLevel: 'A2', scenarios: [
     { id: 'check-in-desk', name: 'Airline Check-in Desk' },
     { id: 'security', name: 'Going Through Security' },
     { id: 'lost-luggage', name: 'Reporting Lost Luggage' },
     { id: 'missed-flight', name: 'Missing a Flight' },
     { id: 'boarding-info', name: 'Asking About Boarding' }
   ]},
-  { id: 'airplane', name: 'On an Airplane', icon: '🛫', sceneType: 'airplane-cabin', scenarios: [
+  { id: 'airplane', name: 'In aereo', icon: '🛫', sceneType: 'airplane-cabin', scenarios: [
     { id: 'finding-seat', name: 'Finding Your Seat' },
     { id: 'inflight-order', name: 'Ordering In-flight Food' },
     { id: 'seatmate-chat', name: 'Talking to a Seatmate' },
@@ -64,7 +64,7 @@ export const LOCATIONS = [
     { id: 'studying-chat', name: 'Working/Studying at a Café' },
     { id: 'meeting-friend', name: 'Meeting a Friend' }
   ]},
-  { id: 'hospital', name: 'At a Hospital', icon: '🏥', sceneType: 'hospital', featured: true, minWorldLevel: 'A2', scenarios: [
+  { id: 'hospital', name: 'In ospedale', icon: '🏥', sceneType: 'hospital', featured: true, minWorldLevel: 'A2', scenarios: [
     { id: 'describing-symptoms', name: 'Describing Symptoms' },
     { id: 'doctor-consult', name: 'Talking to a Doctor' },
     { id: 'emergency-room', name: 'At the Emergency Room' }
@@ -79,7 +79,7 @@ export const LOCATIONS = [
     { id: 'product-questions', name: 'Asking About a Product' },
     { id: 'checkout', name: 'At the Checkout' }
   ]},
-  { id: 'train-station', name: 'At a Train Station', icon: '🚆', sceneType: 'transit', scenarios: [
+  { id: 'train-station', name: 'Alla stazione', icon: '🚆', sceneType: 'transit', scenarios: [
     { id: 'buying-ticket', name: 'Buying a Ticket' },
     { id: 'platform-delay', name: 'Asking About a Delay' },
     { id: 'lost-item', name: 'Reporting a Lost Item' }
@@ -89,16 +89,16 @@ export const LOCATIONS = [
     { id: 'discussing-fare', name: 'Discussing the Fare' },
     { id: 'driver-smalltalk', name: 'Small Talk with the Driver' }
   ]},
-  { id: 'bus-stop', name: 'At a Bus Stop', icon: '🚌', sceneType: 'street', scenarios: [
+  { id: 'bus-stop', name: 'Alla fermata', icon: '🚌', sceneType: 'street', scenarios: [
     { id: 'asking-route', name: 'Asking About the Route' },
     { id: 'waiting-chat', name: 'Waiting and Chatting' }
   ]},
-  { id: 'bank', name: 'At a Bank', icon: '🏦', sceneType: 'bank-office', featured: true, minWorldLevel: 'B2', scenarios: [
+  { id: 'bank', name: 'In banca', icon: '🏦', sceneType: 'bank-office', featured: true, minWorldLevel: 'B2', scenarios: [
     { id: 'opening-account', name: 'Opening an Account' },
     { id: 'lost-card', name: 'Reporting a Lost Card' },
     { id: 'charge-complaint', name: 'Complaint About a Charge' }
   ]},
-  { id: 'police-station', name: 'At a Police Station', icon: '🚓', sceneType: 'formal-office', scenarios: [
+  { id: 'police-station', name: 'Dalla polizia', icon: '🚓', sceneType: 'formal-office', scenarios: [
     { id: 'reporting-theft', name: 'Reporting a Theft' },
     { id: 'witness-statement', name: 'Giving a Witness Statement' }
   ]},
@@ -107,62 +107,62 @@ export const LOCATIONS = [
     { id: 'behavioral-questions', name: 'Behavioral Questions' },
     { id: 'salary-negotiation', name: 'Salary Negotiation' }
   ]},
-  { id: 'school', name: 'At School', icon: '🏫', sceneType: 'school', scenarios: [
+  { id: 'school', name: 'A scuola', icon: '🏫', sceneType: 'school', scenarios: [
     { id: 'talking-teacher', name: 'Talking to a Teacher' },
     { id: 'homework-help', name: 'Asking About Homework' }
   ]},
-  { id: 'university', name: 'At a University', icon: '🎓', sceneType: 'school', scenarios: [
+  { id: 'university', name: 'Università', icon: '🎓', sceneType: 'school', scenarios: [
     { id: 'course-registration', name: 'Registering for a Course' },
     { id: 'professor-chat', name: 'Talking to a Professor' },
     { id: 'campus-life', name: 'Campus Life' }
   ]},
-  { id: 'home', name: 'At Home', icon: '🏠', sceneType: 'home', featured: true, minWorldLevel: 'A0', scenarios: [
+  { id: 'home', name: 'A casa', icon: '🏠', sceneType: 'home', featured: true, minWorldLevel: 'A0', scenarios: [
     { id: 'about-your-day', name: 'Talking About Your Day' },
     { id: 'household-chores', name: 'Household Chores' },
     { id: 'hosting-guest', name: 'Hosting a Guest' }
   ]},
-  { id: 'party', name: 'At a Party', icon: '🎉', sceneType: 'party', scenarios: [
+  { id: 'party', name: 'A una festa', icon: '🎉', sceneType: 'party', scenarios: [
     { id: 'meeting-someone-new', name: 'Meeting Someone New' },
     { id: 'party-smalltalk', name: 'Small Talk' },
     { id: 'saying-goodbye', name: 'Saying Goodbye' }
   ]},
-  { id: 'gym', name: 'At a Gym', icon: '🏋️', sceneType: 'gym', scenarios: [
+  { id: 'gym', name: 'In palestra', icon: '🏋️', sceneType: 'gym', scenarios: [
     { id: 'membership-questions', name: 'Asking About Membership' },
     { id: 'asking-spotter', name: 'Asking for a Spotter' },
     { id: 'class-signup', name: 'Fitness Class Sign-up' }
   ]},
-  { id: 'clothing-store', name: 'At a Clothing Store', icon: '👗', sceneType: 'retail', scenarios: [
+  { id: 'clothing-store', name: 'Negozio di vestiti', icon: '👗', sceneType: 'retail', scenarios: [
     { id: 'asking-size', name: 'Asking for a Size' },
     { id: 'trying-on', name: 'Trying on Clothes' },
     { id: 'returning-item', name: 'Returning a Damaged Product' }
   ]},
-  { id: 'tech-store', name: 'At a Technology Store', icon: '💻', sceneType: 'retail', scenarios: [
+  { id: 'tech-store', name: 'Negozio di elettronica', icon: '💻', sceneType: 'retail', scenarios: [
     { id: 'product-advice', name: 'Asking About a Product' },
     { id: 'comparing-options', name: 'Comparing Options' },
     { id: 'warranty-questions', name: 'Warranty Questions' }
   ]},
-  { id: 'travel-agency', name: 'At a Travel Agency', icon: '🧳', sceneType: 'formal-office', scenarios: [
+  { id: 'travel-agency', name: 'In agenzia viaggi', icon: '🧳', sceneType: 'formal-office', scenarios: [
     { id: 'booking-trip', name: 'Booking a Complex Trip' },
     { id: 'changing-itinerary', name: 'Changing an Itinerary' }
   ]},
-  { id: 'car-rental', name: 'At a Car Rental Office', icon: '🚗', sceneType: 'formal-office', scenarios: [
+  { id: 'car-rental', name: 'Autonoleggio', icon: '🚗', sceneType: 'formal-office', scenarios: [
     { id: 'renting-car', name: 'Renting a Car' },
     { id: 'return-problem', name: 'Reporting a Return Problem' }
   ]},
-  { id: 'passport-control', name: 'At Passport Control', icon: '🛂', sceneType: 'airport', scenarios: [
+  { id: 'passport-control', name: 'Controllo passaporti', icon: '🛂', sceneType: 'airport', scenarios: [
     { id: 'standard-entry', name: 'Standard Entry Questions' },
     { id: 'extended-questioning', name: 'Extended Questioning' }
   ]},
-  { id: 'customs', name: 'At Customs', icon: '📦', sceneType: 'airport', scenarios: [
+  { id: 'customs', name: 'Alla dogana', icon: '📦', sceneType: 'airport', scenarios: [
     { id: 'declaring-items', name: 'Declaring Items' },
     { id: 'random-check', name: 'Random Check' }
   ]},
-  { id: 'business-meeting', name: 'During a Business Meeting', icon: '🤝', sceneType: 'formal-office', scenarios: [
+  { id: 'business-meeting', name: 'Riunione di lavoro', icon: '🤝', sceneType: 'formal-office', scenarios: [
     { id: 'project-update', name: 'Giving a Project Update' },
-    { id: 'negotiation', name: 'Negotiating a Deal' },
+    { id: 'negotiation', name: 'Trattativa' },
     { id: 'presentation', name: 'Giving a Presentation' }
   ]},
-  { id: 'phone-call', name: 'During a Phone Call', icon: '📞', sceneType: 'home', scenarios: [
+  { id: 'phone-call', name: 'Al telefono', icon: '📞', sceneType: 'home', scenarios: [
     { id: 'resolving-misunderstanding', name: 'Resolving a Misunderstanding' },
     { id: 'making-appointment', name: 'Making an Appointment' },
     { id: 'customer-service-call', name: 'Customer Service Call' }
@@ -180,16 +180,16 @@ export const LOCATIONS = [
     { id: 'asking-directions', name: 'Chiedere indicazioni' },
     { id: 'being-lost', name: 'Being Lost' }
   ]},
-  { id: 'complaint', name: 'Making a Complaint', icon: '📣', sceneType: 'retail', scenarios: [
+  { id: 'complaint', name: 'Fare un reclamo', icon: '📣', sceneType: 'retail', scenarios: [
     { id: 'returning-product', name: 'Returning a Product' },
     { id: 'service-complaint', name: 'Complaining About Service' }
   ]},
-  { id: 'feelings', name: 'Talking About Feelings', icon: '💬', sceneType: 'home', scenarios: [
+  { id: 'feelings', name: 'Parlare di emozioni', icon: '💬', sceneType: 'home', scenarios: [
     { id: 'bad-day', name: 'Talking About a Bad Day' },
     { id: 'emotional-support', name: 'Giving Emotional Support' },
     { id: 'discussing-stress', name: 'Discussing Stress' }
   ]},
-  { id: 'debate-topics', name: 'Complex Social & Professional Topics', icon: '🧠', sceneType: 'cafe', scenarios: [
+  { id: 'debate-topics', name: 'Temi sociali e professionali', icon: '🧠', sceneType: 'cafe', scenarios: [
     { id: 'social-issue-debate', name: 'Debating a Social Issue' },
     { id: 'philosophical-discussion', name: 'A Philosophical Discussion' },
     { id: 'cultural-discussion', name: 'A Cultural Discussion' }
@@ -209,18 +209,18 @@ export function getScenario(locationId, scenarioId) {
 // as tags so the picker can filter "show me every complaint scenario"
 // regardless of which physical location it happens in.
 export const TOPICS = [
-  { id: 'small-talk', name: 'Small Talk' },
-  { id: 'complaint', name: 'Making a Complaint' },
-  { id: 'negotiation', name: 'Negotiation' },
-  { id: 'problem-solving', name: 'Solving a Problem' },
-  { id: 'booking', name: 'Booking Something' },
-  { id: 'ordering', name: 'Ordering Something' },
-  { id: 'making-plans', name: 'Making Plans' },
-  { id: 'feelings', name: 'Talking About Feelings' },
+  { id: 'small-talk', name: 'Chiacchiere' },
+  { id: 'complaint', name: 'Fare un reclamo' },
+  { id: 'negotiation', name: 'Trattativa' },
+  { id: 'problem-solving', name: 'Risolvere un problema' },
+  { id: 'booking', name: 'Prenotare' },
+  { id: 'ordering', name: 'Ordinare' },
+  { id: 'making-plans', name: 'Fare programmi' },
+  { id: 'feelings', name: 'Parlare di emozioni' },
   { id: 'directions', name: 'Chiedere indicazioni' },
-  { id: 'meeting-someone', name: 'Meeting Someone New' },
-  { id: 'interview', name: 'Interview' },
-  { id: 'advice', name: 'Giving or Asking for Advice' },
-  { id: 'apology', name: 'Apologizing' },
-  { id: 'abstract-discussion', name: 'Abstract / Social Discussion' }
+  { id: 'meeting-someone', name: 'Conoscere qualcuno' },
+  { id: 'interview', name: 'Colloquio' },
+  { id: 'advice', name: 'Chiedere o dare consigli' },
+  { id: 'apology', name: 'Scusarsi' },
+  { id: 'abstract-discussion', name: 'Discussione astratta' }
 ];

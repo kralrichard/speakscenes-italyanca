@@ -422,7 +422,7 @@ export function renderConversation(container, params) {
     for (let i = engine.history.length - 1; i >= 0; i--) {
       const node = scenario.nodes[engine.history[i].nodeId];
       if (!node || !node.choices) continue;
-      const anyOpen = node.choices.some(c => !storyStore.isChoiceTamamlandı(scenario.id, node.id, c.id));
+      const anyOpen = node.choices.some(c => !storyStore.isChoiceCompleted(scenario.id, node.id, c.id));
       if (anyOpen) return i;
     }
     return engine.history.length ? engine.history.length - 1 : -1;
