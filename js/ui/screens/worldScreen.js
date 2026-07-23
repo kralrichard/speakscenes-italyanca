@@ -15,7 +15,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 
 function nextMission() {
   const unlockedIds = getFeaturedLocations().filter(l => isLocationUnlocked(l.id)).map(l => l.id);
-  return MISSIONS.find(m => m.kind === 'main' && !worldStore.hasMissionCompleted(m.id) &&
+  return MISSIONS.find(m => m.kind === 'main' && !worldStore.hasMissionTamamlandı(m.id) &&
     (m.locationId === null || unlockedIds.includes(m.locationId)));
 }
 

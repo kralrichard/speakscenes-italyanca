@@ -1,7 +1,7 @@
 // Listening Challenge: hear a real sentence spoken aloud, then pick which
 // of 4 written options matches what was heard. Content is free -- pulled
 // from existing dialogue turns (both NPC lines and player-expected lines),
-// no new authoring needed. Replay and a slowed-down replay are both
+// no new authoring needed. Tekrar and a slowed-down replay are both
 // available, matching the listening controls already used in dialogueScreen.js.
 import { ALL_DIALOGUES } from '../../../data/dialogues/index.js?v=5';
 import { computeMiniGameReward } from '../../../engine/miniGameScoring.js?v=5';
@@ -79,8 +79,8 @@ export function renderListeningChallenge(container, params) {
       <div class="expected-card" style="text-align:center">
         <div class="lbl">Listen, then choose what you heard</div>
         <div class="tools-row" style="justify-content:center">
-          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
-          <button class="mini-btn" id="btn-hear-slow">🐢 Slow</button>
+          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
+          <button class="mini-btn" id="btn-hear-slow">🐢 Yavaş</button>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.8rem">

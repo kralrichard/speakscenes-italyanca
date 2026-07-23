@@ -11,7 +11,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
  *  date as index seed, preferring the user's chosen CEFR level. */
 function pickDailyChallenge() {
   const level = progressStore.getState().cefrLevel;
-  const uncompleted = ALL_DIALOGUES.filter(d => !progressStore.hasCompleted(d.id));
+  const uncompleted = ALL_DIALOGUES.filter(d => !progressStore.hasTamamlandı(d.id));
   const pool = uncompleted.filter(d => d.level === level).length
     ? uncompleted.filter(d => d.level === level)
     : (uncompleted.length ? uncompleted : ALL_DIALOGUES);
@@ -39,7 +39,7 @@ export function renderHome(container) {
     <div class="stat-strip">
       <div class="stat-tile"><div class="val">${todayMin}<small style="font-size:0.7rem">m</small></div><div class="lbl">Today</div></div>
       <div class="stat-tile"><div class="val">${weekMin}<small style="font-size:0.7rem">m</small></div><div class="lbl">This week</div></div>
-      <div class="stat-tile"><div class="val">${p.getCompletedCount()}</div><div class="lbl">Dialogues</div></div>
+      <div class="stat-tile"><div class="val">${p.getTamamlandıCount()}</div><div class="lbl">Dialogues</div></div>
       <div class="stat-tile"><div class="val">Lv ${p.level}</div><div class="lbl">${state.xp} XP</div></div>
       <div class="stat-tile"><div class="val">${state.cefrLevel}</div><div class="lbl">English</div></div>
       <div class="stat-tile"><div class="val">${due}</div><div class="lbl">To review</div></div>

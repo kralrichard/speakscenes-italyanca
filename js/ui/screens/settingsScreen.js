@@ -66,8 +66,8 @@ export function renderSettings(container) {
 
     <div class="section-label">Learning aids</div>
     <div class="card">
-      ${toggleRow('set-translations', 'Turkish translations', 'Show Türkçe translations under sentences. Hide for immersion.', s.get('showTranslations'))}
-      ${toggleRow('set-grammar', 'Grammar panel open by default', 'Automatically show word-by-word grammar for each sentence.', s.get('showGrammarByDefault'))}
+      ${toggleRow('set-translations', 'Turkish translations', 'Türkçeyi göster translations under sentences. Hide for immersion.', s.get('showTranslations'))}
+      ${toggleRow('set-grammar', 'Gramer panel open by default', 'Automatically show word-by-word grammar for each sentence.', s.get('showGramerByDefault'))}
     </div>
 
     <div class="section-label">Accessibility</div>
@@ -128,7 +128,7 @@ export function renderSettings(container) {
   container.querySelector('#set-volume').addEventListener('input', (e) => settings.set('volume', parseFloat(e.target.value)));
   container.querySelector('#set-autoplay').addEventListener('change', (e) => settings.set('autoplayCharacter', e.target.checked));
   container.querySelector('#set-translations').addEventListener('change', (e) => settings.set('showTranslations', e.target.checked));
-  container.querySelector('#set-grammar').addEventListener('change', (e) => settings.set('showGrammarByDefault', e.target.checked));
+  container.querySelector('#set-grammar').addEventListener('change', (e) => settings.set('showGramerByDefault', e.target.checked));
   container.querySelector('#set-textsize').addEventListener('change', (e) => {
     settings.set('textSize', e.target.checked ? 'large' : 'normal');
     document.documentElement.dataset.textsize = settings.get('textSize');

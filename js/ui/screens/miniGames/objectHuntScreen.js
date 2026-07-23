@@ -62,7 +62,7 @@ export function renderObjectHunt(container, params) {
         <div class="sentence">${esc(item.word)}</div>
         <div class="tr-text">${esc(item.translation_tr)}</div>
         <div class="tools-row" style="justify-content:center">
-          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
+          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
         </div>
       </div>
       <div class="mg-grid">
@@ -97,7 +97,7 @@ export function renderObjectHunt(container, params) {
     shell.innerHTML = `
       ${header()}
       <div class="expected-card" style="text-align:center">
-        <div class="lbl">${snap.state === 'correct' ? 'Correct!' : 'Not quite'}</div>
+        <div class="lbl">${snap.state === 'correct' ? 'Doğru!' : 'Not quite'}</div>
         <div class="sentence">${esc(item.word)}</div>
         <div class="tr-text">${esc(item.translation_tr)} · ${esc(item.exampleSentence)}</div>
       </div>

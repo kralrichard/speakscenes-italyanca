@@ -8,9 +8,23 @@ import { shortsStore, GROWTH_THRESHOLDS } from '../js/progress/shortsStore.js?v=
 import { scoreAttempt } from '../js/speech/scorer.js?v=5';
 
 const results = [];
+const pending = [];
 function test(name, fn) {
-  try { fn(); results.push({ name, ok: true }); }
-  catch (e) { results.push({ name, ok: false, err: String(e.message || e) }); }
+  try {
+    const r = fn();
+    if (r && typeof r.then === 'function') {
+      // async test: record only after it settles, so a rejected assertion
+      // cannot slip through as a false pass.
+      pending.push(
+        r.then(() => results.push({ name, ok: true }))
+         .catch(e => results.push({ name, ok: false, err: String(e.message || e) }))
+      );
+    } else {
+      results.push({ name, ok: true });
+    }
+  } catch (e) {
+    results.push({ name, ok: false, err: String(e.message || e) });
+  }
 }
 function assert(cond, msg) { if (!cond) throw new Error(msg || 'assertion failed'); }
 function assertEq(a, b, msg) { if (a !== b) throw new Error(`${msg || 'not equal'}: got ${JSON.stringify(a)}, want ${JSON.stringify(b)}`); }
@@ -82,6 +96,47 @@ test('scorer: unrelated sentence rejected', () => {
   assert(!r.accepted, 'garbage must not be accepted');
 });
 
+// ---------------- Italian dialogue library ----------------
+
+test('dialogues: all shipped dialogues validate and alternate A/B sensibly', async () => {
+  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
+  assert(ALL_DIALOGUES.length > 0, 'expected at least one dialogue');
+  const ids = new Set();
+  for (const d of ALL_DIALOGUES) {
+    assert(!ids.has(d.id), `duplicate dialogue id "${d.id}"`);
+    ids.add(d.id);
+    assert(d.turns.length >= 2, `${d.id}: needs at least 2 turns`);
+    const hasB = d.turns.some(t => t.speaker === 'B');
+    assert(hasB, `${d.id}: has no learner (B) turn to speak`);
+    for (const t of d.turns) {
+      if (t.speaker === 'A') assert(t.text, `${d.id}: A-turn missing text`);
+      if (t.speaker === 'B') {
+        assert(t.expected, `${d.id}: B-turn missing expected`);
+        assert(t.translation_tr, `${d.id}: B-turn "${t.expected}" missing Turkish translation`);
+      }
+    }
+  }
+});
+
+test('dialogues: every expected line is accepted verbatim by the Italian scorer', async () => {
+  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
+  for (const d of ALL_DIALOGUES) {
+    for (const t of d.turns.filter(x => x.speaker === 'B')) {
+      const bare = t.expected.replace(/[.,!?;:¿¡]/g, '').toLowerCase();
+      const r = scoreAttempt({ expected: t.expected, transcript: bare, strictness: 'relaxed' });
+      assert(r.accepted, `${d.id}: verbatim answer rejected for "${t.expected}" (accuracy ${r.wordAccuracy})`);
+    }
+  }
+});
+
+test('dialogues: every dialogue points at a real location', async () => {
+  const { ALL_DIALOGUES } = await import('../js/data/dialogues/index.js?v=5');
+  const { getLocation } = await import('../js/data/locations.js?v=5');
+  for (const d of ALL_DIALOGUES) {
+    assert(getLocation(d.locationId), `${d.id}: unknown locationId "${d.locationId}"`);
+  }
+});
+
 test('growth: stage index tracks swipe thresholds', () => {
   const st = shortsStore.getState();
   const orig = st.swipes;
@@ -94,12 +149,16 @@ test('growth: stage index tracks swipe thresholds', () => {
 });
 
 // ---------------- report ----------------
-const passed = results.filter(r => r.ok).length;
-const failed = results.length - passed;
-const ul = document.getElementById('results');
-ul.innerHTML = results.map(r =>
-  `<li class="${r.ok ? 'pass' : 'fail'}">${r.ok ? '✓' : '✗'} ${r.name}${r.err ? ` — ${r.err}` : ''}</li>`).join('');
-const sum = document.getElementById('summary');
-sum.textContent = `${passed} passed, ${failed} failed, ${results.length} total — bank size: ${shortsCount()}`;
-sum.style.color = failed ? '#ff6b6b' : '#3ecf8e';
-console.info(`TESTS: ${passed} passed, ${failed} failed — bank ${shortsCount()}`);
+(async () => {
+  await Promise.all(pending);
+
+  const passed = results.filter(r => r.ok).length;
+  const failed = results.length - passed;
+  const ul = document.getElementById('results');
+  ul.innerHTML = results.map(r =>
+    `<li class="${r.ok ? 'pass' : 'fail'}">${r.ok ? '✓' : '✗'} ${r.name}${r.err ? ` — ${r.err}` : ''}</li>`).join('');
+  const sum = document.getElementById('summary');
+  sum.textContent = `${passed} passed, ${failed} failed, ${results.length} total — bank size: ${shortsCount()}`;
+  sum.style.color = failed ? '#ff6b6b' : '#3ecf8e';
+  console.info(`TESTS: ${passed} passed, ${failed} failed — bank ${shortsCount()}`);
+})();

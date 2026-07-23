@@ -86,7 +86,7 @@ export function renderProgress(container) {
         </div>`).join('')}
     </div>
 
-    <div class="section-label">Completed dialogues</div>
+    <div class="section-label">Tamamlandı dialogues</div>
     ${completed.length ? completed.map(c => {
       const d = getDialogueById(c.dialogueId);
       return `<div class="card row">

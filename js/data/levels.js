@@ -3,11 +3,11 @@
 export const LEVELS = [
   {
     code: 'A1',
-    name: 'Beginner',
-    shortDesc: 'Very short sentences, everyday basics.',
+    name: 'Başlangıç',
+    shortDesc: 'Çok kısa cümleler, günlük temel ifadeler.',
     descriptors: [
-      'Simple present tense', 'Basic greetings & introductions', 'Numbers & prices',
-      'Family, food, daily routines', 'Simple travel phrases'
+      'Geniş zaman', 'Selamlaşma ve tanışma', 'Sayılar ve fiyatlar',
+      'Aile, yemek, günlük rutin', 'Basit seyahat kalıpları'
     ],
     ttsRate: 0.8,
     defaultStrictness: 'relaxed',
@@ -16,11 +16,11 @@ export const LEVELS = [
   },
   {
     code: 'A2',
-    name: 'Elementary',
-    shortDesc: 'Everyday conversations, past & future plans.',
+    name: 'Temel',
+    shortDesc: 'Günlük sohbetler, geçmiş ve gelecek planları.',
     descriptors: [
-      'Past and future plans', 'Shopping & transportation', 'Simple problems',
-      'Describing people & places', 'Basic requests & explanations'
+      'Geçmiş ve gelecek planları', 'Alışveriş ve ulaşım', 'Basit sorunlar',
+      'Kişi ve yer tarif etme', 'Temel ricalar ve açıklamalar'
     ],
     ttsRate: 0.85,
     defaultStrictness: 'relaxed',
@@ -29,11 +29,11 @@ export const LEVELS = [
   },
   {
     code: 'B1',
-    name: 'Intermediate',
-    shortDesc: 'Longer everyday talk, opinions, experiences.',
+    name: 'Orta',
+    shortDesc: 'Daha uzun sohbet, görüşler, deneyimler.',
     descriptors: [
-      'Travel problems', 'Opinions & experiences', 'Work and education',
-      'Making decisions & giving advice', 'Describing events'
+      'Seyahat sorunları', 'Görüşler ve deneyimler', 'İş ve eğitim',
+      'Karar verme ve tavsiye', 'Olay anlatma'
     ],
     ttsRate: 0.9,
     defaultStrictness: 'normal',
@@ -42,7 +42,7 @@ export const LEVELS = [
   },
   {
     code: 'B2',
-    name: 'Upper-Intermediate',
+    name: 'Orta-üstü',
     shortDesc: 'Detailed opinions, professional situations.',
     descriptors: [
       'Complaints & negotiations', 'Debates on social issues', 'Complex travel situations',
@@ -55,7 +55,7 @@ export const LEVELS = [
   },
   {
     code: 'C1',
-    name: 'Advanced',
+    name: 'İleri',
     shortDesc: 'Persuasion, presentations, nuance, idiom.',
     descriptors: [
       'Advanced professional conversation', 'Persuasion & presentations',

@@ -178,9 +178,9 @@ export function renderConversation(container, params) {
           <p class="speak-tr">${esc(choice.translation)}</p>
         </div>
         <div class="speak-audio">
-          <button class="ico-btn" data-act="hear" title="Hear it">🔊 Dinle</button>
+          <button class="ico-btn" data-act="hear" title="Dinle">🔊 Dinle</button>
           <button class="ico-btn" data-act="hearslow" title="Slow">🐢 Yavaş</button>
-          <button class="ico-btn" data-act="chunks" title="Word by word">🧩 Kelime kelime</button>
+          <button class="ico-btn" data-act="chunks" title="Kelime kelime">🧩 Kelime kelime</button>
         </div>
         ${grammar ? `<details class="grammar-note"><summary>📘 ${esc(grammar.title)}</summary><ul>${grammar.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul></details>` : `<p class="grammar-hint">💡 Kelimelerin üzerine dokunarak anlamlarını gör.</p>`}
         <div class="mic-zone">
@@ -422,7 +422,7 @@ export function renderConversation(container, params) {
     for (let i = engine.history.length - 1; i >= 0; i--) {
       const node = scenario.nodes[engine.history[i].nodeId];
       if (!node || !node.choices) continue;
-      const anyOpen = node.choices.some(c => !storyStore.isChoiceCompleted(scenario.id, node.id, c.id));
+      const anyOpen = node.choices.some(c => !storyStore.isChoiceTamamlandı(scenario.id, node.id, c.id));
       if (anyOpen) return i;
     }
     return engine.history.length ? engine.history.length - 1 : -1;

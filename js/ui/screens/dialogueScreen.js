@@ -71,7 +71,7 @@ export function renderDialogue(container, params) {
     errorNotice: null,
     isSpeaking: false,
     showTranslation: settings.get('showTranslations'),
-    showGrammar: settings.get('showGrammarByDefault'),
+    showGramer: settings.get('showGramerByDefault'),
     showVocab: false,
     typedMode: !isNativeSpeechSupported(),
     completionRecorded: false,
@@ -87,16 +87,16 @@ export function renderDialogue(container, params) {
   // ---------- speech provider wiring ----------
   function wireProvider() {
     providerUnsubs.push(provider.on('state', (s) => {
-      if (s === 'listening') { setMic('listening'); setStatus('listening', 'Listening… speak now'); setUserTalking(true); }
+      if (s === 'listening') { setMic('listening'); setStatus('listening', 'Dinliyor… şimdi konuş'); setUserTalking(true); }
       if (s === 'analyzing') {
         engine.beginScoring();
-        setMic('analyzing'); setStatus('processing', 'Analyzing your speech…'); setUserTalking(false);
+        setMic('analyzing'); setStatus('processing', 'Konuşman analiz ediliyor…'); setUserTalking(false);
       }
       if (s === 'no-speech') {
         engine.cancelScoring();
         setUserTalking(false);
-        setMic('retry', 'No voice was detected. Tap and try again.');
-        setStatus('your-turn', 'No voice detected');
+        setMic('retry', 'Ses algılanmadı. Dokunup tekrar dene.');
+        setStatus('your-turn', 'Ses algılanmadı');
       }
     }));
 
@@ -108,8 +108,8 @@ export function renderDialogue(container, params) {
       // Session ended without result (and without an error we handled).
       if (engine.state === 'scoring') engine.cancelScoring();
       if (engine.state === 'awaiting-user' && ui.micState === 'listening') {
-        setMic('retry', 'Nothing was captured. Tap and try again.');
-        setStatus('your-turn', 'Your turn');
+        setMic('retry', 'Hiçbir şey algılanmadı. Dokunup tekrar dene.');
+        setStatus('your-turn', 'Sıra sende');
       }
       setUserTalking(false);
     }));
@@ -119,17 +119,17 @@ export function renderDialogue(container, params) {
       if (engine.state === 'scoring') engine.cancelScoring();
       if (err.code === 'permission-denied') {
         ui.typedMode = true;
-        ui.errorNotice = 'Microphone access was denied. You can allow it in your browser\'s site settings (🔒 icon in the address bar). Until then, you can type your answers below — clearly marked as typed practice.';
+        ui.errorNotice = 'Mikrofon erişimi reddedildi. Tarayıcının site ayarlarından (adres çubuğundaki 🔒 simgesi) izin verebilirsin. O zamana kadar aşağıya yazarak pratik yapabilirsin — yazılı mod olarak açıkça işaretlenir.';
         switchToTypedProvider();
         renderTurnArea();
       } else if (err.code === 'network') {
         ui.errorNotice = 'The speech service could not be reached. Check your internet connection and try again.';
-        setMic('error', 'Connection problem');
-        setStatus('error-state', 'Connection problem');
+        setMic('error', 'Bağlantı sorunu');
+        setStatus('error-state', 'Bağlantı sorunu');
         renderTurnArea();
       } else if (err.code !== 'aborted') {
         ui.errorNotice = err.message;
-        setMic('retry', 'Something went wrong — try again.');
+        setMic('retry', 'Bir sorun oldu — tekrar dene.');
         renderTurnArea();
       }
     }));
@@ -164,7 +164,7 @@ export function renderDialogue(container, params) {
 
     if (score.accepted) {
       setMic('correct');
-      setStatus('your-turn', 'Correct!');
+      setStatus('your-turn', 'Doğru!');
       renderTurnArea(); // show green feedback while we hold
       ui.acceptHoldTimer = setTimeout(() => {
         ui.acceptHoldTimer = null;
@@ -230,7 +230,7 @@ export function renderDialogue(container, params) {
             <div class="avatar-holder">${renderAvatar(charA.avatarPreset, { emotion: 'neutral' })}</div>
           </div>
           <div class="char-slot" id="slot-B">
-            <div class="char-name-tag">You · ${esc(charB.role)}</div>
+            <div class="char-name-tag">Sen · ${esc(charB.role)}</div>
             <div class="avatar-holder">${renderAvatar(charB.avatarPreset, { emotion: 'friendly', flip: true })}</div>
           </div>
         </div>
@@ -294,7 +294,7 @@ export function renderDialogue(container, params) {
       const isChar = t.speaker === engine.characterRole;
       parts.push(`
         <div class="bubble history ${isChar ? 'char' : 'user'}">
-          <div class="who">${isChar ? esc(charA.name) : 'You'}</div>
+          <div class="who">${isChar ? esc(charA.name) : 'Sen'}</div>
           <div class="line-text">${esc(isChar ? (t.text || t.expected) : (t.expected || t.text))}</div>
         </div>`);
     }
@@ -305,7 +305,7 @@ export function renderDialogue(container, params) {
     if (!turn.grammar || !turn.grammar.length) return '';
     return `
       <div class="helper-panel">
-        <h4>Grammar — what each word is doing</h4>
+        <h4>Gramer — what each word is doing</h4>
         ${turn.grammar.map(g => `
           <div class="grammar-item"><span class="gw">${esc(g.word)}</span> <span class="gr">${esc(g.role)}</span><br>${esc(g.note)}</div>`).join('')}
       </div>`;
@@ -332,9 +332,9 @@ export function renderDialogue(container, params) {
         <div class="line-text">${esc(line)}</div>
         ${ui.showTranslation && turn.translation_tr ? `<div class="tr-text">${esc(turn.translation_tr)}</div>` : ''}
         <div class="audio-controls">
-          <button class="mini-btn" id="btn-replay">▶ Replay</button>
-          <button class="mini-btn" id="btn-slow">🐢 Slow</button>
-          <button class="mini-btn" id="btn-tr-toggle">${ui.showTranslation ? 'Hide' : 'Show'} Türkçe</button>
+          <button class="mini-btn" id="btn-replay">▶ Tekrar</button>
+          <button class="mini-btn" id="btn-slow">🐢 Yavaş</button>
+          <button class="mini-btn" id="btn-tr-toggle">${ui.showTranslation ? 'Türkçeyi gizle' : 'Türkçeyi göster'}</button>
           <button class="mini-btn" id="btn-continue-line" style="display:none">Continue ›</button>
         </div>
       </div>
@@ -359,20 +359,20 @@ export function renderDialogue(container, params) {
 
     el.turnArea.innerHTML = `
       <div class="expected-card">
-        <div class="lbl">Your line — say this${turn.register ? `<span class="register-tag">${turn.register}</span>` : ''}</div>
+        <div class="lbl">Senin repliğin — bunu söyle${turn.register ? `<span class="register-tag">${turn.register}</span>` : ''}</div>
         <div class="sentence">${esc(expected)}</div>
         ${turn.ipa ? `<div class="ipa">${esc(turn.ipa)}</div>` : ''}
         ${ui.showTranslation && turn.translation_tr ? `<div class="tr-text">${esc(turn.translation_tr)}</div>` : ''}
         <div class="tools-row">
-          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
-          <button class="mini-btn" id="btn-hear-slow">🐢 Slow</button>
-          <button class="mini-btn" id="btn-hear-words">🔤 Word by word</button>
-          <button class="mini-btn ${ui.showGrammar ? 'active' : ''}" id="btn-grammar">📖 Grammar</button>
-          <button class="mini-btn ${ui.showVocab ? 'active' : ''}" id="btn-vocab">💡 Vocabulary</button>
-          <button class="mini-btn" id="btn-tr-toggle">${ui.showTranslation ? 'Hide' : 'Show'} Türkçe</button>
+          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
+          <button class="mini-btn" id="btn-hear-slow">🐢 Yavaş</button>
+          <button class="mini-btn" id="btn-hear-words">🔤 Kelime kelime</button>
+          <button class="mini-btn ${ui.showGramer ? 'active' : ''}" id="btn-grammar">📖 Gramer</button>
+          <button class="mini-btn ${ui.showVocab ? 'active' : ''}" id="btn-vocab">💡 Kelimeler</button>
+          <button class="mini-btn" id="btn-tr-toggle">${ui.showTranslation ? 'Türkçeyi gizle' : 'Türkçeyi göster'}</button>
         </div>
       </div>
-      ${ui.showGrammar ? grammarPanel(turn) : ''}
+      ${ui.showGramer ? grammarPanel(turn) : ''}
       ${ui.showVocab ? vocabPanel(turn) : ''}
       ${ui.errorNotice ? `<div class="error-notice">${esc(ui.errorNotice)}</div>` : ''}
       ${showFeedback ? renderFeedback(ui.lastScore, { level: dialogue.level, transcript: ui.lastTranscript }) : ''}
@@ -393,7 +393,7 @@ export function renderDialogue(container, params) {
       const h = tts.speakWordByWord(expected, { accent, rate: baseRate, volume, onEnd: () => { ui.wordByWordCancel = null; } });
       ui.wordByWordCancel = h.cancel;
     });
-    el.turnArea.querySelector('#btn-grammar').addEventListener('click', () => { ui.showGrammar = !ui.showGrammar; renderTurnArea(); });
+    el.turnArea.querySelector('#btn-grammar').addEventListener('click', () => { ui.showGramer = !ui.showGramer; renderTurnArea(); });
     el.turnArea.querySelector('#btn-vocab').addEventListener('click', () => { ui.showVocab = !ui.showVocab; renderTurnArea(); });
     el.turnArea.querySelector('#btn-tr-toggle').addEventListener('click', () => { ui.showTranslation = !ui.showTranslation; renderTurnArea(); });
 
@@ -464,7 +464,7 @@ export function renderDialogue(container, params) {
       <div class="report-grid">
         <div class="report-stat"><div class="v">${summary.accuracy}%</div><div class="k">Word accuracy</div></div>
         <div class="report-stat"><div class="v">${summary.totalAttempts}</div><div class="k">Attempts</div></div>
-        <div class="report-stat"><div class="v">${summary.turnsCompleted}</div><div class="k">Sentences spoken</div></div>
+        <div class="report-stat"><div class="v">${summary.turnsTamamlandı}</div><div class="k">Sentences spoken</div></div>
         <div class="report-stat"><div class="v">${mins}:${String(secs).padStart(2, '0')}</div><div class="k">Duration</div></div>
         ${typeof summary.clarity === 'number' ? `<div class="report-stat"><div class="v">${summary.clarity}%</div><div class="k">Recognition clarity</div></div>` : ''}
         ${typeof summary.fluency === 'number' ? `<div class="report-stat"><div class="v">${summary.fluency}%</div><div class="k">Fluency (pace)</div></div>` : ''}
@@ -479,7 +479,7 @@ export function renderDialogue(container, params) {
         <button class="btn ghost block" id="btn-home">Home</button>
       </div>`;
 
-    setStatus('your-turn', 'Finished!');
+    setStatus('your-turn', 'Bitti!');
     el.progFill.style.width = '100%';
     el.turnArea.querySelector('#btn-again').addEventListener('click', () => {
       // Full remount for a clean engine.
@@ -502,8 +502,8 @@ export function renderDialogue(container, params) {
       setStatus('speaking', `${charA.name} is speaking…`);
       renderCharacterTurn(turn);
     } else if (snap.state === 'awaiting-user' || snap.state === 'turn-rejected' || snap.state === 'scoring') {
-      if (snap.state === 'awaiting-user' && !ui.lastScore) setStatus('your-turn', 'Your turn — say the sentence below');
-      if (snap.state === 'turn-rejected') setStatus('your-turn', 'Try again — check the feedback');
+      if (snap.state === 'awaiting-user' && !ui.lastScore) setStatus('your-turn', 'Sıra sende — aşağıdaki cümleyi söyle');
+      if (snap.state === 'turn-rejected') setStatus('your-turn', 'Tekrar dene — geri bildirime bak');
       renderUserTurn(turn);
     }
   }
@@ -514,7 +514,7 @@ export function renderDialogue(container, params) {
     // Clear stale attempt feedback when we arrive at a NEW turn.
     if (snap.state === 'character-speaking' || snap.state === 'complete') {
       ui.lastScore = null; ui.lastTranscript = ''; ui.showVocab = false;
-      ui.showGrammar = settings.get('showGrammarByDefault');
+      ui.showGramer = settings.get('showGramerByDefault');
     }
     if (snap.state === 'awaiting-user' && ui.acceptHoldTimer === null && ui.lastScore && ui.lastScore.accepted) {
       ui.lastScore = null; ui.lastTranscript = '';

@@ -44,8 +44,8 @@ export function renderEncounter(container, params) {
   }
 
   const atLevel = allDialogues.filter(d => d.level === worldLevel);
-  const uncompletedAtLevel = atLevel.filter(d => !progressStore.hasCompleted(d.id));
-  const primary = uncompletedAtLevel[0] || atLevel[0] || allDialogues.find(d => !progressStore.hasCompleted(d.id)) || allDialogues[0];
+  const uncompletedAtLevel = atLevel.filter(d => !progressStore.hasTamamlandı(d.id));
+  const primary = uncompletedAtLevel[0] || atLevel[0] || allDialogues.find(d => !progressStore.hasTamamlandı(d.id)) || allDialogues[0];
   const npc = getNpcForDialogue(primary);
   const others = allDialogues.filter(d => d.id !== primary.id);
 

@@ -21,7 +21,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 // are scored identically via scoreAttempt() against item.expected -- this
 // label is the only place the two need different display text.
 function sourceLabel(item) {
-  return item.kind === 'vocab' ? 'Vocabulary' : (item.dialogueTitle || 'Dialogue');
+  return item.kind === 'vocab' ? 'Kelimeler' : (item.dialogueTitle || 'Dialogue');
 }
 
 export function renderReview(container) {
@@ -100,10 +100,10 @@ export function renderReview(container) {
       if (!session) return;
       if (st === 'listening') s.micApi?.setState('listening');
       if (st === 'analyzing') s.micApi?.setState('analyzing');
-      if (st === 'no-speech') s.micApi?.setState('retry', 'No voice detected — try again.');
+      if (st === 'no-speech') s.micApi?.setState('retry', 'Ses algılanmadı — tekrar dene.');
     }));
     s.unsubs.push(s.provider.on('idle', () => {
-      if (session && s.micApi && s.micApi.getState() === 'listening') s.micApi.setState('retry', 'Nothing captured — try again.');
+      if (session && s.micApi && s.micApi.getState() === 'listening') s.micApi.setState('retry', 'Hiçbir şey algılanmadı — tekrar dene.');
     }));
     s.unsubs.push(s.provider.on('error', (err) => {
       if (!session) return;
@@ -182,8 +182,8 @@ export function renderReview(container) {
         <div class="sentence">${esc(item.expected)}</div>
         ${settings.get('showTranslations') && item.translation_tr ? `<div class="tr-text">${esc(item.translation_tr)}</div>` : ''}
         <div class="tools-row">
-          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
-          <button class="mini-btn" id="btn-hear-slow">🐢 Slow</button>
+          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
+          <button class="mini-btn" id="btn-hear-slow">🐢 Yavaş</button>
         </div>
         <div style="color:var(--text-faint);font-size:0.78rem;margin-top:0.6rem">From: ${esc(sourceLabel(item))} · attempt ${s.attempts + (done ? 0 : 1)} of 3</div>
       </div>
@@ -192,7 +192,7 @@ export function renderReview(container) {
         <div class="${s.graded ? 'xp-toast' : 'error-notice'}" style="text-align:center">
           ${s.graded ? '✅ Scheduled further into the future.' : '📅 Rescheduled for tomorrow — keep practicing!'}
         </div>
-        <button class="btn block" id="btn-next">${s.index + 1 >= s.queue.length ? 'Finish session' : 'Next sentence ›'}</button>` : `
+        <button class="btn block" id="btn-next">${s.index + 1 >= s.queue.length ? 'Oturumu bitir' : 'Sıradaki cümle ›'}</button>` : `
         <div class="mic-zone" id="mic-zone"></div>
         ${s.typedMode ? `
           <div class="mode-notice">⌨️ Typed practice mode (no speech recognition available).</div>

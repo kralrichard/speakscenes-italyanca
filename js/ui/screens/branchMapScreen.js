@@ -37,7 +37,7 @@ function orderedDecisions(scenario) {
 const STATUS_META = {
   unexplored: { icon: '◦', label: 'Unexplored', labelTr: 'Keşfedilmedi', cls: 'st-unexplored' },
   attempted:  { icon: '◐', label: 'Attempted',  labelTr: 'Denendi',      cls: 'st-attempted' },
-  completed:  { icon: '✓', label: 'Completed',  labelTr: 'Tamamlandı',   cls: 'st-completed' },
+  completed:  { icon: '✓', label: 'Tamamlandı',  labelTr: 'Tamamlandı',   cls: 'st-completed' },
   mastered:   { icon: '★', label: 'Mastered',   labelTr: 'Ustalaşıldı',  cls: 'st-mastered' }
 };
 

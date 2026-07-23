@@ -25,7 +25,7 @@ export const LOCATIONS = [
     { id: 'lifeguard-safety', name: 'Talking to a Lifeguard' },
     { id: 'ice-cream-stand', name: 'At the Ice Cream Stand' }
   ]},
-  { id: 'hotel', name: 'At a Hotel', icon: '🏨', sceneType: 'hotel-lobby', featured: true, minWorldLevel: 'A1', scenarios: [
+  { id: 'hotel', name: 'In albergo', icon: '🏨', sceneType: 'hotel-lobby', featured: true, minWorldLevel: 'A1', scenarios: [
     { id: 'booking-room', name: 'Booking a Room' },
     { id: 'check-in', name: 'Checking In' },
     { id: 'breakfast-info', name: 'Asking About Breakfast' },
@@ -51,14 +51,14 @@ export const LOCATIONS = [
     { id: 'seatmate-chat', name: 'Talking to a Seatmate' },
     { id: 'turbulence', name: 'During Turbulence' }
   ]},
-  { id: 'restaurant', name: 'At a Restaurant', icon: '🍽️', sceneType: 'restaurant', featured: true, minWorldLevel: 'A2', scenarios: [
+  { id: 'restaurant', name: 'Al ristorante', icon: '🍽️', sceneType: 'restaurant', featured: true, minWorldLevel: 'A2', scenarios: [
     { id: 'ordering-food', name: 'Ordering Food' },
     { id: 'menu-questions', name: 'Asking About the Menu' },
     { id: 'order-complaint', name: 'Complaining About an Order' },
     { id: 'splitting-bill', name: 'Splitting the Bill' },
     { id: 'booking-table', name: 'Booking a Table' }
   ]},
-  { id: 'cafe', name: 'At a Café', icon: '☕', sceneType: 'cafe', featured: true, minWorldLevel: 'A1', scenarios: [
+  { id: 'cafe', name: 'Al bar', icon: '☕', sceneType: 'cafe', featured: true, minWorldLevel: 'A1', scenarios: [
     { id: 'ordering-coffee', name: 'Ordering Coffee' },
     { id: 'barista-smalltalk', name: 'Small Talk with the Barista' },
     { id: 'studying-chat', name: 'Working/Studying at a Café' },
@@ -69,12 +69,12 @@ export const LOCATIONS = [
     { id: 'doctor-consult', name: 'Talking to a Doctor' },
     { id: 'emergency-room', name: 'At the Emergency Room' }
   ]},
-  { id: 'pharmacy', name: 'At a Pharmacy', icon: '💊', sceneType: 'retail', featured: true, minWorldLevel: 'A1', scenarios: [
+  { id: 'pharmacy', name: 'In farmacia', icon: '💊', sceneType: 'retail', featured: true, minWorldLevel: 'A1', scenarios: [
     { id: 'asking-medicine', name: 'Asking for Medicine' },
     { id: 'side-effects', name: 'Asking About Side Effects' },
     { id: 'refill-prescription', name: 'Refilling a Prescription' }
   ]},
-  { id: 'supermarket', name: 'At a Supermarket', icon: '🛒', sceneType: 'retail', scenarios: [
+  { id: 'supermarket', name: 'Al supermercato', icon: '🛒', sceneType: 'retail', scenarios: [
     { id: 'finding-item', name: 'Finding an Item' },
     { id: 'product-questions', name: 'Asking About a Product' },
     { id: 'checkout', name: 'At the Checkout' }
@@ -84,7 +84,7 @@ export const LOCATIONS = [
     { id: 'platform-delay', name: 'Asking About a Delay' },
     { id: 'lost-item', name: 'Reporting a Lost Item' }
   ]},
-  { id: 'taxi', name: 'In a Taxi', icon: '🚕', sceneType: 'taxi', featured: true, minWorldLevel: 'A1', scenarios: [
+  { id: 'taxi', name: 'In taxi', icon: '🚕', sceneType: 'taxi', featured: true, minWorldLevel: 'A1', scenarios: [
     { id: 'giving-directions', name: 'Giving Directions' },
     { id: 'discussing-fare', name: 'Discussing the Fare' },
     { id: 'driver-smalltalk', name: 'Small Talk with the Driver' }
@@ -102,7 +102,7 @@ export const LOCATIONS = [
     { id: 'reporting-theft', name: 'Reporting a Theft' },
     { id: 'witness-statement', name: 'Giving a Witness Statement' }
   ]},
-  { id: 'job-interview', name: 'At a Job Interview', icon: '💼', sceneType: 'formal-office', featured: true, minWorldLevel: 'B2', scenarios: [
+  { id: 'job-interview', name: 'Colloquio di lavoro', icon: '💼', sceneType: 'formal-office', featured: true, minWorldLevel: 'B2', scenarios: [
     { id: 'general-interview', name: 'General Interview' },
     { id: 'behavioral-questions', name: 'Behavioral Questions' },
     { id: 'salary-negotiation', name: 'Salary Negotiation' }
@@ -167,17 +167,17 @@ export const LOCATIONS = [
     { id: 'making-appointment', name: 'Making an Appointment' },
     { id: 'customer-service-call', name: 'Customer Service Call' }
   ]},
-  { id: 'new-person', name: 'Meeting a New Person', icon: '🙋', sceneType: 'party', scenarios: [
+  { id: 'new-person', name: 'Conoscere qualcuno', icon: '🙋', sceneType: 'party', scenarios: [
     { id: 'introducing-yourself', name: 'Introducing Yourself' },
     { id: 'exchanging-contact', name: 'Exchanging Contact Info' }
   ]},
-  { id: 'friend-chat', name: 'Talking to a Friend', icon: '👯', sceneType: 'home', scenarios: [
+  { id: 'friend-chat', name: 'Chiacchierare con un amico', icon: '👯', sceneType: 'home', scenarios: [
     { id: 'catching-up', name: 'Catching Up' },
     { id: 'weekend-plans', name: 'Making Weekend Plans' },
     { id: 'sharing-news', name: 'Sharing News' }
   ]},
-  { id: 'directions', name: 'Asking for Directions', icon: '🧭', sceneType: 'street', scenarios: [
-    { id: 'asking-directions', name: 'Asking for Directions' },
+  { id: 'directions', name: 'Chiedere indicazioni', icon: '🧭', sceneType: 'street', scenarios: [
+    { id: 'asking-directions', name: 'Chiedere indicazioni' },
     { id: 'being-lost', name: 'Being Lost' }
   ]},
   { id: 'complaint', name: 'Making a Complaint', icon: '📣', sceneType: 'retail', scenarios: [
@@ -217,7 +217,7 @@ export const TOPICS = [
   { id: 'ordering', name: 'Ordering Something' },
   { id: 'making-plans', name: 'Making Plans' },
   { id: 'feelings', name: 'Talking About Feelings' },
-  { id: 'directions', name: 'Asking for Directions' },
+  { id: 'directions', name: 'Chiedere indicazioni' },
   { id: 'meeting-someone', name: 'Meeting Someone New' },
   { id: 'interview', name: 'Interview' },
   { id: 'advice', name: 'Giving or Asking for Advice' },

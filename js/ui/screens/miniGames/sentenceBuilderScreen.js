@@ -83,7 +83,7 @@ export function renderSentenceBuilder(container, params) {
       <div class="expected-card">
         <div class="lbl">Build the sentence</div>
         <div class="tr-text">${esc(item.translation_tr || '')}</div>
-        <div class="tools-row"><button class="mini-btn" id="btn-hear">▶ Hear it</button></div>
+        <div class="tools-row"><button class="mini-btn" id="btn-hear">▶ Dinle</button></div>
       </div>
       <div class="mg-word-slots">${slots}</div>
       <div class="chip-row" style="margin-top:0.8rem">${tiles}</div>

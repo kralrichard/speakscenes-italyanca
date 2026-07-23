@@ -4,12 +4,12 @@
 // States: ready | listening | analyzing | correct | retry | error | disabled
 
 const STATE_CONFIG = {
-  ready:     { icon: '🎙️', cls: '',          hint: 'Tap the microphone, then say the sentence' },
-  listening: { icon: '🔴', cls: 'listening', hint: 'Listening… speak now' },
-  analyzing: { icon: '⏳', cls: 'analyzing', hint: 'Analyzing your speech…' },
-  correct:   { icon: '✅', cls: 'correct',   hint: 'Correct! Well done' },
-  retry:     { icon: '🔁', cls: 'retry',     hint: 'Not quite — check the feedback and try again' },
-  error:     { icon: '⚠️', cls: 'retry',     hint: 'Microphone problem — see the message above' },
+  ready:     { icon: '🎙️', cls: '',          hint: 'Mikrofona dokun, sonra cümleyi söyle' },
+  listening: { icon: '🔴', cls: 'listening', hint: 'Dinliyor… şimdi konuş' },
+  analyzing: { icon: '⏳', cls: 'analyzing', hint: 'Konuşman analiz ediliyor…' },
+  correct:   { icon: '✅', cls: 'correct',   hint: 'Doğru! Aferin' },
+  retry:     { icon: '🔁', cls: 'retry',     hint: 'Tam olmadı — geri bildirime bak ve tekrar dene' },
+  error:     { icon: '⚠️', cls: 'retry',     hint: 'Mikrofon sorunu — yukarıdaki mesaja bak' },
   disabled:  { icon: '🎙️', cls: '',          hint: '' }
 };
 

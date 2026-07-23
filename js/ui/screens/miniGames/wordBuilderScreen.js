@@ -72,7 +72,7 @@ export function renderWordBuilder(container, params) {
         <div class="lbl">Build this word</div>
         <div class="sentence">${item.emoji} ${esc(item.translation_tr)}</div>
         <div class="tools-row" style="justify-content:center">
-          <button class="mini-btn" id="btn-hear">▶ Hear it</button>
+          <button class="mini-btn" id="btn-hear">▶ Dinle</button>
         </div>
       </div>
       <div class="mg-letter-slots">${slots}</div>

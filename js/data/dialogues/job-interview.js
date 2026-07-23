@@ -2,64 +2,66 @@ import { createDialogue } from '../dialogueSchema.js?v=5';
 
 export const JOB_INTERVIEW_DIALOGUES = [
   createDialogue({
-    id: 'job-interview-general-b2-01',
+    id: 'colloquio-lavoro-b2-01',
     locationId: 'job-interview',
-    scenarioId: 'general-interview',
-    title: 'A General Job Interview',
+    scenarioId: 'job-interview',
+    title: 'Colloquio di lavoro',
     level: 'B2',
     variant: 1,
-    length: 'long',
-    goal: 'Present yourself confidently and answer common interview questions.',
-    tags: ['interview'],
+    length: 'medium',
+    goal: 'İş görüşmesinde kendini profesyonelce anlat.',
+    tags: ['work'],
     sceneType: 'formal-office',
     characters: {
-      A: { name: 'Ms. Carter', role: 'Hiring Manager', gender: 'female', accent: 'american', avatarPreset: 'manager_f' },
-      B: { name: 'Candidate', role: 'Job Candidate', gender: 'neutral', accent: 'american', avatarPreset: 'guest_neutral' }
+      A: { name: 'Dott.ssa Ferrari', role: 'İK müdürü', gender: 'female', accent: 'american', avatarPreset: 'manager_f' },
+      B: { name: 'Candidato', role: 'Aday', gender: 'neutral', accent: 'american', avatarPreset: 'guest_neutral' }
     },
     turns: [
-      { speaker: 'A', text: 'Thanks for coming in. Could you start by telling me a bit about yourself?', translation_tr: 'Geldiğiniz için teşekkürler. Kendinizden biraz bahsederek başlayabilir misiniz?', emotion: 'neutral', register: 'formal' },
+      { speaker: 'A', text: 'Si accomodi. Mi parli un po\' di lei.', translation_tr: 'Buyurun oturun. Bana biraz kendinizden bahsedin.', emotion: 'neutral', register: 'formal' },
       {
-        speaker: 'B', expected: 'Of course. I’ve spent the last four years working in marketing, mostly focusing on digital campaigns.',
-        altAccepted: ['Sure. For the past four years, I’ve worked in marketing, focusing mainly on digital campaigns.', 'Certainly. I’ve been in marketing for four years now, primarily on the digital side.'],
-        translation_tr: 'Elbette. Son dört yılı pazarlama alanında, çoğunlukla dijital kampanyalara odaklanarak geçirdim.',
-        register: 'formal', ipa: '/aɪv spɛnt ðə læst fɔːr jɪərz ˈwɜːrkɪŋ ɪn ˈmɑːrkɪtɪŋ ˈmoʊstli ˈfoʊkəsɪŋ ɒn ˈdɪdʒɪtəl kæmˈpeɪnz/',
+        speaker: 'B', expected: 'Lavoro nel settore da cinque anni e mi occupo di marketing digitale.',
+        altAccepted: ['Lavoro in questo settore da cinque anni e mi occupo di marketing digitale.', 'Da cinque anni lavoro nel settore e mi occupo di marketing digitale.'],
+        translation_tr: 'Beş yıldır sektörde çalışıyorum ve dijital pazarlamayla ilgileniyorum.',
+        register: 'formal', ipa: '/laˈvo.ro nel setˈto.re da ˈtʃiŋ.kwe ˈan.ni/',
         grammar: [
-          { word: 'I’ve spent', role: 'present perfect', note: 'Connects past experience to the present — appropriate for summarizing a career so far.' },
-          { word: 'mostly focusing on', role: 'present participle clause', note: 'Adds detail about the nature of the work without starting a new sentence.' }
+          { word: 'da cinque anni', role: 'süre', note: 'Devam eden süre: "da" + ŞİMDİKİ zaman ("lavoro", "ho lavorato" değil).' },
+          { word: 'mi occupo di', role: 'dönüşlü fiil kalıbı', note: '"...ile ilgilenirim / ...işini yaparım" — profesyonel ve doğal.' }
         ],
-        keyExpressions: [{ phrase: 'I’ve spent the last [x] years...', meaning: 'a common, professional way to summarize recent experience' }],
-        exampleSentences: ['I’ve spent the last two years leading a small design team.'],
-        pronunciationTips: ['Keep a steady, confident pace — avoid rushing through the whole sentence in one breath.']
+        keyExpressions: [{ phrase: 'Mi occupo di...', meaning: '... ile ilgileniyorum — iş alanını anlatmak' }],
+        exampleSentences: ['Mi occupo di vendite.', 'Lavoro qui da tre anni.'],
+        pronunciationTips: ['"occupo" çift "cc" ile: OK-ku-po.']
       },
-      { speaker: 'A', text: 'Great. What would you say is your biggest strength, and where do you think you could improve?', translation_tr: 'Harika. En büyük gücünüzün ne olduğunu ve nerede gelişebileceğinizi düşünüyorsunuz?', emotion: 'thinking', register: 'formal' },
+      { speaker: 'A', text: 'Interessante. Perché vuole lasciare il suo lavoro attuale?', translation_tr: 'İlginç. Şu anki işinizden neden ayrılmak istiyorsunuz?', emotion: 'neutral', register: 'formal' },
       {
-        speaker: 'B', expected: 'I’d say my biggest strength is problem-solving under pressure, though I’m still working on delegating more effectively.',
-        altAccepted: ['My biggest strength is probably staying calm under pressure, but I’m still learning to delegate better.', 'I think my strongest point is problem-solving, though I could improve at delegating tasks.'],
-        translation_tr: 'Sanırım en büyük gücüm baskı altında problem çözmek, ancak hâlâ daha etkili delege etmeyi öğreniyorum.',
-        register: 'formal', ipa: '/aɪd seɪ maɪ ˈbɪgɪst strɛŋθ ɪz ˈprɒbləm ˈsɒlvɪŋ ˈʌndər ˈprɛʃər ðoʊ aɪm stɪl ˈwɜːrkɪŋ ɒn ˈdɛlɪɡeɪtɪŋ mɔːr ɪˈfɛktɪvli/',
+        speaker: 'B', expected: 'Cerco una sfida più stimolante e possibilità di crescita.',
+        altAccepted: ['Cerco una sfida più stimolante e maggiori possibilità di crescita.', 'Vorrei una sfida più stimolante e possibilità di crescita.'],
+        translation_tr: 'Daha teşvik edici bir meydan okuma ve gelişim imkânı arıyorum.',
+        register: 'formal', ipa: '/ˈtʃer.ko ˈu.na ˈsfi.da pju sti.moˈlan.te/',
         grammar: [
-          { word: 'I’d say', role: 'hedging phrase', note: 'Softens a confident claim, making it sound thoughtful rather than boastful.' },
-          { word: 'though', role: 'contrast conjunction', note: 'Introduces a balancing, honest self-critique after the strength.' },
-          { word: 'I’m still working on', role: 'present continuous', note: 'Frames a weakness as an ongoing improvement, not a fixed flaw.' }
+          { word: 'sfida', role: 'isim (dişil)', note: '"Meydan okuma, zorlayıcı hedef" — mülakatta olumlu bir kelime.' },
+          { word: 'più stimolante', role: 'karşılaştırma', note: '"più + sıfat" = "daha ...".' },
+          { word: 'crescita', role: 'isim (dişil)', note: 'Kariyer gelişimi/büyüme.' }
         ],
-        keyExpressions: [{ phrase: 'I’m still working on...', meaning: 'a diplomatic way to admit an area for improvement' }],
-        exampleSentences: ['I’m still working on my public speaking.'],
-        pronunciationTips: ['Slightly stress "though" to signal the shift from strength to weakness.']
+        keyExpressions: [{ phrase: 'possibilità di crescita', meaning: 'gelişim/ilerleme imkânı' }],
+        exampleSentences: ['Cerco nuove opportunità.', 'È un lavoro molto stimolante.'],
+        pronunciationTips: ['"sfida" baştaki "sf" birleşik: SFI-da.']
       },
-      { speaker: 'A', text: 'That’s good self-awareness. Do you have any questions for me?', translation_tr: 'Bu iyi bir öz farkındalık. Bana sormak istediğiniz bir sorunuz var mı?', emotion: 'friendly', register: 'formal' },
+      { speaker: 'A', text: 'Capisco. Qual è il suo punto debole?', translation_tr: 'Anlıyorum. Zayıf yönünüz nedir?', emotion: 'neutral', register: 'formal' },
       {
-        speaker: 'B', expected: 'Yes, actually — what does success look like in this role after the first six months?',
-        altAccepted: ['Yes, I’d love to know what success would look like in this position after six months.', 'Actually yes — how would you measure success in this role early on?'],
-        translation_tr: 'Evet, aslında — ilk altı aydan sonra bu rolde başarı nasıl görünüyor?',
-        register: 'formal', ipa: '/jɛs ˈæktʃuəli wʌt dʌz səkˈsɛs lʊk laɪk ɪn ðɪs roʊl ˈæftər ðə fɜːrst sɪks mʌnθs/',
+        speaker: 'B', expected: 'A volte sono troppo perfezionista, ma sto imparando a delegare.',
+        altAccepted: ['A volte sono troppo perfezionista, però sto imparando a delegare.', 'Sono un po\' perfezionista, ma sto imparando a delegare.'],
+        translation_tr: 'Bazen fazla mükemmeliyetçiyim ama yetki devretmeyi öğreniyorum.',
+        register: 'formal', ipa: '/a ˈvɔl.te ˈso.no ˈtrop.po per.fet.tsjoˈni.sta/',
         grammar: [
-          { word: 'what does success look like', role: 'indirect-style question', note: 'A thoughtful, open question format often used in interviews.' },
-          { word: 'after the first six months', role: 'time phrase', note: 'Anchors the question to a concrete, near-term period.' }
+          { word: 'A volte', role: 'sıklık zarfı', note: '"Bazen" — zayıflığı yumuşatır.' },
+          { word: 'ma', role: 'bağlaç', note: 'Olumsuzu olumluya çeviren köprü — mülakat tekniği.' },
+          { word: 'sto imparando a', role: 'sürerlik + edat', note: '"imparare a + mastar" = "...meyi öğrenmek".' }
         ],
-        keyExpressions: [{ phrase: 'What does success look like in this role?', meaning: 'a strong closing question showing genuine engagement' }],
-        exampleSentences: ['What does a typical day look like in this position?'],
-        pronunciationTips: ['End on a genuinely curious, rising tone — this is a real question, not a rehearsed line.']
-      }
+        keyExpressions: [{ phrase: 'sto imparando a...', meaning: '...meyi öğreniyorum — gelişim gösterir' }],
+        exampleSentences: ['Sto imparando a dire di no.', 'A volte lavoro troppo.'],
+        pronunciationTips: ['"perfezionista" uzun; hecelere böl: per-fe-tsyo-NI-sta.']
+      },
+      { speaker: 'A', text: 'Ottima risposta. Le faremo sapere entro venerdì.', translation_tr: 'Çok iyi bir cevap. Cumaya kadar size haber vereceğiz.', emotion: 'friendly', register: 'formal' }
     ]
   })
 ];

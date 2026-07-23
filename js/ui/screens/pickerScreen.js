@@ -27,8 +27,8 @@ export function renderPicker(container) {
   function renderLevelStep() {
     container.innerHTML = `
       ${stepDots()}
-      <h1 class="screen-title">Choose your English level</h1>
-      <p class="screen-sub">This decides vocabulary, grammar, speaking speed and how strictly your speech is checked.</p>
+      <h1 class="screen-title">Seviyeni seç</h1>
+      <p class="screen-sub">Bu; kelime, gramer, konuşma hızı ve konuşmanın ne kadar sıkı denetleneceğini belirler.</p>
       ${LEVELS.map(l => `
         <button class="level-card ${state.level === l.code ? 'selected' : ''}" data-level="${l.code}">
           <span class="level-code" style="background:${l.color}22;color:${l.color}">${l.code}</span>
@@ -60,16 +60,16 @@ export function renderPicker(container) {
     container.innerHTML = `
       ${stepDots()}
       <div class="row" style="margin-bottom:0.4rem">
-        <button class="btn ghost small" id="back">‹ Level: ${state.level}</button>
+        <button class="btn ghost small" id="back">‹ Seviye: ${state.level}</button>
       </div>
-      <h1 class="screen-title">Where do you want to practice?</h1>
-      <p class="screen-sub">Locations with dialogues at your level are listed first. Others are coming soon.</p>
+      <h1 class="screen-title">Nerede pratik yapmak istersin?</h1>
+      <p class="screen-sub">Seviyende diyaloğu olan mekânlar önce listelenir. Diğerleri yakında eklenecek.</p>
       <div class="loc-grid">
         ${locData.map(({ loc, count, anyCount }) => `
           <button class="loc-card ${count || anyCount ? '' : 'unavailable'}" data-loc="${loc.id}" ${count || anyCount ? '' : 'disabled'}>
             <span class="ico">${loc.icon}</span>
             <span class="nm">${esc(loc.name)}</span>
-            <div class="cnt">${count ? `${count} at ${state.level}` : anyCount ? `${anyCount} other level${anyCount === 1 ? '' : 's'}` : 'Coming soon'}</div>
+            <div class="cnt">${count ? `${state.level} seviyesinde ${count}` : anyCount ? `${anyCount} diyalog (başka seviyede)` : 'Yakında'}</div>
           </button>`).join('')}
       </div>`;
     container.querySelector('#back').addEventListener('click', () => { state.step = 'level'; render(); });
@@ -85,8 +85,8 @@ export function renderPicker(container) {
     let dialogues = findDialogues({ locationId: state.locationId });
     // Filters
     const favs = progressStore.getState().favorites;
-    if (state.filter === 'uncompleted') dialogues = dialogues.filter(d => !progressStore.hasCompleted(d.id));
-    if (state.filter === 'completed') dialogues = dialogues.filter(d => progressStore.hasCompleted(d.id));
+    if (state.filter === 'uncompleted') dialogues = dialogues.filter(d => !progressStore.hasTamamlandı(d.id));
+    if (state.filter === 'completed') dialogues = dialogues.filter(d => progressStore.hasTamamlandı(d.id));
     if (state.filter === 'favorites') dialogues = dialogues.filter(d => favs.includes(d.id));
     if (state.filter === 'my-level') dialogues = dialogues.filter(d => d.level === state.level);
 
@@ -101,7 +101,7 @@ export function renderPicker(container) {
       </div>
       <h1 class="screen-title">${loc.icon} ${esc(loc.name)}</h1>
       <div class="filter-bar">
-        ${[['all', 'All'], ['my-level', `My level (${state.level})`], ['uncompleted', 'New'], ['completed', 'Completed'], ['favorites', '★ Favorites']]
+        ${[['all', 'All'], ['my-level', `My level (${state.level})`], ['uncompleted', 'New'], ['completed', 'Tamamlandı'], ['favorites', '★ Favorites']]
           .map(([id, label]) => `<button class="chip ${state.filter === id ? 'active' : ''}" data-filter="${id}">${label}</button>`).join('')}
       </div>
       ${dialogues.length ? dialogues.map(d => `
@@ -110,7 +110,7 @@ export function renderPicker(container) {
           <div class="row" style="align-items:flex-start">
             <div class="grow">
               <b>${esc(d.title)}</b> <span class="badge level">${d.level}</span>
-              ${progressStore.hasCompleted(d.id) ? '<span class="badge" style="background:var(--green-soft);color:var(--green)">✓ done</span>' : ''}
+              ${progressStore.hasTamamlandı(d.id) ? '<span class="badge" style="background:var(--green-soft);color:var(--green)">✓ done</span>' : ''}
               <div class="goal">${esc(d.goal)}</div>
               <div class="meta-row">
                 <span>${d.turns.filter(t => t.speaker === 'B').length} sentences to speak</span>
@@ -122,8 +122,8 @@ export function renderPicker(container) {
           <button class="btn block" style="margin-top:0.8rem" data-start="${d.id}">🎙️ Start dialogue</button>
         </div>`).join('') : `<div class="empty-state"><div class="big">🔍</div>No dialogues match this filter yet.</div>`}
       ${comingSoon.length ? `
-        <div class="section-label">Coming soon in ${esc(loc.name)}</div>
-        ${comingSoon.map(s => `<div class="scenario-item" style="opacity:.55"><span class="grow">${esc(s.name)}</span><span class="soon">Coming soon</span></div>`).join('')}` : ''}
+        <div class="section-label">Yakında in ${esc(loc.name)}</div>
+        ${comingSoon.map(s => `<div class="scenario-item" style="opacity:.55"><span class="grow">${esc(s.name)}</span><span class="soon">Yakında</span></div>`).join('')}` : ''}
     `;
     container.querySelector('#back').addEventListener('click', () => { state.step = 'location'; render(); });
     container.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => { state.filter = b.dataset.filter; render(); }));
